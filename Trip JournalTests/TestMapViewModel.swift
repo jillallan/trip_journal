@@ -41,13 +41,27 @@ final class TestMapViewModel: XCTestCase {
         XCTAssertEqual(mapViewModel.steps.count, stepsArrayLength + 1)
     }
     
-    func testAddTestAddsTestWithCoordinateEqualToMapRegion() throws {
+    func testAddTestForCoordinateIcreasesStepsArrayByOne() throws {
+        // Given
+        let stepsArrayLength = mapViewModel.steps.count
+        let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
         
         // When
-        mapViewModel.addStep()
+        mapViewModel.addStep(for: coordinate)
         
         // Then
-        XCTAssertEqual(mapViewModel.steps.last?.coordinate, mapRegionCoordinate)
+        XCTAssertEqual(mapViewModel.steps.count, stepsArrayLength + 1)
+    }
+    
+    func testAddTestAddsTestWithCoordinateEqualToMapRegion() throws {
+        // Given
+        let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
+        
+        // When
+        mapViewModel.addStep(for: coordinate)
+        
+        // Then
+        XCTAssertEqual(mapViewModel.steps.last?.coordinate, coordinate)
     }
 
     func testPerformanceExample() throws {
