@@ -16,11 +16,14 @@ final class TestMapViewModel: XCTestCase {
     override func setUpWithError() throws {
         // Given
         mapRegionCoordinate = CLLocationCoordinate2D(latitude: 50, longitude: 0)
-        mapViewModel = MapViewModel(
-            region: MKCoordinateRegion(
-                center: mapRegionCoordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-            )
-        )
+        mapViewModel = MapViewModel()
+        mapViewModel.region.center = mapRegionCoordinate
+        
+//        mapViewModel = MapViewModel(
+//            region: MKCoordinateRegion(
+//                center: mapRegionCoordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+//            )
+//        )
     }
 
     override func tearDownWithError() throws {
