@@ -13,7 +13,6 @@
 		781FFB7E29156AB800605DAE /* TripViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7D29156AB800605DAE /* TripViewOld.swift */; };
 		781FFB8029156B9000605DAE /* AddStepViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7F29156B9000605DAE /* AddStepViewOld.swift */; };
 		781FFB842915A26100605DAE /* TripViewModelOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB832915A26100605DAE /* TripViewModelOld.swift */; };
-		781FFB862917F21800605DAE /* Color-Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB852917F21800605DAE /* Color-Random.swift */; };
 		781FFB8C2918568500605DAE /* SimpleStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB8B2918568500605DAE /* SimpleStep.swift */; };
 		781FFB8E2918575D00605DAE /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB8D2918575D00605DAE /* Trip.swift */; };
 		781FFB9A29198FAC00605DAE /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9929198FAC00605DAE /* TripView.swift */; };
@@ -47,7 +46,6 @@
 		781FFB7D29156AB800605DAE /* TripViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewOld.swift; sourceTree = "<group>"; };
 		781FFB7F29156B9000605DAE /* AddStepViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepViewOld.swift; sourceTree = "<group>"; };
 		781FFB832915A26100605DAE /* TripViewModelOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModelOld.swift; sourceTree = "<group>"; };
-		781FFB852917F21800605DAE /* Color-Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-Random.swift"; sourceTree = "<group>"; };
 		781FFB8B2918568500605DAE /* SimpleStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStep.swift; sourceTree = "<group>"; };
 		781FFB8D2918575D00605DAE /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		781FFB9929198FAC00605DAE /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				787855CF29129BCC00D1F199 /* FileManager-DocumentsDirectory.swift */,
-				781FFB852917F21800605DAE /* Color-Random.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -294,7 +291,6 @@
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				781FFB8029156B9000605DAE /* AddStepViewOld.swift in Sources */,
 				781FFBA0291AF5A100605DAE /* MapViewSimple.swift in Sources */,
-				781FFB862917F21800605DAE /* Color-Random.swift in Sources */,
 				787855D529129E8100D1F199 /* Step.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,
