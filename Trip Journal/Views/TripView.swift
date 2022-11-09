@@ -1,50 +1,61 @@
 //
-//  MapView.swift
+//  TripViewMap.swift
 //  Trip Journal
 //
-//  Created by Jill Allan on 02/11/2022.
+//  Created by Jill Allan on 07/11/2022.
 //
+
 
 import MapKit
 import SwiftUI
 
 struct TripView: View {
-    @StateObject var mapViewModel = MapViewModel()
-    @State private var addStepViewPresented = false
+    @ObservedObject var viewModel: TripViewModel
+    @State var addViewIsPresented: Bool = false
+//    @State var region: MKCoordinateRegion
+    
     var body: some View {
-        
-        Map(
-            coordinateRegion: $mapViewModel.region,
-            annotationItems: mapViewModel.steps,
-            annotationContent: { step in
-                MapMarker(coordinate: CLLocationCoordinate2D(latitude: step.latitude, longitude: step.longitude))
+        let _ = print("Update TripViewMap \(Date.now) \(viewModel.region.center.latitude) \(viewModel.steps.count)")
+        let _ = Self._printChanges()
+        VStack {
+            Text("center: \(viewModel.region.center.latitude)")
+            Text("center: \(viewModel.region.center.longitude)")
+            
+            
+            
+            MapView(coordinateRegion: $viewModel.region, annotationItems: viewModel.steps) { coord in
+                viewModel.setRegion(for: coord)
+                print("callback passed: \(viewModel.region.center)")
             }
-        )
-//        MapViewUIView(
-//            coordinateRegion: $mapViewModel.region,
-//            viewModel: mapViewModel,
-//            annotationItems: mapViewModel.steps
-//        )
-        .sheet(isPresented: $addStepViewPresented, content: {
-            AddStepView(viewModel: mapViewModel)
-        })
-        
-        .navigationTitle("Map View")
-        .navigationBarTitleDisplayMode(.inline)
+            
+            
+            .onAppear {
+                print("MapView Will Appear \(viewModel.region)")
+            }
+        }
+        .sheet(isPresented: $addViewIsPresented) {
+            AddStepView(viewModel: viewModel, region: viewModel.region)
+        }
         .toolbar {
             Button {
-                addStepViewPresented.toggle()
-                //                    mapViewModel.addStep()
+                addViewIsPresented.toggle()
             } label: {
                 Label("Add", systemImage: "plus")
             }
         }
-        .ignoresSafeArea(edges: .bottom)
+        .onAppear {
+            print("TripViewMap Will Appear \(viewModel.region)")
+            
+        }
+        .onDisappear {
+            print("TripViewMap Will Disappear \(viewModel.region)")
+            print("TripViewMap Will Disappear \(viewModel.region)")
+        }
     }
 }
 
 struct TripView_Previews: PreviewProvider {
     static var previews: some View {
-        TripView()
+        TripView(viewModel: TripViewModel())
     }
 }

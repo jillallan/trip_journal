@@ -8,8 +8,8 @@
 import Foundation
 import MapKit
 
-class Step: NSObject, Identifiable {
-    let id = UUID()
+class Step: NSObject, Codable, Identifiable {
+    let id: UUID
     let latitude: Double
     let longitude: Double
     let timestamp: Date
@@ -19,7 +19,12 @@ class Step: NSObject, Identifiable {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
+    var region: MKCoordinateRegion {
+        MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
+    }
+    
     init(latitude: Double, longitude: Double, timestamp: Date, name: String) {
+        self.id = UUID()
         self.latitude = latitude
         self.longitude = longitude
         self.timestamp = timestamp

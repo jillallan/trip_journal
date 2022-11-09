@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct Trip_JournalApp: App {
+    @StateObject var persistanceController = PersistanceController()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(persistanceController: persistanceController)
+                .environmentObject(persistanceController)
+            
         }
     }
 }
