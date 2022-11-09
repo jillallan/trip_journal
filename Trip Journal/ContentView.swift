@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink("Map View") {
+                NavigationLink("TripView") {
                     TripView()
                 }
                 NavigationLink("") {
