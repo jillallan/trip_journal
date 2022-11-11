@@ -16,13 +16,8 @@ struct AddStepView: View {
     
     var body: some View {
         NavigationStack {
-            let _ = print("Update TripViewMapAddStep \(Date.now)")
-            let _ = Self._printChanges()
             ZStack {
                 Map(coordinateRegion: $region)
-//                MapViewSimple(coordinateRegion: $region, callback: { coord in
-//                    viewModel.setRegion(for: coord)
-//                })
                     .toolbar(.visible, for: .navigationBar)
                     .navigationTitle("Add Step")
                     .navigationBarTitleDisplayMode(.inline)
@@ -40,28 +35,17 @@ struct AddStepView: View {
                     .opacity(0.3)
                     .frame(width: 32, height: 32)
             }
-            
-        }
-        .onAppear {
-            print("TripViewMapAddStep Will Appear")
         }
         .onDisappear {
-            print("TripViewMapAddStep Will Disappear")
-            print("will add step \(viewModel.steps.count)")
             viewModel.addStep(for: region.center)
-            print("did add step \(viewModel.steps.count)")
+            viewModel.setRegion(for: region.center)
         }
     }
 }
 
 struct AddStepView_Previews: PreviewProvider {
     static var previews: some View {
-        AddStepView(
-            viewModel: TripViewModel(),
-            region: MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
-                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-            )
-        )
+        let viewModel = TripViewModel()
+        AddStepView(viewModel: viewModel, region: viewModel.region)
     }
 }

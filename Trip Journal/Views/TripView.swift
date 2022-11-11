@@ -12,25 +12,15 @@ import SwiftUI
 struct TripView: View {
     @ObservedObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
-//    @State var region: MKCoordinateRegion
+    @State var passedBackCoord: CLLocationCoordinate2D!
     
     var body: some View {
-        let _ = print("Update TripViewMap \(Date.now) \(viewModel.region.center.latitude) \(viewModel.steps.count)")
-        let _ = Self._printChanges()
         VStack {
-            Text("center: \(viewModel.region.center.latitude)")
-            Text("center: \(viewModel.region.center.longitude)")
-            
-            
-            
-            MapView(coordinateRegion: $viewModel.region, annotationItems: viewModel.steps) { coord in
-                viewModel.setRegion(for: coord)
-                print("callback passed: \(viewModel.region.center)")
+            MapView(coordinateRegion: viewModel.region, annotationItems: viewModel.steps) { coord in
+                passedBackCoord = coord
             }
-            
-            
-            .onAppear {
-                print("MapView Will Appear \(viewModel.region)")
+            .onDisappear {
+                viewModel.setRegion(for: passedBackCoord)
             }
         }
         .sheet(isPresented: $addViewIsPresented) {
@@ -38,18 +28,11 @@ struct TripView: View {
         }
         .toolbar {
             Button {
+                viewModel.setRegion(for: passedBackCoord)
                 addViewIsPresented.toggle()
             } label: {
                 Label("Add", systemImage: "plus")
             }
-        }
-        .onAppear {
-            print("TripViewMap Will Appear \(viewModel.region)")
-            
-        }
-        .onDisappear {
-            print("TripViewMap Will Disappear \(viewModel.region)")
-            print("TripViewMap Will Disappear \(viewModel.region)")
         }
     }
 }

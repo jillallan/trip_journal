@@ -16,31 +16,9 @@ import MapKit
         span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
     )
 
-//    init() {
-//        region = MKCoordinateRegion(
-//            center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
-//            span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-//        )
-//        if let stepRegion = steps.first?.region {
-//            region = stepRegion
-//        }
-//    }
-    
-    
     func addStep(for coordinate: CLLocationCoordinate2D) {
         let step = Step(coordinate: coordinate, timestamp: Date.now, name: "New Step \(Date.now)")
         steps.append(step)
-    }
-    
-    func setRegion() {
-        if let newRegion = steps.last?.region {
-            region = newRegion
-        } else {
-            region = MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: 55, longitude: 0),
-                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-            )
-        }
     }
     
     func setRegion(for coordinate: CLLocationCoordinate2D) {
