@@ -11,22 +11,26 @@ import SwiftUI
 
 struct MapView: UIViewRepresentable {
     var coordinateRegion: MKCoordinateRegion
-    let annotationItems: [MKAnnotation]
+    let annotationItems: [MKAnnotation]?
     var onRegionChange: (CLLocationCoordinate2D) -> ()
     
     func makeUIView(context: Context) -> MKMapView {
         print("will make MKMapView")
         let mapView = MKMapView()
-        mapView.addAnnotations(annotationItems)
+        if let annotationItems = annotationItems {
+            mapView.addAnnotations(annotationItems)
+        }
         mapView.delegate = context.coordinator
         print("did make MKMapView")
         return mapView
     }
     
-    func updateUIView(_ uiView: MKMapView, context: Context) {
+    func updateUIView(_ mapView: MKMapView, context: Context) {
         print("will update MKMapView")
-        uiView.setRegion(coordinateRegion, animated: true)
-        uiView.addAnnotations(annotationItems)
+        mapView.setRegion(coordinateRegion, animated: true)
+        if let annotationItems = annotationItems {
+            mapView.addAnnotations(annotationItems)
+        }
         print("did update MKMapView")
     }
     

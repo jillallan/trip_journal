@@ -14,7 +14,7 @@ struct Trip {
     let startLongitude: Double // replace with center calculated from trip steps
     let timestamp: Date
     let name: String
-    var steps: [SimpleStep]
+    var steps: [Step]
     
     // replace with center calculated from trip steps
     var coordinate: CLLocationCoordinate2D {

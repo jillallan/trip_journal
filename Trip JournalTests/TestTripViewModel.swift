@@ -11,38 +11,30 @@ import XCTest
 
 final class TestTripViewModel: XCTestCase {
     var mapRegionCoordinate: CLLocationCoordinate2D!
-    var viewModel: TripViewModelOld!
+    var viewModel: TripViewModel!
 
-    override func setUpWithError() throws {
+    @MainActor override func setUpWithError() throws {
         // Given
-        mapRegionCoordinate = CLLocationCoordinate2D(latitude: 50, longitude: 0)
-        viewModel = TripViewModelOld(persistanceController: PersistanceController())
-        viewModel.region.center = mapRegionCoordinate
-        
-//        viewModel = TripViewModel(
-//            region: MKCoordinateRegion(
-//                center: mapRegionCoordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-//            )
-//        )
+        viewModel = TripViewModel()
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testAddStepForCoordinateIcreasesStepsArrayByOne() throws {
+    @MainActor func testAddStepForCoordinateIcreasesStepsArrayByOne() throws {
         // Given
-        let stepsArrayLength = viewModel.persistanceController.steps.count
+        let stepsArrayLength = viewModel.steps.count
         let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
         
         // When
         viewModel.addStep(for: coordinate)
         
         // Then
-        XCTAssertEqual(viewModel.persistanceController.steps.count, stepsArrayLength + 1)
+        XCTAssertEqual(viewModel.steps.count, stepsArrayLength + 1)
     }
     
-    func testAddStepAddsStepWithCoordinateEqualToMapRegion() throws {
+    @MainActor func testAddStepAddsStepWithCoordinateEqualToMapRegion() throws {
         // Given
         let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
         
@@ -50,7 +42,18 @@ final class TestTripViewModel: XCTestCase {
         viewModel.addStep(for: coordinate)
         
         // Then
-        XCTAssertEqual(viewModel.persistanceController.steps.last?.coordinate, coordinate)
+        XCTAssertEqual(viewModel.steps.last?.coordinate, coordinate)
+    }
+    
+    @MainActor func testSetRegionSetsCoordinateRegionOnViewModel() throws {
+        // Given
+        let coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        
+        // When
+        viewModel.setRegion(for: coordinate)
+        
+        // Then
+        XCTAssertEqual(viewModel.region.center, coordinate)
     }
 
     func testPerformanceExample() throws {

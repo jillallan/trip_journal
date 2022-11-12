@@ -41,6 +41,18 @@ extension Step: MKAnnotation {
     
 }
 
+extension Step {
+    static var previews: [Step] {
+        [
+            Step(latitude: 51.1, longitude: 0.0, timestamp: Date.now, name: "Step 1"),
+            Step(latitude: 51.2, longitude: 0.5, timestamp: Date.now, name: "Step 2"),
+            Step(latitude: 51.3, longitude: 0.8, timestamp: Date.now, name: "Step 3"),
+            Step(latitude: 51.4, longitude: 1.1, timestamp: Date.now, name: "Step 4")
+        ]
+    }
+
+}
+
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
         return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude

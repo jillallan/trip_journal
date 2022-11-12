@@ -18,13 +18,12 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink("Map View") {
-                    TripViewOld(persistanceController: persistanceController)
-                }
-                NavigationLink("TripView") {
+                NavigationLink("Trip") {
                     TripView(viewModel: viewModel)
                 }
-
+                NavigationLink("Search") {
+                    SearchView()
+                }
             }
             .navigationTitle("Trip Journal")
         }
