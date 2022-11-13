@@ -10,9 +10,9 @@
 		781F7481291E73D900A0714A /* Trip_JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7480291E73D900A0714A /* Trip_JournalUITests.swift */; };
 		781F7483291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */; };
 		781F7491291E840500A0714A /* LocationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7490291E840500A0714A /* LocationQuery.swift */; };
-		781F7493291EA54A00A0714A /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7492291EA54A00A0714A /* DetailView.swift */; };
-		781F7497292027B100A0714A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7496292027B100A0714A /* SearchView.swift */; };
-		781F7499292027CB00A0714A /* DetailView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7498292027CB00A0714A /* DetailView2.swift */; };
+		781F749B2920341800A0714A /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F749A2920341800A0714A /* SearchResults.swift */; };
+		781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F749C29203B5000A0714A /* SearchResultMapView.swift */; };
+		781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A029203F7E00A0714A /* AnnotationItem.swift */; };
 		781FFB772915555C00605DAE /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB762915555C00605DAE /* PersistanceController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB7B291558BA00605DAE /* TestPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7A291558BA00605DAE /* TestPersistanceController.swift */; };
@@ -52,9 +52,9 @@
 		781F7480291E73D900A0714A /* Trip_JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITests.swift; sourceTree = "<group>"; };
 		781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		781F7490291E840500A0714A /* LocationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationQuery.swift; sourceTree = "<group>"; };
-		781F7492291EA54A00A0714A /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		781F7496292027B100A0714A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		781F7498292027CB00A0714A /* DetailView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView2.swift; sourceTree = "<group>"; };
+		781F749A2920341800A0714A /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
+		781F749C29203B5000A0714A /* SearchResultMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapView.swift; sourceTree = "<group>"; };
+		781F74A029203F7E00A0714A /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
 		781FFB762915555C00605DAE /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB7A291558BA00605DAE /* TestPersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPersistanceController.swift; sourceTree = "<group>"; };
@@ -174,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				787855D429129E8100D1F199 /* Step.swift */,
+				781F74A029203F7E00A0714A /* AnnotationItem.swift */,
 				781FFB8D2918575D00605DAE /* Trip.swift */,
 			);
 			path = Models;
@@ -184,11 +185,10 @@
 			children = (
 				781FFB9B29198FD900605DAE /* TripViewModel.swift */,
 				781FFB9929198FAC00605DAE /* TripView.swift */,
+				781F749A2920341800A0714A /* SearchResults.swift */,
+				781F749C29203B5000A0714A /* SearchResultMapView.swift */,
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
-				781F7492291EA54A00A0714A /* DetailView.swift */,
-				781F7496292027B100A0714A /* SearchView.swift */,
-				781F7498292027CB00A0714A /* DetailView2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -345,17 +345,17 @@
 				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
-				781F7499292027CB00A0714A /* DetailView2.swift in Sources */,
 				787855D529129E8100D1F199 /* Step.swift in Sources */,
 				781F7491291E840500A0714A /* LocationQuery.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
-				781F7493291EA54A00A0714A /* DetailView.swift in Sources */,
+				781F749B2920341800A0714A /* SearchResults.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,
-				781F7497292027B100A0714A /* SearchView.swift in Sources */,
+				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
 				781FFB772915555C00605DAE /* PersistanceController.swift in Sources */,
 				781FFB8E2918575D00605DAE /* Trip.swift in Sources */,
+				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

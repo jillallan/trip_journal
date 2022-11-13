@@ -28,7 +28,7 @@ import MapKit
     func setRegion(for coordinate: CLLocationCoordinate2D) {
         region = MKCoordinateRegion(
             center: coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         )
     }
     
@@ -41,5 +41,11 @@ import MapKit
                 span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
             )
         }
+    }
+}
+
+extension TripViewModel {
+    static var preview: TripViewModel {
+        TripViewModel()
     }
 }

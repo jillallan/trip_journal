@@ -20,6 +20,7 @@ struct MapView: UIViewRepresentable {
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
+        mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.delegate = context.coordinator
         print("did make MKMapView")
         return mapView

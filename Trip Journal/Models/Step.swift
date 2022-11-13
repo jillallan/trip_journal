@@ -20,7 +20,7 @@ class Step: NSObject, Codable, Identifiable {
     }
     
     var region: MKCoordinateRegion {
-        MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
+        MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     }
     
     init(latitude: Double, longitude: Double, timestamp: Date, name: String) {
@@ -42,6 +42,10 @@ extension Step: MKAnnotation {
 }
 
 extension Step {
+    static var preview: Step {
+        Step(latitude: 51.1, longitude: 0.0, timestamp: Date.now, name: "Step 1")
+    }
+    
     static var previews: [Step] {
         [
             Step(latitude: 51.1, longitude: 0.0, timestamp: Date.now, name: "Step 1"),

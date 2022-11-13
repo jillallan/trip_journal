@@ -21,9 +21,6 @@ struct ContentView: View {
                 NavigationLink("Trip") {
                     TripView(viewModel: viewModel)
                 }
-                NavigationLink("Search") {
-                    SearchView()
-                }
             }
             .navigationTitle("Trip Journal")
         }

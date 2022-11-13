@@ -12,9 +12,10 @@ struct AddStepView: View {
     @ObservedObject var viewModel: TripViewModel
     @StateObject private var locationQuery: LocationQuery
     @State var region: MKCoordinateRegion
+    @State var stepAdded: Bool = false
     @Environment(\.dismiss) var dismiss
-    @State var isPresented: Bool = false
-    @Environment(\.dismissSearch) private var dismissSearch
+//    @State var isPresented: Bool = false
+//    @Environment(\.dismissSearch) private var dismissSearch
     
     init(viewModel: TripViewModel, region: MKCoordinateRegion) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
@@ -22,13 +23,10 @@ struct AddStepView: View {
         _locationQuery = StateObject(wrappedValue: LocationQuery(region: region))
     }
     
-    
     var body: some View {
         NavigationStack {
             VStack {
-                Text("\(region.center.latitude)")
                 ZStack {
-                    
                     Map(coordinateRegion: $region)
                         .toolbar(.visible, for: .navigationBar)
                         .navigationTitle("Add Step")
@@ -36,48 +34,14 @@ struct AddStepView: View {
                         .ignoresSafeArea(edges: .bottom)
                         .toolbar {
                             Button {
+                                stepAdded.toggle()
                                 dismiss()
                             } label: {
                                 Label("Add", systemImage: "plus")
                             }
                         }
                         .searchable(text: $locationQuery.searchQuery) {
-                            ForEach(locationQuery.searchResults, id: \.self) { result in
-                                Button {
-                                    isPresented.toggle()
-                                    
-                                    region.center = result.placemark.coordinate
-                                } label: {
-                                    VStack {
-                                        Text(result.name ?? "N/A")
-                                        Text(result.placemark.subLocality ?? "N/A")
-                                    }
-                                }
-                                .sheet(isPresented: $isPresented) {
-                                    NavigationStack {
-                                        Text("\(result)")
-                                            .toolbar {
-                                                Button("Add") {
-                                                    // Store the item here...
-                                                    viewModel.region.center = result.placemark.coordinate
-                                                    dismiss()
-                                                    dismissSearch()
-                                                }
-                                            }
-                                            .onDisappear {
-                                                dismissSearch()
-                                            }
-                                    }
-                                }
-                                
-//
-
-    //                            Text(result)
-    //                                .searchCompletion(result)
-                            }
-                            .onDisappear {
-                                print("dismissed search list")
-                            }
+                            SearchResults(viewModel: viewModel, locationQuery: locationQuery)
                         }
                     Circle()
                         .fill(.blue)
@@ -87,8 +51,10 @@ struct AddStepView: View {
             }
         }
         .onDisappear {
-            viewModel.addStep(for: region.center)
-            viewModel.setRegion(for: region.center)
+            if stepAdded {
+                viewModel.addStep(for: region.center)
+                viewModel.setRegion(for: region.center)
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import Combine
 import Foundation
 import MapKit
 
-final class LocationQuery: ObservableObject {
+@MainActor final class LocationQuery: ObservableObject {
     @Published var searchQuery = ""
 //    @Published private(set) var searchResults = [String]()
     @Published private(set) var searchResults = [MKMapItem]()
@@ -44,4 +44,8 @@ final class LocationQuery: ObservableObject {
             }
             .store(in: &subscriptions)
     }
+}
+
+extension LocationQuery {
+    static var preview = LocationQuery(region: MKCoordinateRegion(center: Step.preview.region.center, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
 }

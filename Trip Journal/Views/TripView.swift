@@ -34,7 +34,6 @@ struct TripView: View {
                 Label("Add", systemImage: "plus")
             }
         }
-        
         .navigationTitle(viewModel.title)
         .navigationBarTitleDisplayMode(.inline)
     }
