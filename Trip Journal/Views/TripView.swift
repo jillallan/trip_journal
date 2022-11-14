@@ -12,15 +12,15 @@ import SwiftUI
 struct TripView: View {
     @ObservedObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
-    @State var passedBackCoord: CLLocationCoordinate2D!
+    @State var currentCoordinate: CLLocationCoordinate2D!
     
     var body: some View {
         VStack {
             MapView(coordinateRegion: viewModel.region, annotationItems: viewModel.steps) { coord in
-                passedBackCoord = coord
+                currentCoordinate = coord
             }
             .onDisappear {
-                viewModel.setRegion(for: passedBackCoord)
+                viewModel.setRegion(for: currentCoordinate)
             }
         }
         .sheet(isPresented: $addViewIsPresented) {
@@ -28,7 +28,7 @@ struct TripView: View {
         }
         .toolbar {
             Button {
-                viewModel.setRegion(for: passedBackCoord)
+                viewModel.setRegion(for: currentCoordinate)
                 addViewIsPresented.toggle()
             } label: {
                 Label("Add", systemImage: "plus")
