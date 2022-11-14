@@ -31,9 +31,6 @@ struct SearchResultMapView: View {
     
     var body: some View {
         VStack {
-//            Map(coordinateRegion: $searchResultRegion, annotationItems: annotationItems) { item in
-//                MapMarker(coordinate: item.coordinate)
-//            }
             MapView(
                 coordinateRegion: regionNew,
                 mapViewConfiguration: MKStandardMapConfiguration(

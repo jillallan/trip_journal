@@ -15,6 +15,7 @@
 		781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A029203F7E00A0714A /* AnnotationItem.swift */; };
 		781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */; };
 		781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A42922312C00A0714A /* SearchResultCellView.swift */; };
+		781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A62922D89500A0714A /* StepAnnotationView.swift */; };
 		781FFB772915555C00605DAE /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB762915555C00605DAE /* PersistanceController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB7B291558BA00605DAE /* TestPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7A291558BA00605DAE /* TestPersistanceController.swift */; };
@@ -59,6 +60,7 @@
 		781F74A029203F7E00A0714A /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
 		781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapItem-Identifiable.swift"; sourceTree = "<group>"; };
 		781F74A42922312C00A0714A /* SearchResultCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellView.swift; sourceTree = "<group>"; };
+		781F74A62922D89500A0714A /* StepAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAnnotationView.swift; sourceTree = "<group>"; };
 		781FFB762915555C00605DAE /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB7A291558BA00605DAE /* TestPersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPersistanceController.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				781F749A2920341800A0714A /* SearchResultsView.swift */,
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
 				781F749C29203B5000A0714A /* SearchResultMapView.swift */,
+				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				787855D529129E8100D1F199 /* Step.swift in Sources */,
 				781F7491291E840500A0714A /* LocationQuery.swift in Sources */,
 				781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */,
+				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				781F749B2920341800A0714A /* SearchResultsView.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,

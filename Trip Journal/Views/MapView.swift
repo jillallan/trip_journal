@@ -51,9 +51,11 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "step") as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "Step")
-            annotationView.tintColor = UIColor.blue
+            let identifier = "Step"
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.markerTintColor = UIColor.blue
             annotationView.titleVisibility = .visible
+            annotationView.glyphImage = UIImage(systemName: "figure.walk")
             return annotationView
         }
         

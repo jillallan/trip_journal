@@ -55,9 +55,6 @@ struct TripView: View {
         } message: {
             Text("Choose a map from here")
         }
-
-
-        
     }
 }
 
