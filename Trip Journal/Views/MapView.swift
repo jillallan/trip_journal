@@ -15,24 +15,21 @@ struct MapView: UIViewRepresentable {
     var onRegionChange: (CLLocationCoordinate2D) -> ()
     
     func makeUIView(context: Context) -> MKMapView {
-        print("will make MKMapView")
         let mapView = MKMapView()
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
+        mapView.preferredConfiguration = 
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.delegate = context.coordinator
-        print("did make MKMapView")
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        print("will update MKMapView")
         mapView.setRegion(coordinateRegion, animated: true)
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
-        print("did update MKMapView")
     }
     
     func makeCoordinator() -> Coordinator {

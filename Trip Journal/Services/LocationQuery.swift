@@ -20,15 +20,12 @@ import MapKit
     init(region: MKCoordinateRegion) {
         self.region = region
 
-        print(region.center)
         $searchQuery
-            .print()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] value in
                 let searchRequest = MKLocalSearch.Request()
                 searchRequest.naturalLanguageQuery = value
-                print(region)
                 searchRequest.region = region
                 let search = MKLocalSearch(request: searchRequest)
                 search.start { response, error in

@@ -9,33 +9,37 @@ import MapKit
 import SwiftUI
 
 struct SearchResultMapView: View {
+    @State var searchResult: MKMapItem
     @State var searchResultRegion: MKCoordinateRegion
     @State var annotationItems: [AnnotationItem]
     
-    init(result: MKMapItem) {
+    init(searchResult: MKMapItem) {
+        self.searchResult = searchResult
         let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
-        let region = MKCoordinateRegion(center: result.placemark.coordinate, span: span)
+        let region = MKCoordinateRegion(center: searchResult.placemark.coordinate, span: span)
         _searchResultRegion = State(wrappedValue: region)
         
         let annotationItem = AnnotationItem(
-            title: result.placemark.title ?? "No title", // Update to better placeholder
-            latitude: result.placemark.coordinate.latitude,
-            longitude: result.placemark.coordinate.longitude
+            title: searchResult.placemark.title ?? "No title", // Update to better placeholder
+            latitude: searchResult.placemark.coordinate.latitude,
+            longitude: searchResult.placemark.coordinate.longitude
         )
         _annotationItems = State(wrappedValue: [annotationItem])
     }
     
     var body: some View {
-        ZStack {
+        VStack {
             Map(coordinateRegion: $searchResultRegion, annotationItems: annotationItems) { item in
                 MapMarker(coordinate: item.coordinate)
             }
+            Text("\(searchResult)")
+                .padding()
         }
     }
 }
 
 struct SearchResultMapView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultMapView(result: MKMapItem(placemark: MKPlacemark(coordinate: Step.preview.coordinate)))
+        SearchResultMapView(searchResult: MKMapItem(placemark: MKPlacemark(coordinate: Step.preview.coordinate)))
     }
 }

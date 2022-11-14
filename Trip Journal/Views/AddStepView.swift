@@ -40,13 +40,15 @@ struct AddStepView: View {
                                 Label("Add", systemImage: "plus")
                             }
                         }
-                        .searchable(text: $locationQuery.searchQuery) {
-                            SearchResults(viewModel: viewModel, locationQuery: locationQuery)
-                        }
+                        
                     Circle()
                         .fill(.blue)
                         .opacity(0.3)
                         .frame(width: 32, height: 32)
+                }
+                .searchable(text: $locationQuery.searchQuery) {
+                    SearchResultsView(viewModel: viewModel, locationQuery: locationQuery)
+                        .frame(height: 400)
                 }
             }
         }
