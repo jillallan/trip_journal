@@ -48,7 +48,7 @@ struct AddStepView: View {
                 }
                 .searchable(text: $locationQuery.searchQuery) {
                     SearchResultsView(viewModel: viewModel, locationQuery: locationQuery)
-                        .frame(height: 400)
+                        .frame(height: 500)
                 }
             }
         }

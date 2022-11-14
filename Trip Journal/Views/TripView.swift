@@ -12,16 +12,22 @@ import SwiftUI
 struct TripView: View {
     @ObservedObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
+    @State var mapTypeConfirmationDialogIsPresented = false
+    @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
+
     
     var body: some View {
         VStack {
-            MapView(coordinateRegion: viewModel.region, annotationItems: viewModel.steps) { coord in
-                currentCoordinate = coord
-            }
-            .onDisappear {
-                viewModel.setRegion(for: currentCoordinate)
-            }
+            MapView(
+                coordinateRegion: viewModel.region,
+                mapViewConfiguration: mapConfiguration,
+                annotationItems: viewModel.steps) { coord in
+                    currentCoordinate = coord
+                }
+                .onDisappear {
+                    viewModel.setRegion(for: currentCoordinate)
+                }
         }
         .sheet(isPresented: $addViewIsPresented) {
             AddStepView(viewModel: viewModel, region: viewModel.region)
@@ -36,6 +42,22 @@ struct TripView: View {
         }
         .navigationTitle(viewModel.title)
         .navigationBarTitleDisplayMode(.inline)
+        .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {
+            Button("Standard") {
+                mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
+            }
+            Button("Hybrid") {
+                mapConfiguration = MKHybridMapConfiguration(elevationStyle: .realistic)
+            }
+            Button("Satellite") {
+                mapConfiguration = MKImageryMapConfiguration()
+            }
+        } message: {
+            Text("Choose a map from here")
+        }
+
+
+        
     }
 }
 
@@ -44,3 +66,20 @@ struct TripView_Previews: PreviewProvider {
         TripView(viewModel: TripViewModel())
     }
 }
+
+//VStack() {
+//    HStack() {
+//        Spacer()
+//        Button {
+//            mapTypeConfirmationDialogIsPresented.toggle()
+//        } label: {
+//            Label("Map Type", systemImage: "map")
+//
+//        }
+//        .padding()
+//        .tint(.gray)
+//        .buttonStyle(.borderedProminent)
+//        .buttonBorderShape(.roundedRectangle)
+//    }
+//    Spacer()
+//}

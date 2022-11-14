@@ -11,22 +11,27 @@ import SwiftUI
 
 struct MapView: UIViewRepresentable {
     var coordinateRegion: MKCoordinateRegion
+    let mapViewConfiguration: MKMapConfiguration
     let annotationItems: [MKAnnotation]?
-    var onRegionChange: (CLLocationCoordinate2D) -> ()
+    var onRegionChange: ((CLLocationCoordinate2D) -> ())?
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
-//        mapView.preferredConfiguration = 
+        mapView.preferredConfiguration = mapViewConfiguration
+        mapView.isPitchEnabled = true
+        mapView.isRotateEnabled = true
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.delegate = context.coordinator
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
+        print("Will update map view")
         mapView.setRegion(coordinateRegion, animated: true)
+        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
@@ -53,7 +58,10 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            parent.onRegionChange(mapView.centerCoordinate)
+            if let onRegionChange = parent.onRegionChange {
+                onRegionChange(mapView.centerCoordinate)
+            }
+//            parent.onRegionChange(mapView.centerCoordinate)
         }
     }
 }
