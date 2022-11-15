@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct TimelineView: View {
-
+    @StateObject var timelineViewModel = TimelineViewModel()
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter
+    }()
     
     var body: some View {
         NavigationStack {
             List {
-    //            ForEach(stride(from: Date(timeIntervalSinceNow: 864000), to: Date.now, by: 86400)) { day in
-    //                Text(day)
-    //            }
-                ForEach(0..<20) { int in
-                    Text(int, format: .number)
+                ForEach(timelineViewModel.dateRange, id: \.self) { day in
+                    Text("\(day, formatter: dateFormatter)")
                 }
             }
             .navigationTitle("Trip Journal")
@@ -30,3 +33,5 @@ struct TimelineView_Previews: PreviewProvider {
         TimelineView()
     }
 }
+
+
