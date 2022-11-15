@@ -15,14 +15,15 @@ struct TripView: View {
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
-
-    
+   
     var body: some View {
         VStack {
             MapView(
                 coordinateRegion: viewModel.region,
                 mapViewConfiguration: mapConfiguration,
-                annotationItems: viewModel.steps) { coord in
+                annotationItems: viewModel.steps,
+                routeOverlay: viewModel.tripRoute
+            ) { coord in
                     currentCoordinate = coord
                 }
                 .onDisappear {
@@ -40,6 +41,7 @@ struct TripView: View {
                 Label("Add", systemImage: "plus")
             }
         }
+        .ignoresSafeArea(edges: .bottom)
         .navigationTitle(viewModel.title)
         .navigationBarTitleDisplayMode(.inline)
         .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {

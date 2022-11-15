@@ -38,6 +38,7 @@ struct SearchResultMapView: View {
                     emphasisStyle: .muted
                 ),
                 annotationItems: nil,
+                routeOverlay: nil,
                 onRegionChange: nil
             )
             Text("\(searchResult)")

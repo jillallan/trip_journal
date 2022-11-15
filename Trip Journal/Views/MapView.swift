@@ -13,6 +13,7 @@ struct MapView: UIViewRepresentable {
     var coordinateRegion: MKCoordinateRegion
     let mapViewConfiguration: MKMapConfiguration
     let annotationItems: [MKAnnotation]?
+    let routeOverlay: [MKPolyline]?
     var onRegionChange: ((CLLocationCoordinate2D) -> ())?
     
     func makeUIView(context: Context) -> MKMapView {
@@ -29,11 +30,14 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        print("Will update map view")
         mapView.setRegion(coordinateRegion, animated: true)
         mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
+        }
+        
+        if let routeOverlay = routeOverlay {
+            mapView.addOverlays(routeOverlay)
         }
     }
     
@@ -53,10 +57,17 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let identifier = "Step"
             let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView.markerTintColor = UIColor.blue
-            annotationView.titleVisibility = .visible
+            annotationView.markerTintColor = UIColor.systemIndigo
+            annotationView.titleVisibility = .hidden
             annotationView.glyphImage = UIImage(systemName: "figure.walk")
             return annotationView
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.systemIndigo
+            renderer.lineWidth = 3.0
+            return renderer
         }
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

@@ -15,6 +15,7 @@ import MapKit
         center: CLLocationCoordinate2D(latitude: 51.37095813260197, longitude: -2.5465420593568187),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
+    @Published var tripRoute = [MKPolyline]()
     
     var title: String {
         "Trip"
@@ -22,6 +23,7 @@ import MapKit
     
     func addStep(for coordinate: CLLocationCoordinate2D) {
         let step = Step(coordinate: coordinate, timestamp: Date.now, name: "New Step \(Date.now)")
+        addOverlay(for: step)
         steps.append(step)
     }
     
@@ -30,6 +32,18 @@ import MapKit
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         )
+    }
+    
+    func addOverlay(for step: Step) {
+        let overlayCoordinates = [steps.last?.coordinate ?? step.coordinate, step.coordinate]
+        let polyline = MKPolyline(coordinates: overlayCoordinates, count: overlayCoordinates.count)
+        tripRoute.append(polyline)
+    }
+    
+    func addStepOverlay(for coordinate: CLLocationCoordinate2D) {
+        let overlayCoordinates = [steps.last?.coordinate ?? coordinate, coordinate]
+        let polyline = MKPolyline(coordinates: overlayCoordinates, count: overlayCoordinates.count)
+        tripRoute.append(polyline)
     }
     
     func setRegionToTripStart() {
