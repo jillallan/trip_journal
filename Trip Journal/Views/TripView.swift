@@ -15,47 +15,49 @@ struct TripView: View {
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
-   
+    
     var body: some View {
-        VStack {
-            MapView(
-                coordinateRegion: viewModel.region,
-                mapViewConfiguration: mapConfiguration,
-                annotationItems: viewModel.steps,
-                routeOverlay: viewModel.tripRoute
-            ) { coord in
+        NavigationStack {
+            VStack {
+                MapView(
+                    coordinateRegion: viewModel.region,
+                    mapViewConfiguration: mapConfiguration,
+                    annotationItems: viewModel.steps,
+                    routeOverlay: viewModel.tripRoute
+                ) { coord in
                     currentCoordinate = coord
                 }
                 .onDisappear {
                     viewModel.setRegion(for: currentCoordinate)
                 }
-        }
-        .sheet(isPresented: $addViewIsPresented) {
-            AddStepView(viewModel: viewModel, region: viewModel.region)
-        }
-        .toolbar {
-            Button {
-                viewModel.setRegion(for: currentCoordinate)
-                addViewIsPresented.toggle()
-            } label: {
-                Label("Add", systemImage: "plus")
             }
-        }
-        .ignoresSafeArea(edges: .bottom)
-        .navigationTitle(viewModel.title)
-        .navigationBarTitleDisplayMode(.inline)
-        .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {
-            Button("Standard") {
-                mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
+            .sheet(isPresented: $addViewIsPresented) {
+                AddStepView(viewModel: viewModel, region: viewModel.region)
             }
-            Button("Hybrid") {
-                mapConfiguration = MKHybridMapConfiguration(elevationStyle: .realistic)
+            .toolbar {
+                Button {
+                    viewModel.setRegion(for: currentCoordinate)
+                    addViewIsPresented.toggle()
+                } label: {
+                    Label("Add", systemImage: "plus")
+                }
             }
-            Button("Satellite") {
-                mapConfiguration = MKImageryMapConfiguration()
+            .ignoresSafeArea(edges: .bottom)
+            .navigationTitle(viewModel.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {
+                Button("Standard") {
+                    mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
+                }
+                Button("Hybrid") {
+                    mapConfiguration = MKHybridMapConfiguration(elevationStyle: .realistic)
+                }
+                Button("Satellite") {
+                    mapConfiguration = MKImageryMapConfiguration()
+                }
+            } message: {
+                Text("Choose a map from here")
             }
-        } message: {
-            Text("Choose a map from here")
         }
     }
 }

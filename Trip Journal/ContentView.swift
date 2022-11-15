@@ -16,14 +16,28 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            List {
-                NavigationLink("Trip") {
-                    TripView(viewModel: viewModel)
-                }
+        TabView {
+            
+            TripView(viewModel: viewModel)
+            
+                .tabItem {
+                    Label("Map", systemImage: "map")
+                    
             }
-            .navigationTitle("Trip Journal")
+            TimelineView()
+                .tabItem {
+                    Label("Timeline", systemImage: "calendar.day.timeline.trailing")
+                }
         }
+        
+//        NavigationStack {
+//            List {
+//                NavigationLink("Trip") {
+//                    TripView(viewModel: viewModel)
+//                }
+//            }
+//            .navigationTitle("Trip Journal")
+//        }
     }
 }
 
