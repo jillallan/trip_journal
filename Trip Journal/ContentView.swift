@@ -29,15 +29,6 @@ struct ContentView: View {
                     Label("Timeline", systemImage: "calendar.day.timeline.trailing")
                 }
         }
-        
-//        NavigationStack {
-//            List {
-//                NavigationLink("Trip") {
-//                    TripView(viewModel: viewModel)
-//                }
-//            }
-//            .navigationTitle("Trip Journal")
-//        }
     }
 }
 

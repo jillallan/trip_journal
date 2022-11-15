@@ -10,6 +10,8 @@ import Foundation
 class TimelineViewModel: ObservableObject {
     @Published var dateRange = CalendarRange(calendar: Calendar(identifier: .gregorian), component: .day, epoch: Date(), values: 0...3600)
     
+//    let myRange = calendar.range(of: .day, in: .month, for: date!)
+    
     // May not need this
     @Published var months = [Date]()
     

@@ -42,7 +42,7 @@ struct TripView: View {
                     Label("Add", systemImage: "plus")
                 }
             }
-            .ignoresSafeArea(edges: .bottom)
+//            .ignoresSafeArea(edges: .bottom)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {

@@ -11,7 +11,6 @@ import SwiftUI
 struct SearchResultsView: View {
     @ObservedObject var viewModel: TripViewModel
     @ObservedObject var locationQuery: LocationQuery
-//    @State var isPresented: Bool = false
     @Environment(\.dismiss) var dismiss
     @Environment(\.dismissSearch) private var dismissSearch
     
@@ -20,10 +19,7 @@ struct SearchResultsView: View {
         NavigationStack {
             List(locationQuery.searchResults) { result in
                 NavigationLink {
-//                    VStack {
                     SearchResultMapView(searchResult: result)
-//                        Text("\(result)")
-//                    }
                     .toolbar {
                         Button("Add") {
                             // Store the item here...
