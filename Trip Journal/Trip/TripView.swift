@@ -22,7 +22,7 @@ struct TripView: View {
                 MapView(
                     coordinateRegion: viewModel.region,
                     mapViewConfiguration: mapConfiguration,
-                    annotationItems: viewModel.steps,
+                    annotationItems: viewModel.persistanceController.steps,
                     routeOverlay: viewModel.tripRoute
                 ) { coord in
                     currentCoordinate = coord
@@ -64,7 +64,7 @@ struct TripView: View {
 
 struct TripView_Previews: PreviewProvider {
     static var previews: some View {
-        TripView(viewModel: TripViewModel())
+        TripView(viewModel: TripViewModel(persistanceController: .preview))
     }
 }
 

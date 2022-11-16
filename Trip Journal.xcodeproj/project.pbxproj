@@ -121,6 +121,15 @@
 			path = "Trip JournalUITests";
 			sourceTree = "<group>";
 		};
+		781F74B02924DD1100A0714A /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				781F74AA2923935800A0714A /* TimelineViewModel.swift */,
+				781F74A829238A5C00A0714A /* TimelineView.swift */,
+			);
+			path = Timeline;
+			sourceTree = "<group>";
+		};
 		781FFB752915552D00605DAE /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,7 +168,8 @@
 				787855C229129AC700D1F199 /* ContentView.swift */,
 				787855D629129E8B00D1F199 /* Models */,
 				781FFB752915552D00605DAE /* Services */,
-				787855D729129E9E00D1F199 /* Views */,
+				787855D729129E9E00D1F199 /* Trip */,
+				781F74B02924DD1100A0714A /* Timeline */,
 				787855C429129AC800D1F199 /* Assets.xcassets */,
 				787855C629129AC800D1F199 /* Trip_Journal.entitlements */,
 				787855C729129AC800D1F199 /* Preview Content */,
@@ -194,7 +204,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		787855D729129E9E00D1F199 /* Views */ = {
+		787855D729129E9E00D1F199 /* Trip */ = {
 			isa = PBXGroup;
 			children = (
 				781FFB9B29198FD900605DAE /* TripViewModel.swift */,
@@ -205,10 +215,8 @@
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
 				781F749C29203B5000A0714A /* SearchResultMapView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
-				781F74A829238A5C00A0714A /* TimelineView.swift */,
-				781F74AA2923935800A0714A /* TimelineViewModel.swift */,
 			);
-			path = Views;
+			path = Trip;
 			sourceTree = "<group>";
 		};
 		787855E029130C6F00D1F199 /* Trip JournalTests */ = {
