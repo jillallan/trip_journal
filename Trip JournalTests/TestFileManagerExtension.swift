@@ -12,7 +12,7 @@ final class TestFileManagerExtension: XCTestCase {
 
 
     func testDocumentsDirectoryIsUrl() throws {
-        let documentsDirectory = FileManager.documentsDirectory
+        let documentsDirectory = FileManager.documentsDirectoryURL
         XCTAssertTrue(documentsDirectory.isFileURL)
     }
 

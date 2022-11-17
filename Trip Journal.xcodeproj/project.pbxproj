@@ -19,6 +19,7 @@
 		781F74A929238A5C00A0714A /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A829238A5C00A0714A /* TimelineView.swift */; };
 		781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74AA2923935800A0714A /* TimelineViewModel.swift */; };
 		781F74AD2924433000A0714A /* CalendarRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74AC2924433000A0714A /* CalendarRange.swift */; };
+		781F74B22924DF1800A0714A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74B12924DF1800A0714A /* DataController.swift */; };
 		781FFB772915555C00605DAE /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB762915555C00605DAE /* PersistanceController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB7B291558BA00605DAE /* TestPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7A291558BA00605DAE /* TestPersistanceController.swift */; };
@@ -67,6 +68,7 @@
 		781F74A829238A5C00A0714A /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		781F74AA2923935800A0714A /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		781F74AC2924433000A0714A /* CalendarRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRange.swift; sourceTree = "<group>"; };
+		781F74B12924DF1800A0714A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		781FFB762915555C00605DAE /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB7A291558BA00605DAE /* TestPersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPersistanceController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				781FFB762915555C00605DAE /* PersistanceController.swift */,
+				781F74B12924DF1800A0714A /* DataController.swift */,
 				781F7490291E840500A0714A /* LocationQuery.swift */,
 				781F74AC2924433000A0714A /* CalendarRange.swift */,
 			);
@@ -368,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
 				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,

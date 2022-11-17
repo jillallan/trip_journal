@@ -10,7 +10,7 @@ import Foundation
 
 class PersistanceController: ObservableObject {
     @Published var steps: [Step] = []
-    private var savePath = FileManager.documentsDirectory.appendingPathComponent("savedSteps")
+    private var savePath = FileManager.documentsDirectoryURL.appendingPathComponent("savedSteps")
     
     init(inMemory: Bool = false) {
         if inMemory {
