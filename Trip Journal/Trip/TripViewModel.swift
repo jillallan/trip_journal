@@ -41,6 +41,12 @@ import CoreData
         do {
             try stepsController.performFetch()
             steps = stepsController.fetchedObjects ?? []
+            print("Step added - init \(steps.count)")
+            
+            if !steps.isEmpty {
+                let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
+                tripRoute = routeRenderer.createRoute()
+            }
         } catch {
             print("Failed to fetch steps: \(error.localizedDescription)")
         }
@@ -49,17 +55,31 @@ import CoreData
     var title: String {
         "Trip"
     }
-    
+
     func addStep(for coordinate: CLLocationCoordinate2D) {
-        let step = Step(
+        _ = Step(
             context: dataController.container.viewContext,
             coordinate: coordinate,
             timestamp: Date.now,
             name: "New Step \(Date.now)"
         )
-        addOverlay(for: step)
-        steps.append(step)
         dataController.save()
+        updateFetchRequest()
+    }
+    
+    func updateFetchRequest() {
+        do {
+            try stepsController.performFetch()
+            steps = stepsController.fetchedObjects ?? []
+            print("Step added - init \(steps.count)")
+            
+            if !steps.isEmpty {
+                let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
+                tripRoute = routeRenderer.createRoute()
+            }
+        } catch {
+            print("Failed to fetch steps: \(error.localizedDescription)")
+        }
     }
     
     func setRegion(for coordinate: CLLocationCoordinate2D) {
@@ -67,18 +87,6 @@ import CoreData
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         )
-    }
-    
-    func addOverlay(for step: Step) {
-        let overlayCoordinates = [steps.last?.coordinate ?? step.coordinate, step.coordinate]
-        let polyline = MKPolyline(coordinates: overlayCoordinates, count: overlayCoordinates.count)
-        tripRoute.append(polyline)
-    }
-    
-    func addStepOverlay(for coordinate: CLLocationCoordinate2D) {
-        let overlayCoordinates = [steps.last?.coordinate ?? coordinate, coordinate]
-        let polyline = MKPolyline(coordinates: overlayCoordinates, count: overlayCoordinates.count)
-        tripRoute.append(polyline)
     }
     
     func setRegionToTripStart() {
