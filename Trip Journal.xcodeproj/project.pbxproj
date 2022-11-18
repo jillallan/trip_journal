@@ -22,7 +22,6 @@
 		781F74B22924DF1800A0714A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74B12924DF1800A0714A /* DataController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB7B291558BA00605DAE /* TestPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7A291558BA00605DAE /* TestPersistanceController.swift */; };
-		781FFB8E2918575D00605DAE /* Trip2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB8D2918575D00605DAE /* Trip2.swift */; };
 		781FFB9A29198FAC00605DAE /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9929198FAC00605DAE /* TripView.swift */; };
 		781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9B29198FD900605DAE /* TripViewModel.swift */; };
 		781FFB9E2919912600605DAE /* AddStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9D2919912600605DAE /* AddStepView.swift */; };
@@ -76,7 +75,6 @@
 		781F74B12924DF1800A0714A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB7A291558BA00605DAE /* TestPersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPersistanceController.swift; sourceTree = "<group>"; };
-		781FFB8D2918575D00605DAE /* Trip2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip2.swift; sourceTree = "<group>"; };
 		781FFB9929198FAC00605DAE /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 		781FFB9B29198FD900605DAE /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
 		781FFB9D2919912600605DAE /* AddStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepView.swift; sourceTree = "<group>"; };
@@ -153,6 +151,16 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		785AA0D12927E1D900F598AE /* Trips */ = {
+			isa = PBXGroup;
+			children = (
+				785AA0C72927C5A200F598AE /* TripsViewModel.swift */,
+				785AA0CD2927D45700F598AE /* TripsView.swift */,
+				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
+			);
+			path = Trips;
+			sourceTree = "<group>";
+		};
 		787855B429129AC700D1F199 = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +190,7 @@
 				7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */,
 				787855D629129E8B00D1F199 /* Models */,
 				781FFB752915552D00605DAE /* Services */,
+				785AA0D12927E1D900F598AE /* Trips */,
 				787855D729129E9E00D1F199 /* Trip */,
 				781F74B02924DD1100A0714A /* Timeline */,
 				787855C429129AC800D1F199 /* Assets.xcassets */,
@@ -214,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				781F74A029203F7E00A0714A /* AnnotationItem.swift */,
-				781FFB8D2918575D00605DAE /* Trip2.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,10 +230,7 @@
 		787855D729129E9E00D1F199 /* Trip */ = {
 			isa = PBXGroup;
 			children = (
-				785AA0C72927C5A200F598AE /* TripsViewModel.swift */,
 				781FFB9B29198FD900605DAE /* TripViewModel.swift */,
-				785AA0CD2927D45700F598AE /* TripsView.swift */,
-				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 				781FFB9929198FAC00605DAE /* TripView.swift */,
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
@@ -408,7 +413,6 @@
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
-				781FFB8E2918575D00605DAE /* Trip2.swift in Sources */,
 				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
 				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,

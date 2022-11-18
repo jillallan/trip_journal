@@ -33,11 +33,19 @@ struct AddStepView: View {
                         .navigationBarTitleDisplayMode(.inline)
                         .ignoresSafeArea(edges: .bottom)
                         .toolbar {
-                            Button {
-                                stepAdded.toggle()
-                                dismiss()
-                            } label: {
-                                Label("Add", systemImage: "plus")
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button {
+                                    stepAdded.toggle()
+                                    dismiss()
+                                } label: {
+                                    Label("Add", systemImage: "plus")
+                                }
+                            }
+                                
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button("Cancel", role: .cancel) {
+                                    dismiss()
+                                }
                             }
                         }
                         

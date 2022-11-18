@@ -33,10 +33,10 @@ struct SearchResultMapView: View {
         VStack {
             MapView(
                 coordinateRegion: regionNew,
-                mapViewConfiguration: MKStandardMapConfiguration(
-                    elevationStyle: .realistic,
-                    emphasisStyle: .muted
-                ),
+//                mapViewConfiguration: MKStandardMapConfiguration(
+//                    elevationStyle: .realistic,
+//                    emphasisStyle: .muted
+//                ),
                 annotationItems: nil,
                 routeOverlay: nil,
                 onRegionChange: nil

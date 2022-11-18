@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TripsView: View {
+    @EnvironmentObject var dataController: DataController
     @StateObject var viewModel: TripsViewModel
     @State var tripAddViewIsPresented: Bool = false
     
@@ -19,18 +20,23 @@ struct TripsView: View {
     var body: some View {
         NavigationStack {
             List(viewModel.trips) { trip in
-                VStack {
-                    HStack {
-                        Text(trip.tripTitle)
-                        Spacer()
-                        Text("Steps: \(trip.tripSteps.count)")
-                    }
-                    HStack {
-                        Text(trip.tripStartDate, style: .date)
-                        Spacer()
-                        Text("-")
-                        Spacer()
-                        Text(trip.tripEndDate, style: .date)
+                NavigationLink {
+                    TripView(trip: trip, dataController: dataController)
+//                    TripView(trip: trip, dataController: dataController)
+                } label: {
+                    VStack {
+                        HStack {
+                            Text(trip.tripTitle)
+                            Spacer()
+                            Text("Steps: \(trip.tripSteps.count)")
+                        }
+                        HStack {
+                            Text(trip.tripStartDate, style: .date)
+                            Spacer()
+                            Text("-")
+                            Spacer()
+                            Text(trip.tripEndDate, style: .date)
+                        }
                     }
                 }
             }

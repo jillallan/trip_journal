@@ -22,7 +22,6 @@ extension Step {
         name ?? "New Step"
     }
     
-    
     convenience init(
         context: NSManagedObjectContext,
         latitude: Double,

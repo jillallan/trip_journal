@@ -11,7 +11,7 @@ import SwiftUI
 
 struct MapView: UIViewRepresentable {
     var coordinateRegion: MKCoordinateRegion
-    let mapViewConfiguration: MKMapConfiguration
+//    let mapViewConfiguration: MKMapConfiguration
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((CLLocationCoordinate2D) -> ())?
@@ -22,7 +22,7 @@ struct MapView: UIViewRepresentable {
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
-        mapView.preferredConfiguration = mapViewConfiguration
+//        mapView.preferredConfiguration = mapViewConfiguration
         mapView.isPitchEnabled = true
         mapView.isRotateEnabled = true
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
@@ -34,7 +34,7 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ mapView: MKMapView, context: Context) {
         print("Will update map view \(String(describing: annotationItems?.count))")
         mapView.setRegion(coordinateRegion, animated: true)
-        mapView.preferredConfiguration = mapViewConfiguration
+//        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }

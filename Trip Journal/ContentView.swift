@@ -13,19 +13,20 @@ struct ContentView: View {
     var body: some View {
         TabView {
             
-            TripView(dataController: dataController)
-                .tabItem {
-                    Label("Map", systemImage: "map")
-                    
-            }
-            TimelineView()
-                .tabItem {
-                    Label("Timeline", systemImage: "calendar.day.timeline.trailing")
-                }
+//            TripView(dataController: dataController)
+//                .tabItem {
+//                    Label("Map", systemImage: "map")
+//
+//            }
             TripsView(dataController: dataController)
                 .tabItem {
                     Label("Trips", systemImage: "airplane")
                 }
+            TimelineView()
+                .tabItem {
+                    Label("Timeline", systemImage: "calendar.day.timeline.trailing")
+                }
+            
         }
     }
 }

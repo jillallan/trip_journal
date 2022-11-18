@@ -11,6 +11,7 @@ import MapKit
 import CoreData
 
 @MainActor class TripViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+    let trip: Trip
     let dataController: DataController
     
     private let stepsController: NSFetchedResultsController<Step>
@@ -24,10 +25,13 @@ import CoreData
     
     var title: String { "Trip" }
     
-    init(dataController: DataController) {
+    init(trip: Trip, dataController: DataController) {
+        self.trip = trip
         self.dataController = dataController
         
+        print(trip.tripTitle)
         let request: NSFetchRequest<Step> = Step.fetchRequest()
+        request.predicate = NSPredicate(format: "trip.title = %@", trip.tripTitle)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Step.timestamp, ascending: false)]
         
         stepsController = NSFetchedResultsController(
@@ -43,6 +47,7 @@ import CoreData
         do {
             try stepsController.performFetch()
             steps = stepsController.fetchedObjects ?? []
+            print(steps)
             
             if !steps.isEmpty {
                 let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
@@ -54,12 +59,13 @@ import CoreData
     }
     
     func addStep(for coordinate: CLLocationCoordinate2D) {
-        _ = Step(
+        let step = Step(
             context: dataController.container.viewContext,
             coordinate: coordinate,
             timestamp: Date.now,
-            name: "New Step \(Date.now)"
+            name: "New Step"
         )
+        step.trip = trip
         dataController.save()
         updateFetchRequest()
     }

@@ -9,23 +9,26 @@ import MapKit
 import SwiftUI
 
 struct TripView: View {
+    let trip: Trip
     @StateObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
     
-    init(dataController: DataController) {
-        let viewModel = TripViewModel(dataController: dataController)
+    init(trip: Trip, dataController: DataController) {
+        self.trip = trip
+        let viewModel = TripViewModel(trip: trip, dataController: dataController)
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
         NavigationStack {
             VStack {
+                let _ = print("step count \(viewModel.steps.count) - \(viewModel.trip.tripTitle)")
                 MapView(
                     coordinateRegion: viewModel.region,
-                    mapViewConfiguration: mapConfiguration,
+//                    mapViewConfiguration: mapConfiguration,
                     annotationItems: viewModel.steps,
                     routeOverlay: viewModel.tripRoute
                 ) { coord in
