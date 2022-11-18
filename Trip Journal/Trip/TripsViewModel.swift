@@ -7,7 +7,7 @@
 
 import Foundation
 
-@MainActor class TripsViewModel: ObservableObject {
+//@MainActor class TripsViewModel: ObservableObject {
 //    @Published var countriesOrStates: [Country]
     
-}
+//}
