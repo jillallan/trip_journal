@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-struct Trip {
+struct Trip2 {
     let id = UUID()
     let startLatitude: Double // replace with center calculated from trip steps
     let startLongitude: Double // replace with center calculated from trip steps

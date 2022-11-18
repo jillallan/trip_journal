@@ -14,10 +14,6 @@ extension Step {
         MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     }
     
-//    var stepId: UUID {
-//        id
-//    }
-    
     var stepTimestamp: Date {
         timestamp ?? Date.now
     }
@@ -53,7 +49,7 @@ extension Step {
 }
 
 extension Step: MKAnnotation {
-    public var title: String? { name }
+    public var title: String? { stepName }
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }

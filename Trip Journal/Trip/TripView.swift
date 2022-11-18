@@ -33,7 +33,7 @@ struct TripView: View {
                 }
                 List(viewModel.steps) { step in
                     VStack {
-                        Text(step.timestamp ?? Date.now, style: .time)
+                        Text(step.stepTimestamp, style: .time)
                         Text("Lat: \(step.latitude), Lon: \(step.longitude)")
                             .font(.body)
                     }
