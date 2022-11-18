@@ -17,6 +17,7 @@ struct MapView: UIViewRepresentable {
     var onRegionChange: ((CLLocationCoordinate2D) -> ())?
     
     func makeUIView(context: Context) -> MKMapView {
+        print("Will make map view \(String(describing: annotationItems?.count))")
         let mapView = MKMapView()
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
@@ -26,10 +27,12 @@ struct MapView: UIViewRepresentable {
         mapView.isRotateEnabled = true
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.delegate = context.coordinator
+        print("Did make map view \(String(describing: annotationItems?.count))")
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
+        print("Will update map view \(String(describing: annotationItems?.count))")
         mapView.setRegion(coordinateRegion, animated: true)
         mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
@@ -39,6 +42,7 @@ struct MapView: UIViewRepresentable {
         if let routeOverlay = routeOverlay {
             mapView.addOverlays(routeOverlay)
         }
+        print("Did update map view \(String(describing: annotationItems?.count))")
     }
     
     func makeCoordinator() -> Coordinator {

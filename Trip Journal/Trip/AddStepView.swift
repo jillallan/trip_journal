@@ -61,9 +61,9 @@ struct AddStepView: View {
     }
 }
 
-struct AddStepView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = TripViewModel(persistanceController: .preview)
-        AddStepView(viewModel: viewModel, region: viewModel.region)
-    }
-}
+//struct AddStepView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let viewModel = TripViewModel(persistanceController: .preview)
+//        AddStepView(viewModel: viewModel, region: viewModel.region)
+//    }
+//}

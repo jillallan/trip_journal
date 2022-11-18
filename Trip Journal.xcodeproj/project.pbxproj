@@ -20,7 +20,6 @@
 		781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74AA2923935800A0714A /* TimelineViewModel.swift */; };
 		781F74AD2924433000A0714A /* CalendarRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74AC2924433000A0714A /* CalendarRange.swift */; };
 		781F74B22924DF1800A0714A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74B12924DF1800A0714A /* DataController.swift */; };
-		781FFB772915555C00605DAE /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB762915555C00605DAE /* PersistanceController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB7B291558BA00605DAE /* TestPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB7A291558BA00605DAE /* TestPersistanceController.swift */; };
 		781FFB8E2918575D00605DAE /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB8D2918575D00605DAE /* Trip.swift */; };
@@ -35,6 +34,7 @@
 		787855D529129E8100D1F199 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855D429129E8100D1F199 /* Step.swift */; };
 		787855E229130C6F00D1F199 /* TestTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E129130C6F00D1F199 /* TestTripViewModel.swift */; };
 		787855E9291449D700D1F199 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E8291449D700D1F199 /* MapView.swift */; };
+		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,6 @@
 		781F74AA2923935800A0714A /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		781F74AC2924433000A0714A /* CalendarRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRange.swift; sourceTree = "<group>"; };
 		781F74B12924DF1800A0714A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		781FFB762915555C00605DAE /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB7A291558BA00605DAE /* TestPersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPersistanceController.swift; sourceTree = "<group>"; };
 		781FFB8D2918575D00605DAE /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		787855DF29130C6F00D1F199 /* Trip JournalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trip JournalTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		787855E129130C6F00D1F199 /* TestTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTripViewModel.swift; sourceTree = "<group>"; };
 		787855E8291449D700D1F199 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,6 @@
 		781FFB752915552D00605DAE /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				781FFB762915555C00605DAE /* PersistanceController.swift */,
 				781F74B12924DF1800A0714A /* DataController.swift */,
 				781F7490291E840500A0714A /* LocationQuery.swift */,
 				781F74AC2924433000A0714A /* CalendarRange.swift */,
@@ -169,6 +168,7 @@
 				787855C029129AC700D1F199 /* Trip_JournalApp.swift */,
 				787855D129129BD700D1F199 /* Extensions */,
 				787855C229129AC700D1F199 /* ContentView.swift */,
+				7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */,
 				787855D629129E8B00D1F199 /* Models */,
 				781FFB752915552D00605DAE /* Services */,
 				787855D729129E9E00D1F199 /* Trip */,
@@ -388,9 +388,9 @@
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
-				781FFB772915555C00605DAE /* PersistanceController.swift in Sources */,
 				781FFB8E2918575D00605DAE /* Trip.swift in Sources */,
 				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
+				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -734,6 +734,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */,
+			);
+			currentVersion = 7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */;
+			path = Main.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 787855B529129AC700D1F199 /* Project object */;
 }

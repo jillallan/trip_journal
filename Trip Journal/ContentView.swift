@@ -8,19 +8,12 @@ import CoreLocation
 import SwiftUI
 
 struct ContentView: View {
-    let persistanceController: PersistanceController
-    @StateObject var viewModel: TripViewModel
-    
-    init(persistanceController: PersistanceController) {
-        self.persistanceController = persistanceController
-        let viewModel = TripViewModel(persistanceController: persistanceController)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @EnvironmentObject var dataController: DataController
     
     var body: some View {
         TabView {
             
-            TripView(viewModel: viewModel)
+            TripView(dataController: dataController)
                 .tabItem {
                     Label("Map", systemImage: "map")
                     
@@ -33,8 +26,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(persistanceController: .preview)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(persistanceController: .preview)
+//    }
+//}

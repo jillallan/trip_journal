@@ -5,16 +5,20 @@
 //  Created by Jill Allan on 07/11/2022.
 //
 
-
 import MapKit
 import SwiftUI
 
 struct TripView: View {
-    @ObservedObject var viewModel: TripViewModel
+    @StateObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
+    
+    init(dataController: DataController) {
+        let viewModel = TripViewModel(dataController: dataController)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationStack {
@@ -22,11 +26,19 @@ struct TripView: View {
                 MapView(
                     coordinateRegion: viewModel.region,
                     mapViewConfiguration: mapConfiguration,
-                    annotationItems: viewModel.persistanceController.steps,
+                    annotationItems: viewModel.steps,
                     routeOverlay: viewModel.tripRoute
                 ) { coord in
                     currentCoordinate = coord
                 }
+                List(viewModel.steps) { step in
+                    VStack {
+                        Text(step.timestamp ?? Date.now, style: .time)
+                        Text("Lat: \(step.latitude), Lon: \(step.longitude)")
+                            .font(.body)
+                    }
+                }
+                .frame(height: 200)
                 .onDisappear {
                     viewModel.setRegion(for: currentCoordinate)
                 }
@@ -62,11 +74,11 @@ struct TripView: View {
     }
 }
 
-struct TripView_Previews: PreviewProvider {
-    static var previews: some View {
-        TripView(viewModel: TripViewModel(persistanceController: .preview))
-    }
-}
+//struct TripView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TripView(viewModel: TripViewModel(dataController: .preview))
+//    }
+//}
 
 //VStack() {
 //    HStack() {
