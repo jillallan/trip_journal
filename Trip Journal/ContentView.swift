@@ -22,6 +22,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("Timeline", systemImage: "calendar.day.timeline.trailing")
                 }
+            TripsView(dataController: dataController)
+                .tabItem {
+                    Label("Trips", systemImage: "airplane")
+                }
         }
     }
 }

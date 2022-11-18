@@ -29,6 +29,8 @@
 		785AA0C62927C10700F598AE /* RouteRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0C52927C10700F598AE /* RouteRenderer.swift */; };
 		785AA0C82927C5A200F598AE /* TripsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0C72927C5A200F598AE /* TripsViewModel.swift */; };
 		785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */; };
+		785AA0CE2927D45700F598AE /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CD2927D45700F598AE /* TripsView.swift */; };
+		785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CF2927D9BC00F598AE /* AddTripView.swift */; };
 		787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C029129AC700D1F199 /* Trip_JournalApp.swift */; };
 		787855C329129AC700D1F199 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C229129AC700D1F199 /* ContentView.swift */; };
 		787855C529129AC800D1F199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 787855C429129AC800D1F199 /* Assets.xcassets */; };
@@ -81,6 +83,8 @@
 		785AA0C52927C10700F598AE /* RouteRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteRenderer.swift; sourceTree = "<group>"; };
 		785AA0C72927C5A200F598AE /* TripsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsViewModel.swift; sourceTree = "<group>"; };
 		785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip-CoreDataHelper.swift"; sourceTree = "<group>"; };
+		785AA0CD2927D45700F598AE /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
+		785AA0CF2927D9BC00F598AE /* AddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripView.swift; sourceTree = "<group>"; };
 		787855BD29129AC700D1F199 /* Trip Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trip Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		787855C029129AC700D1F199 /* Trip_JournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalApp.swift; sourceTree = "<group>"; };
 		787855C229129AC700D1F199 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -218,8 +222,10 @@
 		787855D729129E9E00D1F199 /* Trip */ = {
 			isa = PBXGroup;
 			children = (
-				781FFB9B29198FD900605DAE /* TripViewModel.swift */,
 				785AA0C72927C5A200F598AE /* TripsViewModel.swift */,
+				781FFB9B29198FD900605DAE /* TripViewModel.swift */,
+				785AA0CD2927D45700F598AE /* TripsView.swift */,
+				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 				781FFB9929198FAC00605DAE /* TripView.swift */,
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
@@ -385,6 +391,7 @@
 				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
 				785AA0C62927C10700F598AE /* RouteRenderer.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
+				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
 				781F7491291E840500A0714A /* LocationQuery.swift in Sources */,
@@ -392,6 +399,7 @@
 				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				781F74A929238A5C00A0714A /* TimelineView.swift in Sources */,
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
+				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				781F749B2920341800A0714A /* SearchResultsView.swift in Sources */,

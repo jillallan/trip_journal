@@ -24,6 +24,8 @@ struct Trip2 {
         )
     }
     
+ 
+    
 
     
 //    var rect: MKMapRect {

@@ -22,6 +22,8 @@ import CoreData
     )
     @Published var tripRoute = [MKPolyline]()
     
+    var title: String { "Trip" }
+    
     init(dataController: DataController) {
         self.dataController = dataController
         
@@ -41,7 +43,6 @@ import CoreData
         do {
             try stepsController.performFetch()
             steps = stepsController.fetchedObjects ?? []
-            print("Step added - init \(steps.count)")
             
             if !steps.isEmpty {
                 let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
@@ -52,10 +53,6 @@ import CoreData
         }
     }
     
-    var title: String {
-        "Trip"
-    }
-
     func addStep(for coordinate: CLLocationCoordinate2D) {
         _ = Step(
             context: dataController.container.viewContext,
