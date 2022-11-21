@@ -9,6 +9,7 @@ import CoreLocation
 import Foundation
 import MapKit
 import CoreData
+import Contacts
 
 @MainActor class TripViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
     let trip: Trip
@@ -62,24 +63,37 @@ import CoreData
     }
     
     func fetchPlacemarks(for coordinate: CLLocationCoordinate2D) async -> [String] {
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        print("view model location: \(location)")
+        let location = CLLocation(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        )
         let placemarks = await locationManager.getPlacemarks(for: location)
-        print("view model placemarks: \(placemarks)")
         let placemarkHelper = PlacemarkHelper()
         
+        if let placemark = placemarks.first {
+            let address = placemarkHelper.createAddress(from: placemark)
+            let mkPlacemark = MKPlacemark(coordinate: coordinate, addressDictionary: address)
+            let mkMapItem = MKMapItem(placemark: mkPlacemark)
+        }
+        
+        if let placemarkPostalAddress = placemarks.first?.postalAddress {
+            let mkPlacemark = MKPlacemark(coordinate: coordinate, postalAddress: placemarkPostalAddress)
+            let mkMapItem = MKMapItem(placemark: mkPlacemark)
+        }
         return placemarkHelper.createPlaceList(from: placemarks)
     }
 
     func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
-//        print("Add step: \(getPlacemark(for: coordinate))")
         let step = Step(
             context: dataController.container.viewContext,
             coordinate: coordinate,
             timestamp: Date.now,
-            name: name //"New Step" // getPlacemark(for: coordinate)
+            name: name
         )
         step.trip = trip
+        
+        let mkplacemark = MKPlacemark(coordinate: coordinate)
+        let mkmapItem = MKMapItem(placemark: mkplacemark)
         dataController.save()
         updateFetchRequest()
     }
@@ -88,7 +102,6 @@ import CoreData
         do {
             try stepsController.performFetch()
             steps = stepsController.fetchedObjects ?? []
-            print("Step added - init \(steps.count)")
             
             if !steps.isEmpty {
                 let routeRenderer = MapViewHelper()
@@ -104,6 +117,10 @@ import CoreData
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         )
+    }
+    
+    func setRegion(with newRegion: MKCoordinateRegion) {
+        region = newRegion
     }
     
     func setRegionToTripStart() {

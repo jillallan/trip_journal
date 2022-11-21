@@ -44,6 +44,7 @@
 		78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */; };
 		78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */; };
 		78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */; };
+		78D8923C292C03C40013E9FE /* AddStepMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8923B292C03C40013E9FE /* AddStepMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLPlacemark-Identifiable.swift"; sourceTree = "<group>"; };
 		78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkHelper.swift; sourceTree = "<group>"; };
 		78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array-RemoveDuplicates.swift"; sourceTree = "<group>"; };
+		78D8923B292C03C40013E9FE /* AddStepMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 				781FFB9929198FAC00605DAE /* TripView.swift */,
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
+				78D8923B292C03C40013E9FE /* AddStepMapView.swift */,
 				78D89231292B96E80013E9FE /* AddStepPlacemarksView.swift */,
 				781F749A2920341800A0714A /* SearchResultsView.swift */,
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
@@ -432,6 +435,7 @@
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,
 				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
+				78D8923C292C03C40013E9FE /* AddStepMapView.swift in Sources */,
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,

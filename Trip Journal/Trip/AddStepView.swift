@@ -15,10 +15,10 @@ struct AddStepView: View {
     @State private var stepAdded: Bool = false
     @State private var isAddStepPlacemarksViewPresented: Bool = false
     @State var placemarkName = ""
-//    @State private var placemarkAddress = ""
+    @State var currentMapRegion: MKCoordinateRegion!
     @Environment(\.dismiss) var dismiss
-//    @State var isPresented: Bool = false
-//    @Environment(\.dismissSearch) private var dismissSearch
+
+
     
     init(viewModel: TripViewModel, region: MKCoordinateRegion) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
@@ -27,10 +27,17 @@ struct AddStepView: View {
     }
     
     var body: some View {
+//        let _ = print("add step view top")
+//        let _ = Self._printChanges()
         NavigationStack {
+//            let _ = print("add step view: \(String(describing: currentCoordinate))")
             VStack {
                 ZStack {
-                    Map(coordinateRegion: $region)
+//                    Map(coordinateRegion: $region)
+                    AddStepMapView(coordinateRegion: region) { region in
+                        currentMapRegion = region
+                        print("closure: \(String(describing: currentMapRegion))")
+                    }
                         .toolbar(.visible, for: .navigationBar)
                         .navigationTitle("Add Step")
                         .navigationBarTitleDisplayMode(.inline)
@@ -38,7 +45,9 @@ struct AddStepView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button {
-//                                    viewModel.fetchPlacemarks(for: region.center)
+                                    print("button pressed")
+                                    print("button: \(String(describing: currentMapRegion))")
+                                    viewModel.setRegion(with: currentMapRegion)
                                     isAddStepPlacemarksViewPresented.toggle()
 //                                    stepAdded.toggle()
 //                                    dismiss()
@@ -69,14 +78,15 @@ struct AddStepView: View {
             AddStepPlacemarksView(
                 viewModel: viewModel,
                 placemarkName: $placemarkName,
-                coordinates: region.center
+                coordinates: viewModel.region.center
             )
                 .presentationDetents([.medium, .large])
         }
         .onDisappear {
+            print("dissapper")
             if stepAdded {
-                viewModel.addStep(for: region.center, name: placemarkName)
-                viewModel.setRegion(for: region.center)
+                viewModel.addStep(for: currentMapRegion.center, name: placemarkName)
+                viewModel.setRegion(with: currentMapRegion)
             }
         }
         .onChange(of: placemarkName) { newValue in

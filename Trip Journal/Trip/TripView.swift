@@ -14,7 +14,7 @@ struct TripView: View {
     @State var addViewIsPresented: Bool = false
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
-    @State var currentCoordinate: CLLocationCoordinate2D!
+    @State var currentMapRegion: MKCoordinateRegion!
     
     init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
         self.trip = trip
@@ -25,14 +25,12 @@ struct TripView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                let _ = print("step count \(viewModel.steps.count) - \(viewModel.trip.tripTitle)")
                 MapView(
                     coordinateRegion: viewModel.region,
-//                    mapViewConfiguration: mapConfiguration,
                     annotationItems: viewModel.steps,
                     routeOverlay: viewModel.tripRoute
-                ) { coord in
-                    currentCoordinate = coord
+                ) { region in
+                    currentMapRegion = region
                 }
                 List(viewModel.steps) { step in
                     VStack {
@@ -44,7 +42,8 @@ struct TripView: View {
                 }
                 .frame(height: 200)
                 .onDisappear {
-                    viewModel.setRegion(for: currentCoordinate)
+                    print("did dissappear")
+                    viewModel.setRegion(with: currentMapRegion)
                 }
             }
             .sheet(isPresented: $addViewIsPresented) {
@@ -52,7 +51,7 @@ struct TripView: View {
             }
             .toolbar {
                 Button {
-                    viewModel.setRegion(for: currentCoordinate)
+                    viewModel.setRegion(with: currentMapRegion)
                     addViewIsPresented.toggle()
                 } label: {
                     Label("Add", systemImage: "plus")

@@ -5,10 +5,53 @@
 //  Created by Jill Allan on 21/11/2022.
 //
 
+import Contacts
 import CoreLocation
 import Foundation
 
 struct PlacemarkHelper {
+    func createAddress(from placemark: CLPlacemark) -> [String: Any] {
+        var streetKey = ""
+        var cityKey = ""
+        var postcodeKey = ""
+        var countryCodeKey = ""
+
+        if let name = placemark.name,
+           let number = placemark.subThoroughfare,
+           let street = placemark.thoroughfare {
+            streetKey = "\(name), \(number), \(street)"
+        } else if let name = placemark.name,
+                  let street = placemark.thoroughfare {
+            streetKey = "\(name), \(street)"
+        } else if let number = placemark.subThoroughfare,
+                  let street = placemark.thoroughfare {
+            streetKey = "\(number), \(street)"
+        } else if let street = placemark.thoroughfare {
+            streetKey = "\(street)"
+        }
+
+        if let city = placemark.locality {
+            cityKey = city
+        }
+        
+        if let city = placemark.postalCode {
+            postcodeKey = city
+        }
+        
+        if let countryCode = placemark.isoCountryCode {
+            countryCodeKey = countryCode
+        }
+        
+        let address = [
+            CNPostalAddressStreetKey: streetKey,
+            CNPostalAddressCityKey: cityKey,
+            CNPostalAddressPostalCodeKey: postcodeKey,
+            CNPostalAddressISOCountryCodeKey: countryCodeKey
+        ]
+        
+        return address
+    }
+    
     func createPlaceList(from placemarks: [CLPlacemark]) -> [String] {
         var placeList = [String]()
         

@@ -33,7 +33,6 @@ struct AddStepPlacemarksView: View {
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            print("cell tapped: \(placemark)")
                             placemarkName = placemark
                             dismiss()
                             // TODO: - Add confirmation name is selected
@@ -50,7 +49,6 @@ struct AddStepPlacemarksView: View {
         }
         
         .task {
-            print(coordinates)
             placemarks = await viewModel.fetchPlacemarks(for: coordinates)
             loadingState = .loaded
         }

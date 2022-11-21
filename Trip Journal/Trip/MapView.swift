@@ -14,13 +14,12 @@ struct MapView: UIViewRepresentable {
 //    let mapViewConfiguration: MKMapConfiguration
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
-    var onRegionChange: ((CLLocationCoordinate2D) -> ())?
+    var onRegionChange: ((MKCoordinateRegion) -> ())?
     
     func makeUIView(context: Context) -> MKMapView {
 
         let mapView = MKMapView()
         mapView.region = coordinateRegion
-        print("map view region: \(mapView.region)")
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
@@ -28,15 +27,14 @@ struct MapView: UIViewRepresentable {
         mapView.isPitchEnabled = true
         mapView.isRotateEnabled = true
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
+//        let mapFeatureOptions = MKMapFeatureOptions()
+//        MKMapFeatureOptions.pointsOfInterest =
         mapView.delegate = context.coordinator
-        print("Did make map view \(String(describing: annotationItems?.count))")
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        print("Will update map view \(String(describing: annotationItems?.count))")
         mapView.setRegion(coordinateRegion, animated: true)
-        print("update map view region: \(mapView.region)")
 //        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
@@ -45,7 +43,6 @@ struct MapView: UIViewRepresentable {
         if let routeOverlay = routeOverlay {
             mapView.addOverlays(routeOverlay)
         }
-        print("Did update map view \(String(describing: annotationItems?.count))")
     }
     
     func makeCoordinator() -> Coordinator {
@@ -79,9 +76,8 @@ struct MapView: UIViewRepresentable {
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             if let onRegionChange = parent.onRegionChange {
-                onRegionChange(mapView.centerCoordinate)
+                onRegionChange(mapView.region)
             }
-//            parent.onRegionChange(mapView.centerCoordinate)
         }
     }
 }

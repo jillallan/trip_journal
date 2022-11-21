@@ -33,7 +33,6 @@ struct MapViewHelper {
     func calculateMapRegion(from steps: [Step]) -> MKCoordinateRegion {
         let centreCoordinate = calculateCentreCoordinate(from: steps)
         let coordinateSpan = calculateCoordinateSpan(from: steps)
-        print("Mapviewhelper: \(centreCoordinate), \(coordinateSpan)")
         return MKCoordinateRegion(center: centreCoordinate, span: coordinateSpan)
     }
     
@@ -49,7 +48,6 @@ struct MapViewHelper {
            let minLatitude = steps.map(\.latitude).min(),
            let maxLongitude = steps.map(\.longitude).max(),
            let minLongitude = steps.map(\.longitude).min() {
-            print("map view helper: \(maxLatitude), \(minLatitude), \(maxLongitude), \(minLongitude)")
             return MKCoordinateSpan(
                 latitudeDelta: (maxLatitude - minLatitude) * 1.2,
                 longitudeDelta: (maxLongitude - minLongitude) * 1.2
