@@ -16,9 +16,9 @@ struct TripView: View {
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentCoordinate: CLLocationCoordinate2D!
     
-    init(trip: Trip, dataController: DataController) {
+    init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
         self.trip = trip
-        let viewModel = TripViewModel(trip: trip, dataController: dataController)
+        let viewModel = TripViewModel(trip: trip, dataController: dataController, locationManager: locationManager)
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -36,6 +36,7 @@ struct TripView: View {
                 }
                 List(viewModel.steps) { step in
                     VStack {
+                        Text(step.stepName)
                         Text(step.stepTimestamp, style: .time)
                         Text("Lat: \(step.latitude), Lon: \(step.longitude)")
                             .font(.body)
@@ -57,7 +58,8 @@ struct TripView: View {
                     Label("Add", systemImage: "plus")
                 }
             }
-//            .ignoresSafeArea(edges: .bottom)
+            .toolbar(.hidden, for: .tabBar)
+            .ignoresSafeArea(edges: .bottom)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {
@@ -77,11 +79,19 @@ struct TripView: View {
     }
 }
 
-//struct TripView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TripView(viewModel: TripViewModel(dataController: .preview))
-//    }
-//}
+struct TripView_Previews: PreviewProvider {
+    static var previews: some View {
+        let dataController = DataController.preview
+        let managedObjectContext = dataController.container.viewContext
+        let trip = Trip(context: managedObjectContext, title: "France", startDate: Date.now, endDate: Date(timeIntervalSinceNow: 86400))
+        
+        TripView(
+            trip: trip,
+            dataController: dataController,
+            locationManager: .preview
+        )
+    }
+}
 
 //VStack() {
 //    HStack() {

@@ -55,21 +55,55 @@ extension Step: MKAnnotation {
     
 }
 
-extension Step {
-//    static var preview: Step {
-//        Step(latitude: 51.1, longitude: 0.0, timestamp: Date.now, name: "Step 1")
-//    }
-//    
-//    static var previews: [Step] {
-//        [
-//            Step(latitude: 51.1, longitude: 0.0, timestamp: Date.now, name: "Step 1"),
-//            Step(latitude: 51.2, longitude: 0.5, timestamp: Date.now, name: "Step 2"),
-//            Step(latitude: 51.3, longitude: 0.8, timestamp: Date.now, name: "Step 3"),
-//            Step(latitude: 51.4, longitude: 1.1, timestamp: Date.now, name: "Step 4")
-//        ]
-//    }
-
-}
+//extension Step {
+//    static var stepPreview: Step = {
+//        let dataController = DataController.preview
+//        let managedObjectContext = dataController.container.viewContext
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd/MM/yy"
+//
+//        let date = "14/11/2022"
+//
+//        let step = Step(
+//            context: managedObjectContext,
+//            latitude: 51.1,
+//            longitude: 0.0,
+//            timestamp: dateFormatter.date(from: "14/11/2022") ?? Date.now,
+//            name: "Setting off")
+//        step.trip = Trip.preview
+//        return step
+//    }()
+//
+//    static var stepsPreview: [Step] = {
+//        let dataController = DataController.preview
+//        let managedObjectContext = dataController.container.viewContext
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd/MM/yy"
+//
+//        let date = "14/11/2022"
+//
+//        let step1 = Step(context: managedObjectContext, latitude: 51.1, longitude: 0.0,
+//            timestamp: dateFormatter.date(from: "14/11/2022") ?? Date.now, name: "Setting off")
+//        step1.trip = Trip.preview
+//
+//        let step2 = Step(context: managedObjectContext, latitude: 51.2, longitude: 0.1,
+//            timestamp: dateFormatter.date(from: "15/11/2022") ?? Date.now, name: "Halfway there")
+//        step2.trip = Trip.preview
+//
+//        let step3 = Step(context: managedObjectContext, latitude: 51.5, longitude: 0.1,
+//            timestamp: dateFormatter.date(from: "16/11/2022") ?? Date.now, name: "Pit stop")
+//        step1.trip = Trip.preview
+//
+//        let step4 = Step(context: managedObjectContext, latitude: 51.6, longitude: 0.4,
+//            timestamp: dateFormatter.date(from: "17/11/2022") ?? Date.now, name: "Arrived")
+//        step2.trip = Trip.preview
+//
+//        return [step1, step2]
+//
+//    }()
+//}
 
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {

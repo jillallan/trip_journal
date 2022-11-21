@@ -34,3 +34,43 @@ class DataController: ObservableObject {
         }
     }
 }
+
+extension DataController {
+    static var preview: DataController = {
+        let dataController = DataController(inMemory: true)
+        let viewContext = dataController.container.viewContext
+        
+        do {
+            try dataController.createSampleData()
+        } catch {
+            fatalError("Fatal error creating preview: \(error.localizedDescription)")
+        }
+
+        return dataController
+    }()
+    
+    func createSampleData() throws {
+        let viewContext = container.viewContext
+        
+//        let trip = Trip.preview
+        
+
+        for tripCounter in 1...3 {
+            let trip = Trip(context: viewContext, title: "Test Trip \(tripCounter)", startDate: Date.now, endDate: Date(timeIntervalSinceNow: 86400))
+            trip.steps = []
+
+            for stepCounter in 1...5 {
+                let step = Step(
+                    context: viewContext,
+                    latitude: Double.random(in: 51.0...52.0),
+                    longitude: -Double.random(in: 2...3),
+                    timestamp: Date.now,
+                    name: "Step \(stepCounter)"
+                )
+                step.trip = trip
+            }
+        }
+
+        try viewContext.save()
+    }
+}

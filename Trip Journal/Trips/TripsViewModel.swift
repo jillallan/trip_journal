@@ -10,6 +10,7 @@ import CoreData
 
 @MainActor class TripsViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
     let dataController: DataController
+    let locationManager: LocationManager
 //    @Published var countriesOrStates = [Country]()
     
     private let tripsController: NSFetchedResultsController<Trip>
@@ -17,8 +18,9 @@ import CoreData
     
     var title: String { "Trips" }
     
-    init(dataController: DataController) {
+    init(dataController: DataController, locationManager: LocationManager) {
         self.dataController = dataController
+        self.locationManager = locationManager
         
         let request: NSFetchRequest<Trip> = Trip.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Trip.startDate, ascending: true)]
@@ -54,4 +56,21 @@ import CoreData
             print("Failed to fetch trips: \(error.localizedDescription)")
         }
     }
+    
+    func enableLocationTracking() {
+        // check date range
+        locationManager.startLocationServices()
+    }
+    
+    func getUsersDefaultLocale() {
+        let locale = Locale.current
+        print(locale.language.region?.identifier as Any)
+
+    }
+}
+
+extension TripsViewModel {
+    static var preview: TripsViewModel = {
+        TripsViewModel(dataController: .preview, locationManager: .preview)
+    }()
 }

@@ -33,32 +33,29 @@ extension Trip {
     var tripSteps: [Step] {
         steps?.allObjects as? [Step] ?? []
     }
-    
-    var centreCoordinate: CLLocationCoordinate2D {
-        if !tripSteps.isEmpty {
-            return CLLocationCoordinate2D(
-                latitude: tripSteps.map(\.latitude).reduce(0, +) / Double(tripSteps.count),
-                longitude: tripSteps.map(\.latitude).reduce(0, +) / Double(tripSteps.count)
-            )
-        } else {
-            return CLLocationCoordinate2D(latitude: 51.5, longitude: 0)
-        }
-    }
-    
-    var coordinateSpan: MKCoordinateSpan {
-        if let maxLatitude = tripSteps.map(\.latitude).max(),
-           let minLatitude = tripSteps.map(\.latitude).max(),
-           let maxLongitude = tripSteps.map(\.longitude).max(),
-           let minLongitude = tripSteps.map(\.longitude).max() {
-            return MKCoordinateSpan(
-                latitudeDelta: maxLatitude - minLatitude,
-                longitudeDelta: maxLongitude - minLongitude)
-        } else {
-            return MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-        }
-    }
-    
-    var region: MKCoordinateRegion {
-        MKCoordinateRegion(center: centreCoordinate, span: coordinateSpan)
-    }
 }
+
+//extension Trip {
+//    static var preview: Trip = {
+//        let dataController = DataController.preview
+//        let managedObjectContext = dataController.container.viewContext
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd/MM/yy"
+//        
+//        let startDate = "14/11/2022"
+//        let endDate = "20/11/2022"
+//        
+//        let trip = Trip(
+//            context: managedObjectContext,
+//            title: "France",
+//            startDate: dateFormatter.date(from: startDate) ?? Date.now,
+//            endDate: dateFormatter.date(from: endDate) ?? Date.now
+//        )
+//        for step in Step.stepsPreview {
+//            trip.addToSteps(step)
+//        }
+////        trip.steps = []
+//        return trip
+//    }()
+//}

@@ -17,8 +17,10 @@ struct MapView: UIViewRepresentable {
     var onRegionChange: ((CLLocationCoordinate2D) -> ())?
     
     func makeUIView(context: Context) -> MKMapView {
-        print("Will make map view \(String(describing: annotationItems?.count))")
+
         let mapView = MKMapView()
+        mapView.region = coordinateRegion
+        print("map view region: \(mapView.region)")
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
@@ -34,6 +36,7 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ mapView: MKMapView, context: Context) {
         print("Will update map view \(String(describing: annotationItems?.count))")
         mapView.setRegion(coordinateRegion, animated: true)
+        print("update map view region: \(mapView.region)")
 //        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)

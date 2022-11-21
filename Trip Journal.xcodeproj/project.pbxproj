@@ -25,11 +25,12 @@
 		781FFB9A29198FAC00605DAE /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9929198FAC00605DAE /* TripView.swift */; };
 		781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9B29198FD900605DAE /* TripViewModel.swift */; };
 		781FFB9E2919912600605DAE /* AddStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9D2919912600605DAE /* AddStepView.swift */; };
-		785AA0C62927C10700F598AE /* RouteRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0C52927C10700F598AE /* RouteRenderer.swift */; };
+		785AA0C62927C10700F598AE /* MapViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0C52927C10700F598AE /* MapViewHelper.swift */; };
 		785AA0C82927C5A200F598AE /* TripsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0C72927C5A200F598AE /* TripsViewModel.swift */; };
 		785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */; };
 		785AA0CE2927D45700F598AE /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CD2927D45700F598AE /* TripsView.swift */; };
 		785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CF2927D9BC00F598AE /* AddTripView.swift */; };
+		785AA0D7292971D100F598AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0D6292971D100F598AE /* LocationManager.swift */; };
 		787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C029129AC700D1F199 /* Trip_JournalApp.swift */; };
 		787855C329129AC700D1F199 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C229129AC700D1F199 /* ContentView.swift */; };
 		787855C529129AC800D1F199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 787855C429129AC800D1F199 /* Assets.xcassets */; };
@@ -78,11 +79,13 @@
 		781FFB9929198FAC00605DAE /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 		781FFB9B29198FD900605DAE /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
 		781FFB9D2919912600605DAE /* AddStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepView.swift; sourceTree = "<group>"; };
-		785AA0C52927C10700F598AE /* RouteRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteRenderer.swift; sourceTree = "<group>"; };
+		785AA0C52927C10700F598AE /* MapViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewHelper.swift; sourceTree = "<group>"; };
 		785AA0C72927C5A200F598AE /* TripsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsViewModel.swift; sourceTree = "<group>"; };
 		785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip-CoreDataHelper.swift"; sourceTree = "<group>"; };
 		785AA0CD2927D45700F598AE /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
 		785AA0CF2927D9BC00F598AE /* AddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripView.swift; sourceTree = "<group>"; };
+		785AA0D6292971D100F598AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		785AA0D82929776300F598AE /* Trip-Journal-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Trip-Journal-Info.plist"; sourceTree = SOURCE_ROOT; };
 		787855BD29129AC700D1F199 /* Trip Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trip Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		787855C029129AC700D1F199 /* Trip_JournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalApp.swift; sourceTree = "<group>"; };
 		787855C229129AC700D1F199 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -146,7 +149,8 @@
 				781F74B12924DF1800A0714A /* DataController.swift */,
 				781F7490291E840500A0714A /* LocationQuery.swift */,
 				781F74AC2924433000A0714A /* CalendarRange.swift */,
-				785AA0C52927C10700F598AE /* RouteRenderer.swift */,
+				785AA0C52927C10700F598AE /* MapViewHelper.swift */,
+				785AA0D6292971D100F598AE /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -184,6 +188,7 @@
 		787855BF29129AC700D1F199 /* Trip Journal */ = {
 			isa = PBXGroup;
 			children = (
+				785AA0D82929776300F598AE /* Trip-Journal-Info.plist */,
 				787855C029129AC700D1F199 /* Trip_JournalApp.swift */,
 				787855D129129BD700D1F199 /* Extensions */,
 				787855C229129AC700D1F199 /* ContentView.swift */,
@@ -394,7 +399,7 @@
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
 				785AA0C82927C5A200F598AE /* TripsViewModel.swift in Sources */,
 				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
-				785AA0C62927C10700F598AE /* RouteRenderer.swift in Sources */,
+				785AA0C62927C10700F598AE /* MapViewHelper.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
@@ -403,6 +408,7 @@
 				781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */,
 				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				781F74A929238A5C00A0714A /* TimelineView.swift in Sources */,
+				785AA0D7292971D100F598AE /* LocationManager.swift in Sources */,
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
@@ -611,6 +617,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Trip-Journal-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"We need the location so we can automatically track your trip for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"We need the location so we can automatically track your trip for you";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -652,6 +661,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Trip-Journal-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"We need the location so we can automatically track your trip for you";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"We need the location so we can automatically track your trip for you";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

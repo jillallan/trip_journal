@@ -69,9 +69,14 @@ struct AddStepView: View {
     }
 }
 
-//struct AddStepView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let viewModel = TripViewModel(persistanceController: .preview)
-//        AddStepView(viewModel: viewModel, region: viewModel.region)
-//    }
-//}
+struct AddStepView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddStepView(
+            viewModel: .preview,
+            region: MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
+                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            )
+        )
+    }
+}

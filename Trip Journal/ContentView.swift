@@ -9,16 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var dataController: DataController
+    @EnvironmentObject var locationManager: LocationManager
     
     var body: some View {
         TabView {
-            
-//            TripView(dataController: dataController)
-//                .tabItem {
-//                    Label("Map", systemImage: "map")
-//
-//            }
-            TripsView(dataController: dataController)
+            TripsView(dataController: dataController, locationManager: locationManager)
                 .tabItem {
                     Label("Trips", systemImage: "airplane")
                 }

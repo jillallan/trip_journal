@@ -13,21 +13,23 @@ import CoreData
 @MainActor class TripViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
     let trip: Trip
     let dataController: DataController
+    let locationManager: LocationManager
+    var title: String { "Trip" }
     
     private let stepsController: NSFetchedResultsController<Step>
     @Published var steps = [Step]()
+    @Published var tripRoute = [MKPolyline]()
     
+    // replace with users current location
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 51.37095813260197, longitude: -2.5465420593568187),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
-    @Published var tripRoute = [MKPolyline]()
     
-    var title: String { "Trip" }
-    
-    init(trip: Trip, dataController: DataController) {
+    init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
         self.trip = trip
         self.dataController = dataController
+        self.locationManager = locationManager
         
         print(trip.tripTitle)
         let request: NSFetchRequest<Step> = Step.fetchRequest()
@@ -47,23 +49,31 @@ import CoreData
         do {
             try stepsController.performFetch()
             steps = stepsController.fetchedObjects ?? []
-            print(steps)
             
             if !steps.isEmpty {
-                let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
-                tripRoute = routeRenderer.createRoute()
+                let routeRenderer = MapViewHelper()
+                tripRoute = routeRenderer.createRoute(from: steps.map(\.coordinate))
+                region = routeRenderer.calculateMapRegion(from: steps)
             }
+            
         } catch {
             print("Failed to fetch steps: \(error.localizedDescription)")
         }
     }
     
+//    func getPlacemark(for coordinate: CLLocationCoordinate2D) -> String {
+//        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//        print("get placemark for coordinate: \(locationManager.getPlacemak(for: location))")
+//        return locationManager.getPlacemak(for: location)
+//    }
+    
     func addStep(for coordinate: CLLocationCoordinate2D) {
+//        print("Add step: \(getPlacemark(for: coordinate))")
         let step = Step(
             context: dataController.container.viewContext,
             coordinate: coordinate,
             timestamp: Date.now,
-            name: "New Step"
+            name: "New Step" // getPlacemark(for: coordinate)
         )
         step.trip = trip
         dataController.save()
@@ -77,8 +87,8 @@ import CoreData
             print("Step added - init \(steps.count)")
             
             if !steps.isEmpty {
-                let routeRenderer = RouteRenderer(coordinates: steps.map(\.coordinate))
-                tripRoute = routeRenderer.createRoute()
+                let routeRenderer = MapViewHelper()
+                tripRoute = routeRenderer.createRoute(from: steps.map(\.coordinate))
             }
         } catch {
             print("Failed to fetch steps: \(error.localizedDescription)")
@@ -104,8 +114,19 @@ import CoreData
     }
 }
 
-//extension TripViewModel {
-//    static var preview: TripViewModel {
-//        TripViewModel(persistanceController: .preview)
-//    }
-//}
+extension TripViewModel {
+    static var preview: TripViewModel = {
+        let dataController = DataController.preview
+        let managedObjectContext = dataController.container.viewContext
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy"
+        
+        let startDate = dateFormatter.date(from: "14/11/2022") ?? Date.now
+        let endDate = dateFormatter.date(from: "20/11/2022") ?? Date.now
+        
+        let trip = Trip(context: managedObjectContext, title: "France", startDate: startDate, endDate: endDate)
+        
+        return TripViewModel(trip: trip, dataController: .preview, locationManager: .preview)
+    }()
+}

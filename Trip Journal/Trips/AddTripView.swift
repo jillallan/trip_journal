@@ -12,6 +12,7 @@ struct AddTripView: View {
     @State var title: String = ""
     @State var startDate: Date = Date.now
     @State var endDate: Date = Date.now
+    @State var tripTrackingIsOn: Bool = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -19,6 +20,10 @@ struct AddTripView: View {
             TextField("Trip Title", text: $title)
             DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
             DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+            Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
+                .onChange(of: tripTrackingIsOn) { newValue in
+                    viewModel.enableLocationTracking()
+                }
             Button {
                 viewModel.addTrip(title: title, startDate: startDate, endDate: endDate)
                 viewModel.updateFetchRequest()
@@ -26,13 +31,12 @@ struct AddTripView: View {
             } label: {
                 Text("Add Trip")
             }
-
         }
     }
 }
 
-//struct AddTripView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddTripView()
-//    }
-//}
+struct AddTripView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddTripView(viewModel: .preview)
+    }
+}
