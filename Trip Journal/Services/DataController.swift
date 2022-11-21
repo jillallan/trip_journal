@@ -52,9 +52,6 @@ extension DataController {
     func createSampleData() throws {
         let viewContext = container.viewContext
         
-//        let trip = Trip.preview
-        
-
         for tripCounter in 1...3 {
             let trip = Trip(context: viewContext, title: "Test Trip \(tripCounter)", startDate: Date.now, endDate: Date(timeIntervalSinceNow: 86400))
             trip.steps = []

@@ -12,7 +12,10 @@ struct AddStepView: View {
     @ObservedObject var viewModel: TripViewModel
     @StateObject private var locationQuery: LocationQuery
     @State var region: MKCoordinateRegion
-    @State var stepAdded: Bool = false
+    @State private var stepAdded: Bool = false
+    @State private var isAddStepPlacemarksViewPresented: Bool = false
+    @State var placemarkName = ""
+//    @State private var placemarkAddress = ""
     @Environment(\.dismiss) var dismiss
 //    @State var isPresented: Bool = false
 //    @Environment(\.dismissSearch) private var dismissSearch
@@ -35,8 +38,10 @@ struct AddStepView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button {
-                                    stepAdded.toggle()
-                                    dismiss()
+//                                    viewModel.fetchPlacemarks(for: region.center)
+                                    isAddStepPlacemarksViewPresented.toggle()
+//                                    stepAdded.toggle()
+//                                    dismiss()
                                 } label: {
                                     Label("Add", systemImage: "plus")
                                 }
@@ -60,11 +65,24 @@ struct AddStepView: View {
                 }
             }
         }
+        .sheet(isPresented: $isAddStepPlacemarksViewPresented) {
+            AddStepPlacemarksView(
+                viewModel: viewModel,
+                placemarkName: $placemarkName,
+                coordinates: region.center
+            )
+                .presentationDetents([.medium, .large])
+        }
         .onDisappear {
             if stepAdded {
-                viewModel.addStep(for: region.center)
+                viewModel.addStep(for: region.center, name: placemarkName)
                 viewModel.setRegion(for: region.center)
             }
+        }
+        .onChange(of: placemarkName) { newValue in
+            stepAdded = true
+            dismiss()
+            // TODO: - Does dismiss and add of step need refactoring
         }
     }
 }

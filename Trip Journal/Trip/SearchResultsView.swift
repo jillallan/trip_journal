@@ -25,7 +25,10 @@ struct SearchResultsView: View {
                             // Store the item here...
                             dismiss()
                             dismissSearch()
-                            viewModel.addStep(for: result.placemark.coordinate)
+                            viewModel.addStep(
+                                for: result.placemark.coordinate,
+                                name: result.placemark.name ?? "New Step"
+                            )
                         }
                     }
                 } label: {

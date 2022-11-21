@@ -30,37 +30,38 @@ class LocationManager: NSObject, ObservableObject {
         }
     }
     
-    func getPlacemarks(for location: CLLocation) async -> String {
+    // One lookup per user action
+    // If the user is travelling wait till a significant distance has been travelled
+    // Or significant amount of time e.g. a minute
+    // Never use a lookup when the app is in the background
+    func getPlacemarks(for location: CLLocation) async -> [CLPlacemark] {
+        var fetchedPlacemarksLocal = [CLPlacemark]()
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(location)
-            if let placemark = placemarks.first {
-                return placemark.description
-            } else {
-                return "No description found"
-            }
+            fetchedPlacemarksLocal = placemarks
         } catch {
             fatalError("Error getting placemarks: \(error.localizedDescription)")
+            // too many requests will cause a kCLErrorDomain
         }
+        return fetchedPlacemarksLocal
     }
     
-    // Add make an async function??
-    func getPlacemak(for location: CLLocation) {
-        // One lookup per user action
-        // If the user is travelling wait till a significant distance has been travelled
-        // Or significant amount of time e.g. a minute
-        // Never use a lookup when the app is in the background
-  
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            if let error = error {
-                fatalError("Error getting placemarks \(error.localizedDescription)")
-                // too many requests will cause a kCLErrorDomain
+    func createPlaceList(from placemarks: [CLPlacemark]) -> [String] {
+        var placeList = [String]()
+        
+        for placemark in placemarks {
+            if let areaOfInterest = placemark.areasOfInterest {
+                for areaOfInterest in areaOfInterest {
+                    placeList.append(areaOfInterest)
+                }
             }
             
-            guard let placemarks = placemarks else { return } //error?
-            DispatchQueue.main.async {
-                self?.fetchedPlacemarks = placemarks
+            if let name = placemark.name {
+                placeList.append(name)
             }
         }
+        
+        return placeList
     }
     
     func createAddress(from placemark: CLPlacemark) -> String {

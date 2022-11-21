@@ -61,19 +61,23 @@ import CoreData
         }
     }
     
-//    func getPlacemark(for coordinate: CLLocationCoordinate2D) -> String {
-//        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//        print("get placemark for coordinate: \(locationManager.getPlacemak(for: location))")
-//        return locationManager.getPlacemak(for: location)
-//    }
-    
-    func addStep(for coordinate: CLLocationCoordinate2D) {
+    func fetchPlacemarks(for coordinate: CLLocationCoordinate2D) async -> [String] {
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        print("view model location: \(location)")
+        let placemarks = await locationManager.getPlacemarks(for: location)
+        print("view model placemarks: \(placemarks)")
+        let placemarkHelper = PlacemarkHelper()
+        
+        return placemarkHelper.createPlaceList(from: placemarks)
+    }
+
+    func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
 //        print("Add step: \(getPlacemark(for: coordinate))")
         let step = Step(
             context: dataController.container.viewContext,
             coordinate: coordinate,
             timestamp: Date.now,
-            name: "New Step" // getPlacemark(for: coordinate)
+            name: name //"New Step" // getPlacemark(for: coordinate)
         )
         step.trip = trip
         dataController.save()

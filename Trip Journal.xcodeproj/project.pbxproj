@@ -40,6 +40,10 @@
 		787855E229130C6F00D1F199 /* TestTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E129130C6F00D1F199 /* TestTripViewModel.swift */; };
 		787855E9291449D700D1F199 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E8291449D700D1F199 /* MapView.swift */; };
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
+		78D89232292B96E80013E9FE /* AddStepPlacemarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89231292B96E80013E9FE /* AddStepPlacemarksView.swift */; };
+		78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */; };
+		78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */; };
+		78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +102,10 @@
 		787855E129130C6F00D1F199 /* TestTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTripViewModel.swift; sourceTree = "<group>"; };
 		787855E8291449D700D1F199 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
+		78D89231292B96E80013E9FE /* AddStepPlacemarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepPlacemarksView.swift; sourceTree = "<group>"; };
+		78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLPlacemark-Identifiable.swift"; sourceTree = "<group>"; };
+		78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkHelper.swift; sourceTree = "<group>"; };
+		78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array-RemoveDuplicates.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +159,7 @@
 				781F74AC2924433000A0714A /* CalendarRange.swift */,
 				785AA0C52927C10700F598AE /* MapViewHelper.swift */,
 				785AA0D6292971D100F598AE /* LocationManager.swift */,
+				78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -218,8 +227,10 @@
 			children = (
 				787855CF29129BCC00D1F199 /* FileManager-DocumentsDirectory.swift */,
 				781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */,
+				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
+				78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -239,6 +250,7 @@
 				781FFB9929198FAC00605DAE /* TripView.swift */,
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
+				78D89231292B96E80013E9FE /* AddStepPlacemarksView.swift */,
 				781F749A2920341800A0714A /* SearchResultsView.swift */,
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
 				781F749C29203B5000A0714A /* SearchResultMapView.swift */,
@@ -399,10 +411,13 @@
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
 				785AA0C82927C5A200F598AE /* TripsViewModel.swift in Sources */,
 				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
+				78D89232292B96E80013E9FE /* AddStepPlacemarksView.swift in Sources */,
 				785AA0C62927C10700F598AE /* MapViewHelper.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
+				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
+				78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
 				781F7491291E840500A0714A /* LocationQuery.swift in Sources */,
 				781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */,
@@ -414,6 +429,7 @@
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				781F749B2920341800A0714A /* SearchResultsView.swift in Sources */,
+				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,
 				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
