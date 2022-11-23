@@ -11,6 +11,7 @@ import SwiftUI
 struct SearchResultsView: View {
     @ObservedObject var viewModel: TripViewModel
     @ObservedObject var locationQuery: LocationQuery
+    
     @Environment(\.dismiss) var dismiss
     @Environment(\.dismissSearch) private var dismissSearch
     

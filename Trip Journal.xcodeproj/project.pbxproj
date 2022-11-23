@@ -45,6 +45,8 @@
 		78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */; };
 		78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */; };
 		78D8923C292C03C40013E9FE /* AddStepMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8923B292C03C40013E9FE /* AddStepMapView.swift */; };
+		78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8923F292CC5A60013E9FE /* FeatureAnnotationCardView.swift */; };
+		78D89244292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89243292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,8 @@
 		78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkHelper.swift; sourceTree = "<group>"; };
 		78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array-RemoveDuplicates.swift"; sourceTree = "<group>"; };
 		78D8923B292C03C40013E9FE /* AddStepMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepMapView.swift; sourceTree = "<group>"; };
+		78D8923F292CC5A60013E9FE /* FeatureAnnotationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureAnnotationCardView.swift; sourceTree = "<group>"; };
+		78D89243292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointOfInterestCategory-Symbols.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,7 @@
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
 				78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */,
+				78D89243292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				787855E8291449D700D1F199 /* MapView.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
 				78D8923B292C03C40013E9FE /* AddStepMapView.swift */,
+				78D8923F292CC5A60013E9FE /* FeatureAnnotationCardView.swift */,
 				78D89231292B96E80013E9FE /* AddStepPlacemarksView.swift */,
 				781F749A2920341800A0714A /* SearchResultsView.swift */,
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
@@ -427,12 +433,14 @@
 				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				781F74A929238A5C00A0714A /* TimelineView.swift in Sources */,
 				785AA0D7292971D100F598AE /* LocationManager.swift in Sources */,
+				78D89244292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift in Sources */,
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				781F749B2920341800A0714A /* SearchResultsView.swift in Sources */,
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
+				78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */,
 				781FFB9C29198FD900605DAE /* TripViewModel.swift in Sources */,
 				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
 				78D8923C292C03C40013E9FE /* AddStepMapView.swift in Sources */,

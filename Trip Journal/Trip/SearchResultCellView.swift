@@ -13,13 +13,13 @@ struct SearchResultCellView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "map")
-                .font(.largeTitle)
+            Image(systemName: result.pointOfInterestCategory?.symbolName ?? "mappin.and.ellipse")
             VStack(alignment: .leading) {
                 Text(result.name ?? "N/A")
                     .font(.headline)
                 Text("\(result.placemark.subThoroughfare ?? "N/A") \(result.placemark.thoroughfare ?? "N/A") \(result.placemark.locality ?? "N/A")")
                     .font(.subheadline)
+                Text("\(result.pointOfInterestCategory?.rawValue ?? "No category")")
             }
         }
     }

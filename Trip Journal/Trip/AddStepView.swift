@@ -14,8 +14,10 @@ struct AddStepView: View {
     @State var region: MKCoordinateRegion
     @State private var stepAdded: Bool = false
     @State private var isAddStepPlacemarksViewPresented: Bool = false
+    @State private var isFeatureViewPresented: Bool = false
     @State var placemarkName = ""
     @State var currentMapRegion: MKCoordinateRegion!
+//    @State var featureAnnotation: MKMapFeatureAnnotation!
     @Environment(\.dismiss) var dismiss
 
 
@@ -27,16 +29,16 @@ struct AddStepView: View {
     }
     
     var body: some View {
-//        let _ = print("add step view top")
-//        let _ = Self._printChanges()
         NavigationStack {
-//            let _ = print("add step view: \(String(describing: currentCoordinate))")
             VStack {
                 ZStack {
-//                    Map(coordinateRegion: $region)
-                    AddStepMapView(coordinateRegion: region) { region in
+                    AddStepMapView(coordinateRegion: region, annotationItems: nil) { region in
                         currentMapRegion = region
-                        print("closure: \(String(describing: currentMapRegion))")
+                    } onAnnotationSelection: { annotation in
+//                        featureAnnotation = annotation
+                        viewModel.setFeatureAnnotation(with: annotation)
+                        isFeatureViewPresented.toggle()
+                        
                     }
                         .toolbar(.visible, for: .navigationBar)
                         .navigationTitle("Add Step")
@@ -45,8 +47,6 @@ struct AddStepView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button {
-                                    print("button pressed")
-                                    print("button: \(String(describing: currentMapRegion))")
                                     viewModel.setRegion(with: currentMapRegion)
                                     isAddStepPlacemarksViewPresented.toggle()
 //                                    stepAdded.toggle()
@@ -82,6 +82,10 @@ struct AddStepView: View {
             )
                 .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: $isFeatureViewPresented) {
+            FeatureAnnotationCardView(viewModel: viewModel, featureAnnotation: viewModel.featureAnnotation, placemarkName: $placemarkName)
+                .presentationDetents([.medium, .large])
+        }
         .onDisappear {
             print("dissapper")
             if stepAdded {
@@ -94,6 +98,7 @@ struct AddStepView: View {
             dismiss()
             // TODO: - Does dismiss and add of step need refactoring
         }
+        
     }
 }
 

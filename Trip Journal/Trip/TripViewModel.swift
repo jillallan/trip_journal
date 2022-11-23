@@ -16,6 +16,7 @@ import Contacts
     let dataController: DataController
     let locationManager: LocationManager
     var title: String { "Trip" }
+    var featureAnnotation: MKMapFeatureAnnotation!
     
     private let stepsController: NSFetchedResultsController<Step>
     @Published var steps = [Step]()
@@ -96,6 +97,22 @@ import Contacts
         let mkmapItem = MKMapItem(placemark: mkplacemark)
         dataController.save()
         updateFetchRequest()
+    }
+    
+    func setFeatureAnnotation(with annotation: MKMapFeatureAnnotation) {
+        featureAnnotation = annotation
+    }
+    
+    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
+        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+        
+        do {
+            let featureItem = try await featureRequest.mapItem
+            return featureItem
+            print("Feature Item: \(featureItem.description)")
+        } catch {
+            fatalError("FAiled to get map item: \(error.localizedDescription)")
+        }
     }
     
     func updateFetchRequest() {

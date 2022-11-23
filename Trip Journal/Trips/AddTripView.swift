@@ -17,6 +17,10 @@ struct AddTripView: View {
     
     var body: some View {
         Form {
+            Text("Hello ")
+                    .foregroundColor(.red)
+                    + Text("World!")
+                    .foregroundColor(.green)
             TextField("Trip Title", text: $title)
             DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
             DatePicker("End Date", selection: $endDate, displayedComponents: .date)

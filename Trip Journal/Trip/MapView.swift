@@ -59,12 +59,23 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            let identifier = "Step"
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView.markerTintColor = UIColor.systemIndigo
-            annotationView.titleVisibility = .hidden
-            annotationView.glyphImage = UIImage(systemName: "figure.walk")
-            return annotationView
+            let featureIdentifier = "feature"
+            if let featureAnnotation = annotation as? MKMapFeatureAnnotation? {
+                let featureAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: featureIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: featureAnnotation, reuseIdentifier: featureIdentifier)
+                
+                featureAnnotationView.markerTintColor = featureAnnotation?.iconStyle?.backgroundColor
+                featureAnnotationView.selectedGlyphImage = featureAnnotation?.iconStyle?.image
+                featureAnnotationView.glyphImage = featureAnnotation?.iconStyle?.image
+                
+                return featureAnnotationView
+            }
+            
+            let stepIdentifier = "Step"
+            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
+            stepAnnotationView.markerTintColor = UIColor.systemIndigo
+            stepAnnotationView.titleVisibility = .hidden
+            stepAnnotationView.glyphImage = UIImage(systemName: "figure.walk")
+            return stepAnnotationView
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
