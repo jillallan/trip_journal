@@ -12,6 +12,9 @@ import CoreData
 import Contacts
 
 @MainActor class TripViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+    
+    // MARK: - Properties
+    
     let trip: Trip
     let dataController: DataController
     let locationManager: LocationManager
@@ -22,11 +25,13 @@ import Contacts
     @Published var steps = [Step]()
     @Published var tripRoute = [MKPolyline]()
     
-    // replace with users current location
+    // replace with users current location or capital city of users locale
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 51.37095813260197, longitude: -2.5465420593568187),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
+    
+    // MARK: - Init
     
     init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
         self.trip = trip
@@ -63,27 +68,8 @@ import Contacts
         }
     }
     
-    func fetchPlacemarks(for coordinate: CLLocationCoordinate2D) async -> [String] {
-        let location = CLLocation(
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude
-        )
-        let placemarks = await locationManager.getPlacemarks(for: location)
-        let placemarkHelper = PlacemarkHelper()
-        
-        if let placemark = placemarks.first {
-            let address = placemarkHelper.createAddress(from: placemark)
-            let mkPlacemark = MKPlacemark(coordinate: coordinate, addressDictionary: address)
-            let mkMapItem = MKMapItem(placemark: mkPlacemark)
-        }
-        
-        if let placemarkPostalAddress = placemarks.first?.postalAddress {
-            let mkPlacemark = MKPlacemark(coordinate: coordinate, postalAddress: placemarkPostalAddress)
-            let mkMapItem = MKMapItem(placemark: mkPlacemark)
-        }
-        return placemarkHelper.createPlaceList(from: placemarks)
-    }
-
+    // MARK: - Update model
+    
     func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
         let step = Step(
             context: dataController.container.viewContext,
@@ -99,21 +85,18 @@ import Contacts
         updateFetchRequest()
     }
     
-    func setFeatureAnnotation(with annotation: MKMapFeatureAnnotation) {
-        featureAnnotation = annotation
+    func setRegion(for coordinate: CLLocationCoordinate2D) {
+        region = MKCoordinateRegion(
+            center: coordinate,
+            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        )
     }
     
-    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
-        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
-        
-        do {
-            let featureItem = try await featureRequest.mapItem
-            return featureItem
-            print("Feature Item: \(featureItem.description)")
-        } catch {
-            fatalError("FAiled to get map item: \(error.localizedDescription)")
-        }
+    func setRegion(with newRegion: MKCoordinateRegion) {
+        region = newRegion
     }
+    
+    // MARK: - Update View
     
     func updateFetchRequest() {
         do {
@@ -129,25 +112,41 @@ import Contacts
         }
     }
     
-    func setRegion(for coordinate: CLLocationCoordinate2D) {
-        region = MKCoordinateRegion(
-            center: coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    // TODO: - Move to PlacemarksListView
+    
+    func fetchPlacemarks(for coordinate: CLLocationCoordinate2D) async -> [String] {
+        let location = CLLocation(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
         )
+        let placemarks = await locationManager.fetchPlacemarks(for: location)
+        let placemarkHelper = PlacemarkHelper()
+        
+        if let placemark = placemarks.first {
+            let address = placemarkHelper.createAddress(from: placemark)
+            let mkPlacemark = MKPlacemark(coordinate: coordinate, addressDictionary: address)
+            let mkMapItem = MKMapItem(placemark: mkPlacemark)
+        }
+        
+        if let placemarkPostalAddress = placemarks.first?.postalAddress {
+            let mkPlacemark = MKPlacemark(coordinate: coordinate, postalAddress: placemarkPostalAddress)
+            let mkMapItem = MKMapItem(placemark: mkPlacemark)
+        }
+        return placemarkHelper.createPlaceList(from: placemarks)
     }
     
-    func setRegion(with newRegion: MKCoordinateRegion) {
-        region = newRegion
+    func setFeatureAnnotation(with annotation: MKMapFeatureAnnotation) {
+        featureAnnotation = annotation
     }
     
-    func setRegionToTripStart() {
-        if let newRegion = steps.first?.region {
-            region = newRegion
-        } else {
-            region = MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: 55, longitude: 0),
-                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-            )
+    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
+        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+        
+        do {
+            let featureItem = try await featureRequest.mapItem
+            return featureItem
+        } catch {
+            fatalError("FAiled to get map item: \(error.localizedDescription)")
         }
     }
 }

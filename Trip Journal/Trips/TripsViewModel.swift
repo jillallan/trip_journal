@@ -9,16 +9,22 @@ import Foundation
 import CoreData
 
 @MainActor class TripsViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+    
+    // TODO: - Add countries published property??
+    
+    // MARK: - Properties
+    
+    @Published var trips = [Trip]()
+    
     let dataController: DataController
     let locationManager: LocationManager
-//    @Published var countriesOrStates = [Country]()
-    
     private let tripsController: NSFetchedResultsController<Trip>
-    @Published var trips = [Trip]()
     
     var title: String { "Trips" }
     
-    init(dataController: DataController, locationManager: LocationManager) {
+    // MARK: - Init
+    
+    init(dataController: DataController, locationManager: LocationManager, isPreview: Bool = false) {
         self.dataController = dataController
         self.locationManager = locationManager
         
@@ -35,18 +41,27 @@ import CoreData
         super.init()
         tripsController.delegate = self
         
-        do {
-            try tripsController.performFetch()
-            trips = tripsController.fetchedObjects ?? []
-        } catch {
-            print("Failed to fetch trips: \(error.localizedDescription)")
+        if isPreview {
+            trips = createSampleData()
+        } else {
+            do {
+                try tripsController.performFetch()
+                trips = tripsController.fetchedObjects ?? []
+            } catch {
+                print("Failed to fetch trips: \(error.localizedDescription)")
+            }
         }
     }
+    
+    // MARK: - Update model methods
     
     func addTrip(title: String, startDate: Date, endDate: Date) {
         _ = Trip(context: dataController.container.viewContext, title: title, startDate: startDate, endDate: endDate)
         dataController.save()
+        updateFetchRequest()
     }
+    
+    // MARK: - Update view methods
     
     func updateFetchRequest() {
         do {
@@ -56,6 +71,8 @@ import CoreData
             print("Failed to fetch trips: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - Methods
     
     func enableLocationTracking() {
         // check date range
@@ -69,8 +86,37 @@ import CoreData
     }
 }
 
+// MARK: - Xcode preview
+
 extension TripsViewModel {
+    func createSampleData() -> [Trip] {
+        var trips = [Trip]()
+        
+        for tripCounter in 1...3 {
+            let trip = Trip()
+            trip.title = "Test Trip \(tripCounter)"
+            trip.startDate = Date.now
+            trip.endDate = Date(timeIntervalSinceNow: 86400)
+            trip.steps = []
+
+            for stepCounter in 1...5 {
+                var steps = [Step]()
+
+                let step = Step()
+                step.latitude = Double.random(in: 51.0...52.0)
+                step.longitude = -Double.random(in: 2...3)
+                step.timestamp = Date.now
+                step.name = "Step \(stepCounter)"
+
+                steps.append(step)
+//                trip.steps = Set(steps) as NSSet
+            }
+            trips.append(trip)
+        }
+        return trips
+    }
+    
     static var preview: TripsViewModel = {
-        TripsViewModel(dataController: .preview, locationManager: .preview)
+        TripsViewModel(dataController: .preview, locationManager: .preview, isPreview: true)
     }()
 }

@@ -9,18 +9,21 @@ import MapKit
 import SwiftUI
 
 struct AddStepView: View {
+    
+    // MARK: - Properties
+    
     @ObservedObject var viewModel: TripViewModel
     @StateObject private var locationQuery: LocationQuery
     @State var region: MKCoordinateRegion
     @State private var stepAdded: Bool = false
-    @State private var isAddStepPlacemarksViewPresented: Bool = false
+//    @State private var isAddStepPlacemarksViewPresented: Bool = false
     @State private var isFeatureViewPresented: Bool = false
     @State var placemarkName = ""
     @State var currentMapRegion: MKCoordinateRegion!
 //    @State var featureAnnotation: MKMapFeatureAnnotation!
     @Environment(\.dismiss) var dismiss
 
-
+    // MARK: - Init
     
     init(viewModel: TripViewModel, region: MKCoordinateRegion) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
@@ -28,33 +31,33 @@ struct AddStepView: View {
         _locationQuery = StateObject(wrappedValue: LocationQuery(region: region))
     }
     
+    // MARK: - View
+    
     var body: some View {
         NavigationStack {
             VStack {
                 ZStack {
-                    AddStepMapView(coordinateRegion: region, annotationItems: nil) { region in
+                    MapView(coordinateRegion: region, annotationItems: nil, routeOverlay: nil) { region in
                         currentMapRegion = region
                     } onAnnotationSelection: { annotation in
-//                        featureAnnotation = annotation
                         viewModel.setFeatureAnnotation(with: annotation)
                         isFeatureViewPresented.toggle()
-                        
                     }
                         .toolbar(.visible, for: .navigationBar)
                         .navigationTitle("Add Step")
                         .navigationBarTitleDisplayMode(.inline)
                         .ignoresSafeArea(edges: .bottom)
                         .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button {
-                                    viewModel.setRegion(with: currentMapRegion)
-                                    isAddStepPlacemarksViewPresented.toggle()
-//                                    stepAdded.toggle()
-//                                    dismiss()
-                                } label: {
-                                    Label("Add", systemImage: "plus")
-                                }
-                            }
+//                            ToolbarItem(placement: .navigationBarTrailing) {
+//                                Button {
+//                                    viewModel.setRegion(with: currentMapRegion)
+//                                    isAddStepPlacemarksViewPresented.toggle()
+////                                    stepAdded.toggle()
+////                                    dismiss()
+//                                } label: {
+//                                    Label("Add", systemImage: "plus")
+//                                }
+//                            }
                                 
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button("Cancel", role: .cancel) {
@@ -62,7 +65,6 @@ struct AddStepView: View {
                                 }
                             }
                         }
-                        
                     Circle()
                         .fill(.blue)
                         .opacity(0.3)
@@ -73,15 +75,16 @@ struct AddStepView: View {
                         .frame(height: 500)
                 }
             }
+            
         }
-        .sheet(isPresented: $isAddStepPlacemarksViewPresented) {
-            AddStepPlacemarksView(
-                viewModel: viewModel,
-                placemarkName: $placemarkName,
-                coordinates: viewModel.region.center
-            )
-                .presentationDetents([.medium, .large])
-        }
+//        .sheet(isPresented: $isAddStepPlacemarksViewPresented) {
+//            PlacemarksListView(
+//                viewModel: viewModel,
+//                placemarkName: $placemarkName,
+//                coordinates: viewModel.region.center
+//            )
+//                .presentationDetents([.medium, .large])
+//        }
         .sheet(isPresented: $isFeatureViewPresented) {
             FeatureAnnotationCardView(viewModel: viewModel, featureAnnotation: viewModel.featureAnnotation, placemarkName: $placemarkName)
                 .presentationDetents([.medium, .large])
@@ -101,6 +104,8 @@ struct AddStepView: View {
         
     }
 }
+
+// MARK: - Xcode preview
 
 struct AddStepView_Previews: PreviewProvider {
     static var previews: some View {

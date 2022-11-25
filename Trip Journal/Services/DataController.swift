@@ -9,7 +9,12 @@ import CoreData
 import SwiftUI
 
 class DataController: ObservableObject {
+    
+    // MARK: - Properties
+    
     let container: NSPersistentContainer
+    
+    // MARK: - Init
     
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Main")
@@ -24,6 +29,8 @@ class DataController: ObservableObject {
         }
     }
     
+    // MARK: - Update data model
+    
     func save() {
         if container.viewContext.hasChanges {
             do {
@@ -36,15 +43,18 @@ class DataController: ObservableObject {
 }
 
 extension DataController {
+    
+    // MARK: - Xcode Preview
+    
     static var preview: DataController = {
         let dataController = DataController(inMemory: true)
         let viewContext = dataController.container.viewContext
         
-        do {
-            try dataController.createSampleData()
-        } catch {
-            fatalError("Fatal error creating preview: \(error.localizedDescription)")
-        }
+//        do {
+//            try dataController.createSampleData()
+//        } catch {
+//            fatalError("Fatal error creating preview: \(error.localizedDescription)")
+//        }
 
         return dataController
     }()
@@ -69,5 +79,11 @@ extension DataController {
         }
 
         try viewContext.save()
+    }
+}
+
+extension DataController: Equatable {
+    static func == (lhs: DataController, rhs: DataController) -> Bool {
+        return lhs.container == rhs.container
     }
 }

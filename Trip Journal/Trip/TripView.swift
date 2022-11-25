@@ -9,6 +9,9 @@ import MapKit
 import SwiftUI
 
 struct TripView: View {
+    
+    // MARK: - Properties
+    
     let trip: Trip
     @StateObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
@@ -16,11 +19,15 @@ struct TripView: View {
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
     @State var currentMapRegion: MKCoordinateRegion!
     
+    // MARK: - Init
+    
     init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
         self.trip = trip
         let viewModel = TripViewModel(trip: trip, dataController: dataController, locationManager: locationManager)
         _viewModel = StateObject(wrappedValue: viewModel)
     }
+    
+    // MARK: - View
     
     var body: some View {
         NavigationStack {
@@ -77,6 +84,8 @@ struct TripView: View {
         }
     }
 }
+
+// MARK: - Xcode Preview
 
 struct TripView_Previews: PreviewProvider {
     static var previews: some View {

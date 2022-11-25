@@ -10,25 +10,32 @@ import MapKit
 import SwiftUI
 
 struct MapView: UIViewRepresentable {
+    
+    // MARK: - Properties
+    
     var coordinateRegion: MKCoordinateRegion
-//    let mapViewConfiguration: MKMapConfiguration
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
+    var onAnnotationSelection: ((MKMapFeatureAnnotation) -> ())?
+    
+    // MARK: - Protocol Methods
     
     func makeUIView(context: Context) -> MKMapView {
 
         let mapView = MKMapView()
+        let mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
+        let pointOfInterestFilter = MKPointOfInterestFilter(excluding: [.university])
+        
         mapView.region = coordinateRegion
+        mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
+        mapView.preferredConfiguration = mapConfiguration
+        mapConfiguration.pointOfInterestFilter = pointOfInterestFilter
+        
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
         }
-//        mapView.preferredConfiguration = mapViewConfiguration
-        mapView.isPitchEnabled = true
-        mapView.isRotateEnabled = true
-        mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
-//        let mapFeatureOptions = MKMapFeatureOptions()
-//        MKMapFeatureOptions.pointsOfInterest =
+
         mapView.delegate = context.coordinator
         return mapView
     }
@@ -58,6 +65,10 @@ struct MapView: UIViewRepresentable {
             self.parent = parent
         }
         
+        // MARK: - Delegate Methods
+        
+        // MARK: - Annotations
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let featureIdentifier = "feature"
             if let featureAnnotation = annotation as? MKMapFeatureAnnotation? {
@@ -78,12 +89,24 @@ struct MapView: UIViewRepresentable {
             return stepAnnotationView
         }
         
+        func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
+            guard let featureAnnotation = annotation as? MKMapFeatureAnnotation else { return }
+            
+            if let onAnnotationSelection = parent.onAnnotationSelection {
+                onAnnotationSelection(featureAnnotation)
+            }
+        }
+        
+        // MARK: - Overlays
+        
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
             renderer.strokeColor = UIColor.systemIndigo
             renderer.lineWidth = 3.0
             return renderer
         }
+        
+        // MARK: - Region
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
             if let onRegionChange = parent.onRegionChange {

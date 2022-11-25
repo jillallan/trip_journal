@@ -8,7 +8,7 @@
 import CoreLocation
 import SwiftUI
 
-struct AddStepPlacemarksView: View {
+struct PlacemarksListView: View {
     enum LoadingState {
         case loading, loaded, failed
     }
@@ -57,6 +57,6 @@ struct AddStepPlacemarksView: View {
 
 struct AddStepPlacemarksView_Previews: PreviewProvider {
     static var previews: some View {
-        AddStepPlacemarksView(viewModel: .preview, placemarkName: .constant("New Step"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
+        PlacemarksListView(viewModel: .preview, placemarkName: .constant("New Step"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
     }
 }

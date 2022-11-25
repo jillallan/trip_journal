@@ -10,17 +10,8 @@ import Foundation
 import MapKit
 
 extension Step {
-    var region: MKCoordinateRegion {
-        MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-    }
     
-    var stepTimestamp: Date {
-        timestamp ?? Date.now
-    }
-    
-    var stepName: String {
-        name ?? "New Step"
-    }
+    // MARK: - Init
     
     convenience init(
         context: NSManagedObjectContext,
@@ -45,7 +36,23 @@ extension Step {
     ) {
         self.init(context: context, latitude: coordinate.latitude, longitude: coordinate.longitude, timestamp: timestamp, name: name)
     }
+    
+    // MARK: - Properties View API
+    
+    var region: MKCoordinateRegion {
+        MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    }
+    
+    var stepTimestamp: Date {
+        timestamp ?? Date.now
+    }
+    
+    var stepName: String {
+        name ?? "New Step"
+    }
 }
+
+// MARK: - MKAnnotation
 
 extension Step: MKAnnotation {
     public var title: String? { stepName }
@@ -104,6 +111,8 @@ extension Step: MKAnnotation {
 //
 //    }()
 //}
+
+// MARK: - Equatable
 
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {

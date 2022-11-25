@@ -10,6 +10,8 @@ import SwiftUI
 import Contacts
 
 struct FeatureAnnotationCardView: View {
+   
+    
     @ObservedObject var viewModel: TripViewModel
     @State var featureAnnotation: MKMapFeatureAnnotation
     @State var mapItem = MKMapItem()

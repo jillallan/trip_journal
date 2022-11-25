@@ -62,8 +62,9 @@ struct SearchResultsView: View {
     }
 }
 
-//struct SearchResults_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SearchResultsView(viewModel: .preview, locationQuery: .preview)
-//    }
-//}
+struct SearchResults_Previews: PreviewProvider {
+
+    static var previews: some View {
+        SearchResultsView(viewModel: .preview, locationQuery: .preview)
+    }
+}

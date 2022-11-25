@@ -79,26 +79,10 @@ struct AddStepMapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
             guard let featureAnnotation = annotation as? MKMapFeatureAnnotation else { return }
-//            let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+            
             if let onAnnotationSelection = parent.onAnnotationSelection {
                 onAnnotationSelection(featureAnnotation)
             }
-            
-//            print(featureAnnotation.description)
-            
-//            Task {
-//                do {
-//                    guard let featureItem = try await featureRequest.mapItem else { return }
-//                    UIView.animate(withDuration: 4) {
-//                        self.animateCamera(featureItem)
-//                    } completion: { _ in
-//                        self.showInfoCardView
-//                    }
-//
-//                } catch {
-//
-//                }
-//            }
         }
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {

@@ -18,6 +18,8 @@ extension Trip {
         self.endDate = endDate
     }
     
+    // MARK: - Properties View API
+    
     var tripTitle: String {
         title ?? "New Trip"
     }

@@ -9,6 +9,9 @@ import MapKit
 import SwiftUI
 
 struct TripsView: View {
+    
+    // MARK: - Properties
+    
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var locationManager: LocationManager
     @StateObject var viewModel: TripsViewModel
@@ -20,6 +23,8 @@ struct TripsView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
+    // MARK: - View
+    
     var body: some View {
         NavigationStack {
             Map(coordinateRegion: $mapRegion)
@@ -27,7 +32,6 @@ struct TripsView: View {
             List(viewModel.trips) { trip in
                 NavigationLink {
                     TripView(trip: trip, dataController: dataController, locationManager: locationManager)
-//                    TripView(trip: trip, dataController: dataController)
                 } label: {
                     VStack {
                         HStack {

@@ -17,10 +17,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Trips", systemImage: "airplane")
                 }
-            TimelineView()
-                .tabItem {
-                    Label("Timeline", systemImage: "calendar.day.timeline.trailing")
-                }
             
         }
     }

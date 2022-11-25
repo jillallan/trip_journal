@@ -10,16 +10,24 @@ import CoreLocation
 import MapKit
 
 class LocationManager: NSObject, ObservableObject {
-    var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    
+    // MARK: - Properties
+    
     @Published var fetchedPlacemarks = [CLPlacemark]()
     
+    var locationManager = CLLocationManager()
+    var currentLocation: CLLocation?
+    
     lazy var geocoder = CLGeocoder()
+    
+    // MARK: - Init
     
     override init() {
         super.init()
         locationManager.delegate = self
     }
+    
+    // MARK: - Methods
     
     func startLocationServices() {
         if locationManager.authorizationStatus == .authorizedAlways ||
@@ -34,7 +42,8 @@ class LocationManager: NSObject, ObservableObject {
     // If the user is travelling wait till a significant distance has been travelled
     // Or significant amount of time e.g. a minute
     // Never use a lookup when the app is in the background
-    func getPlacemarks(for location: CLLocation) async -> [CLPlacemark] {
+    
+    func fetchPlacemarks(for location: CLLocation) async -> [CLPlacemark] {
         var fetchedPlacemarksLocal = [CLPlacemark]()
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(location)
@@ -45,53 +54,17 @@ class LocationManager: NSObject, ObservableObject {
         }
         return fetchedPlacemarksLocal
     }
-    
-    func createPlaceList(from placemarks: [CLPlacemark]) -> [String] {
-        var placeList = [String]()
-        
-        for placemark in placemarks {
-            if let areaOfInterest = placemark.areasOfInterest {
-                for areaOfInterest in areaOfInterest {
-                    placeList.append(areaOfInterest)
-                }
-            }
-            
-            if let name = placemark.name {
-                placeList.append(name)
-            }
-        }
-        
-        return placeList
-    }
-    
-    func createAddress(from placemark: CLPlacemark) -> String {
-        if let streetNumber = placemark.subThoroughfare,
-           let street = placemark.thoroughfare,
-           let city = placemark.locality,
-           let state = placemark.administrativeArea {
-            return "\(streetNumber) \(street) \(city) \(state)"
-        } else if let city = placemark.locality,
-                  let state = placemark.administrativeArea {
-            return "\(city) \(state)"
-        } else {
-            return "Unknown address"
-        }
-    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
+ 
+    // MARK: - Delegate Methods
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if locationManager.authorizationStatus == .authorizedAlways ||
             locationManager.authorizationStatus == .authorizedWhenInUse {
             locationManager.startUpdatingLocation()
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // TODO: -
-//        print("\(String(describing: locations.first?.coordinate))")
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -103,7 +76,15 @@ extension LocationManager: CLLocationManagerDelegate {
             print("Catch all errors")
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // TODO: -
+//        print("\(String(describing: locations.first?.coordinate))")
+        
+    }
 }
+
+// MARK: - Xcode previews
 
 extension LocationManager {
     static var preview: LocationManager = {

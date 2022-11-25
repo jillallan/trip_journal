@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct AddTripView: View {
+    
+    // MARK: - Properties
+    
     @ObservedObject var viewModel: TripsViewModel
     @State var title: String = ""
     @State var startDate: Date = Date.now
     @State var endDate: Date = Date.now
     @State var tripTrackingIsOn: Bool = false
     @Environment(\.dismiss) var dismiss
+    
+    // MARK: - View
     
     var body: some View {
         Form {
@@ -38,6 +43,8 @@ struct AddTripView: View {
         }
     }
 }
+
+// MARK: - Xcode Preview
 
 struct AddTripView_Previews: PreviewProvider {
     static var previews: some View {
