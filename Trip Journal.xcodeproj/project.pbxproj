@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		781F7481291E73D900A0714A /* Trip_JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7480291E73D900A0714A /* Trip_JournalUITests.swift */; };
 		781F7483291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */; };
-		781F7491291E840500A0714A /* LocationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7490291E840500A0714A /* LocationQuery.swift */; };
 		781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F749C29203B5000A0714A /* SearchResultMapView.swift */; };
 		781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A029203F7E00A0714A /* AnnotationItem.swift */; };
 		781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */; };
@@ -80,7 +79,6 @@
 		781F747E291E73D900A0714A /* Trip JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trip JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		781F7480291E73D900A0714A /* Trip_JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITests.swift; sourceTree = "<group>"; };
 		781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		781F7490291E840500A0714A /* LocationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationQuery.swift; sourceTree = "<group>"; };
 		781F749C29203B5000A0714A /* SearchResultMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapView.swift; sourceTree = "<group>"; };
 		781F74A029203F7E00A0714A /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
 		781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapItem-Identifiable.swift"; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 			children = (
 				781F74B12924DF1800A0714A /* DataController.swift */,
 				785AA0D6292971D100F598AE /* LocationManager.swift */,
-				781F7490291E840500A0714A /* LocationQuery.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -516,7 +513,6 @@
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
-				781F7491291E840500A0714A /* LocationQuery.swift in Sources */,
 				78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */,
 				78D89248292EBB640013E9FE /* AddressBuilder.swift in Sources */,
 				781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */,
