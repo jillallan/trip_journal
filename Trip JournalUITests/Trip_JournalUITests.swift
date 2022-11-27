@@ -6,11 +6,14 @@
 //
 
 import XCTest
+@testable import Trip_Journal
 
 final class Trip_JournalUITests: XCTestCase {
+    var app: XCUIApplication!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        app = XCUIApplication()
+        app.launch()
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
@@ -23,19 +26,22 @@ final class Trip_JournalUITests: XCTestCase {
     }
 
     func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-                
-                
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//        let testExpression = app.scrollViews["TripView"].exists
-//        app/*@START_MENU_TOKEN@*/.maps.containing(.other, identifier:"United Kingdom").element/*[[".maps.containing(.other, identifier:\"Rouen\").element",".maps.containing(.other, identifier:\"Le Havre\").element",".maps.containing(.other, identifier:\"Cherbourg-en-Cotentin\").element",".maps.containing(.other, identifier:\"Amiens\").element",".maps.containing(.other, identifier:\"Dorset AONB\").element",".maps.containing(.other, identifier:\"Brighton\").element",".maps.containing(.other, identifier:\"Southampton\").element",".maps.containing(.other, identifier:\"Calais\").element",".maps.containing(.other, identifier:\"Guildford\").element",".maps.containing(.other, identifier:\"North Wessex Downs AONB\").element",".maps.containing(.other, identifier:\"London\").element",".maps.containing(.other, identifier:\"Cotswolds AONB\").element",".maps.containing(.other, identifier:\"Colchester\").element",".maps.containing(.other, identifier:\"Milton Keynes\").element",".maps.containing(.other, identifier:\"Northampton\").element",".maps.containing(.other, identifier:\"Birmingham\").element",".maps.containing(.other, identifier:\"Peterborough\").element",".maps.containing(.other, identifier:\"Norwich\").element",".maps.containing(.other, identifier:\"Leicester\").element",".maps.containing(.other, identifier:\"Nottingham\").element",".maps.containing(.other, identifier:\"Stoke-on-Trent\").element",".maps.containing(.other, identifier:\"Peak District National Park\").element",".maps.containing(.other, identifier:\"Sheffield\").element",".maps.containing(.other, identifier:\"Kingston upon Hull\").element",".maps.containing(.other, identifier:\"Bradford\").element",".maps.containing(.other, identifier:\"Leeds\").element",".maps.containing(.other, identifier:\"Forest of Bowland AONB\").element",".maps.containing(.other, identifier:\"United Kingdom\").element",".maps.containing(.other, identifier:\"VKPointFeature\").element"],[[[-1,28],[-1,27],[-1,26],[-1,25],[-1,24],[-1,23],[-1,22],[-1,21],[-1,20],[-1,19],[-1,18],[-1,17],[-1,16],[-1,15],[-1,14],[-1,13],[-1,12],[-1,11],[-1,10],[-1,9],[-1,8],[-1,7],[-1,6],[-1,5],[-1,4],[-1,3],[-1,2],[-1,1],[-1,0]]],[1]]@END_MENU_TOKEN@*/.swipeUp()
-//        XCTAssertEqual(true, testExpression)
+        let initialCount = app.collectionViews.cells.count
+        
+        app.buttons["Add"].tap()
+        app.textFields["Trip Title"].tap()
+        app.typeText("A")
+        app.buttons["Add Trip"].tap()
+        
+        let count = app.collectionViews.cells.count
+        
+        XCTAssertEqual(count, initialCount + 1)
+    
     }
     
     func testNewExample() throws {
+        
+        
         
         let app = XCUIApplication()
 //        app.collectionViews/*@START_MENU_TOKEN@*/.buttons["Trip"]/*[[".cells.buttons[\"Trip\"]",".buttons[\"Trip\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()

@@ -33,21 +33,21 @@ final class TestTripsViewModel: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    @MainActor func testAddTripIncreasesTripsArrayByOne() throws {
-        let tripsArrayLength = viewModel.trips.count                // Given
-        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)       // When
-        XCTAssertEqual(viewModel.trips.count, tripsArrayLength + 1) // Then
-    }
-    
-    @MainActor func testAddStepIcreasesTripsDataModelByOne() throws {
-        let request: NSFetchRequest<Trip> = Trip.fetchRequest()
-        let initialTripCount = try managedObjectContext.count(for: request)
-        
-        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)
-        
-        let tripCount = try managedObjectContext.count(for: request)
-        XCTAssertEqual(tripCount, initialTripCount + 1)
-    }
+//    @MainActor func testAddTripIncreasesTripsArrayByOne() throws {
+//        let tripsArrayLength = viewModel.trips.count                // Given
+//        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)       // When
+//        XCTAssertEqual(viewModel.trips.count, tripsArrayLength + 1) // Then
+//    }
+//    
+//    @MainActor func testAddStepIcreasesTripsDataModelByOne() throws {
+//        let request: NSFetchRequest<Trip> = Trip.fetchRequest()
+//        let initialTripCount = try managedObjectContext.count(for: request)
+//        
+//        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)
+//        
+//        let tripCount = try managedObjectContext.count(for: request)
+//        XCTAssertEqual(tripCount, initialTripCount + 1)
+//    }
 
     override func testPerformanceExample() throws {
         // This is an example of a performance test case.

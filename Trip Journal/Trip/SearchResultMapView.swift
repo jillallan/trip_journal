@@ -9,39 +9,28 @@ import MapKit
 import SwiftUI
 
 struct SearchResultMapView: View {
-    @State var searchResult: MKMapItem
-    @State var searchResultRegion: MKCoordinateRegion
-    @State var annotationItems: [AnnotationItem]
-    let regionNew: MKCoordinateRegion
+    let viewModel: SearchResultMapViewModel
     
-    init(searchResult: MKMapItem) {
-        self.searchResult = searchResult
+    init(result: MKMapItem) {
         let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
-        let region = MKCoordinateRegion(center: searchResult.placemark.coordinate, span: span)
-        _searchResultRegion = State(wrappedValue: region)
-        regionNew = region
-        
+        let region = MKCoordinateRegion(center: result.placemark.coordinate, span: span)
         let annotationItem = AnnotationItem(
-            title: searchResult.placemark.title ?? "No title", // Update to better placeholder
-            latitude: searchResult.placemark.coordinate.latitude,
-            longitude: searchResult.placemark.coordinate.longitude
+            title: result.placemark.title ?? "No title", // Update to better placeholder
+            latitude: result.placemark.coordinate.latitude,
+            longitude: result.placemark.coordinate.longitude
         )
-        _annotationItems = State(wrappedValue: [annotationItem])
+        
+        viewModel = SearchResultMapViewModel(result: result, region: region, annotationItems: [annotationItem])
     }
     
     var body: some View {
         VStack {
             MapView(
-                coordinateRegion: regionNew,
-//                mapViewConfiguration: MKStandardMapConfiguration(
-//                    elevationStyle: .realistic,
-//                    emphasisStyle: .muted
-//                ),
+                coordinateRegion: viewModel.region,
                 annotationItems: nil,
-                routeOverlay: nil,
-                onRegionChange: nil
+                routeOverlay: nil
             )
-            Text("\(searchResult)")
+            Text("\(viewModel.result)")
                 .padding()
         }
     }

@@ -13,6 +13,8 @@ struct TripView: View {
     // MARK: - Properties
     
     let trip: Trip
+    @EnvironmentObject var dataController: DataController
+    @EnvironmentObject var locationManager: LocationManager
     @StateObject var viewModel: TripViewModel
     @State var addViewIsPresented: Bool = false
     @State var mapTypeConfirmationDialogIsPresented = false
@@ -54,7 +56,9 @@ struct TripView: View {
                 }
             }
             .sheet(isPresented: $addViewIsPresented) {
-                AddStepView(viewModel: viewModel, region: viewModel.region)
+                viewModel.updateFetchRequest()
+            } content: {
+                AddStepView(coordinate: viewModel.region.center, trip: trip, dataController: dataController)
             }
             .toolbar {
                 Button {
@@ -80,6 +84,10 @@ struct TripView: View {
                 }
             } message: {
                 Text("Choose a map from here")
+            }
+            .onAppear {
+                viewModel.setRegionToLastStep()
+                viewModel.updateFetchRequest()
             }
         }
     }

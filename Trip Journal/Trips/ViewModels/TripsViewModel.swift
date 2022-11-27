@@ -53,14 +53,6 @@ import CoreData
         }
     }
     
-    // MARK: - Update model methods
-    
-    func addTrip(title: String, startDate: Date, endDate: Date) {
-        _ = Trip(context: dataController.container.viewContext, title: title, startDate: startDate, endDate: endDate)
-        dataController.save()
-        updateFetchRequest()
-    }
-    
     // MARK: - Update view methods
     
     func updateFetchRequest() {
@@ -70,19 +62,6 @@ import CoreData
         } catch {
             print("Failed to fetch trips: \(error.localizedDescription)")
         }
-    }
-    
-    // MARK: - Methods
-    
-    func enableLocationTracking() {
-        // check date range
-        locationManager.startLocationServices()
-    }
-    
-    func getUsersDefaultLocale() {
-        let locale = Locale.current
-        print(locale.language.region?.identifier as Any)
-
     }
 }
 

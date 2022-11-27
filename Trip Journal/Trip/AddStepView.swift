@@ -12,109 +12,108 @@ struct AddStepView: View {
     
     // MARK: - Properties
     
-    @ObservedObject var viewModel: TripViewModel
-    @StateObject private var locationQuery: LocationQuery
-    @State var region: MKCoordinateRegion
-    @State private var stepAdded: Bool = false
-//    @State private var isAddStepPlacemarksViewPresented: Bool = false
-    @State private var isFeatureViewPresented: Bool = false
-    @State var placemarkName = ""
-    @State var currentMapRegion: MKCoordinateRegion!
-//    @State var featureAnnotation: MKMapFeatureAnnotation!
+    @EnvironmentObject var dataController: DataController
+    @StateObject var viewModel: AddStepViewModel
+    @State private var isFeatureAnnotationCardViewPresented: Bool = false
+
+    @Environment(\.dismissSearch) private var dismissSearch
     @Environment(\.dismiss) var dismiss
 
     // MARK: - Init
     
-    init(viewModel: TripViewModel, region: MKCoordinateRegion) {
-        _viewModel = ObservedObject(wrappedValue: viewModel)
-        _region = State(wrappedValue: region)
-        _locationQuery = StateObject(wrappedValue: LocationQuery(region: region))
+    init(coordinate: CLLocationCoordinate2D, trip: Trip, dataController: DataController) {
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        let viewModel = AddStepViewModel(region: region, trip: trip, dataController: dataController)
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     // MARK: - View
     
     var body: some View {
+        let _ = print("view: \(viewModel.region.center)")
+        let _ = Self._printChanges()
         NavigationStack {
             VStack {
                 ZStack {
-                    MapView(coordinateRegion: region, annotationItems: nil, routeOverlay: nil) { region in
-                        currentMapRegion = region
-                    } onAnnotationSelection: { annotation in
-                        viewModel.setFeatureAnnotation(with: annotation)
-                        isFeatureViewPresented.toggle()
+                    let _ = Self._printChanges()
+                    MapView(
+                        coordinateRegion: viewModel.region,
+                        annotationItems: nil,
+                        routeOverlay: nil,
+                        onRegionChange: nil
+                    ) { annotation in
+                        print("Add step: \(annotation.coordinate)")
+                        viewModel.featureAnnotation = annotation
+                        isFeatureAnnotationCardViewPresented = true
                     }
-                        .toolbar(.visible, for: .navigationBar)
-                        .navigationTitle("Add Step")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .ignoresSafeArea(edges: .bottom)
-                        .toolbar {
-//                            ToolbarItem(placement: .navigationBarTrailing) {
-//                                Button {
-//                                    viewModel.setRegion(with: currentMapRegion)
-//                                    isAddStepPlacemarksViewPresented.toggle()
-////                                    stepAdded.toggle()
-////                                    dismiss()
-//                                } label: {
-//                                    Label("Add", systemImage: "plus")
-//                                }
-//                            }
-                                
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button("Cancel", role: .cancel) {
+                    .toolbar(.visible, for: .navigationBar)
+                    .navigationTitle("Add Step")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .ignoresSafeArea(edges: .bottom)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Cancel", role: .cancel) {
+                                dismiss()
+                            }
+                        }
+                    }
+                    .searchable(text: $viewModel.searchQuery) {
+                        List(viewModel.searchResults) { result in
+                            NavigationLink {
+                                SearchResultMapView(result: result)
+                                .toolbar {
+                                    Button("Add") {
+                                        viewModel.addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
+                                        dismiss()
+                                        dismissSearch()
+                                    }
+                                }
+                            } label: {
+                                SearchResultCellView(result: result)
+                            }
+                        }
+                        .frame(height: 400)
+                    }
+                    .sheet(isPresented: $isFeatureAnnotationCardViewPresented) {
+                        if let featureAnnotation = viewModel.featureAnnotation {
+                            FeatureAnnotationCardView(featureAnnotation: featureAnnotation) { mapItem in
+                                if let mapItem = mapItem {
+                                    print("map item coordinates: \(mapItem.placemark.coordinate)")
+                                    viewModel.addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New Step")
+                                    viewModel.setRegion(for: mapItem.placemark.coordinate)
                                     dismiss()
                                 }
                             }
                         }
-                    Circle()
-                        .fill(.blue)
-                        .opacity(0.3)
-                        .frame(width: 32, height: 32)
-                }
-                .searchable(text: $locationQuery.searchQuery) {
-                    SearchResultsView(viewModel: viewModel, locationQuery: locationQuery)
-                        .frame(height: 500)
+                    }
                 }
             }
-            
         }
-//        .sheet(isPresented: $isAddStepPlacemarksViewPresented) {
-//            PlacemarksListView(
-//                viewModel: viewModel,
-//                placemarkName: $placemarkName,
-//                coordinates: viewModel.region.center
-//            )
-//                .presentationDetents([.medium, .large])
-//        }
-        .sheet(isPresented: $isFeatureViewPresented) {
-            FeatureAnnotationCardView(viewModel: viewModel, featureAnnotation: viewModel.featureAnnotation, placemarkName: $placemarkName)
-                .presentationDetents([.medium, .large])
-        }
-        .onDisappear {
-            print("dissapper")
-            if stepAdded {
-                viewModel.addStep(for: currentMapRegion.center, name: placemarkName)
-                viewModel.setRegion(with: currentMapRegion)
-            }
-        }
-        .onChange(of: placemarkName) { newValue in
-            stepAdded = true
-            dismiss()
-            // TODO: - Does dismiss and add of step need refactoring
-        }
-        
+        .environmentObject(viewModel)
     }
 }
+
+//    .onDisappear {
+//        print("dissapper")
+//        if stepAdded {
+//            viewModel.setRegion(with: currentMapRegion)
+//        }
+//    }
+
+        
+
 
 // MARK: - Xcode preview
 
-struct AddStepView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddStepView(
-            viewModel: .preview,
-            region: MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
-                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-            )
-        )
-    }
-}
+//struct AddStepView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddStepView(
+//            viewModel: .preview,
+//            region: MKCoordinateRegion(
+//                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
+//                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+//            )
+//        )
+//    }
+//}

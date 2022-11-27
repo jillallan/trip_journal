@@ -11,35 +11,39 @@ struct AddTripView: View {
     
     // MARK: - Properties
     
-    @ObservedObject var viewModel: TripsViewModel
-    @State var title: String = ""
-    @State var startDate: Date = Date.now
-    @State var endDate: Date = Date.now
-    @State var tripTrackingIsOn: Bool = false
+    @StateObject var viewModel: AddTripViewModel
     @Environment(\.dismiss) var dismiss
+    
+    // MARK: - Init
+    
+    init(dataController: DataController, locationManager: LocationManager) {
+        let viewModel = AddTripViewModel(dataController: dataController, locationManager: locationManager)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     // MARK: - View
     
     var body: some View {
         Form {
-            Text("Hello ")
-                    .foregroundColor(.red)
-                    + Text("World!")
-                    .foregroundColor(.green)
-            TextField("Trip Title", text: $title)
-            DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-            DatePicker("End Date", selection: $endDate, displayedComponents: .date)
-            Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
-                .onChange(of: tripTrackingIsOn) { newValue in
-                    viewModel.enableLocationTracking()
-                }
+            TextField("Trip Title", text: $viewModel.title)
+            DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
+            DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
+            Toggle("Enable Trip Tracking", isOn: $viewModel.tripTrackingIsOn)
+            
             Button {
-                viewModel.addTrip(title: title, startDate: startDate, endDate: endDate)
-                viewModel.updateFetchRequest()
+                viewModel.addTrip(
+                    title: viewModel.title,
+                    startDate: viewModel.startDate,
+                    endDate: viewModel.endDate
+                )
+                if viewModel.tripTrackingIsOn {
+                    viewModel.locationManager.startLocationServices()
+                }
                 dismiss()
             } label: {
                 Text("Add Trip")
             }
+
         }
     }
 }
@@ -48,6 +52,6 @@ struct AddTripView: View {
 
 struct AddTripView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTripView(viewModel: .preview)
+        AddTripView(dataController: .preview, locationManager: .preview)
     }
 }

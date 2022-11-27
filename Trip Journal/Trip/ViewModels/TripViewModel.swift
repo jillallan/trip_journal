@@ -38,7 +38,6 @@ import Contacts
         self.dataController = dataController
         self.locationManager = locationManager
         
-        print(trip.tripTitle)
         let request: NSFetchRequest<Step> = Step.fetchRequest()
         request.predicate = NSPredicate(format: "trip.title = %@", trip.tripTitle)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Step.timestamp, ascending: false)]
@@ -79,8 +78,8 @@ import Contacts
         )
         step.trip = trip
         
-        let mkplacemark = MKPlacemark(coordinate: coordinate)
-        let mkmapItem = MKMapItem(placemark: mkplacemark)
+//        let mkplacemark = MKPlacemark(coordinate: coordinate)
+//        let mkmapItem = MKMapItem(placemark: mkplacemark)
         dataController.save()
         updateFetchRequest()
     }
@@ -112,6 +111,18 @@ import Contacts
         }
     }
     
+    func setRegionToLastStep() {
+        do {
+            try stepsController.performFetch()
+            if let centre = stepsController.fetchedObjects?.last?.coordinate {
+                let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+                region = MKCoordinateRegion(center: centre, span: span)
+            }
+        } catch {
+            print("Failed to fetch last step: \(error.localizedDescription)")
+        }
+    }
+    
     // TODO: - Move to PlacemarksListView
     
     func fetchPlacemarks(for coordinate: CLLocationCoordinate2D) async -> [String] {
@@ -139,16 +150,16 @@ import Contacts
         featureAnnotation = annotation
     }
     
-    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
-        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
-        
-        do {
-            let featureItem = try await featureRequest.mapItem
-            return featureItem
-        } catch {
-            fatalError("FAiled to get map item: \(error.localizedDescription)")
-        }
-    }
+//    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
+//        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+//        
+//        do {
+//            let featureItem = try await featureRequest.mapItem
+//            return featureItem
+//        } catch {
+//            fatalError("FAiled to get map item: \(error.localizedDescription)")
+//        }
+//    }
 }
 
 extension TripViewModel {

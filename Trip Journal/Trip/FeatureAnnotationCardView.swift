@@ -10,35 +10,58 @@ import SwiftUI
 import Contacts
 
 struct FeatureAnnotationCardView: View {
-   
     
-    @ObservedObject var viewModel: TripViewModel
-    @State var featureAnnotation: MKMapFeatureAnnotation
-    @State var mapItem = MKMapItem()
-    @Binding var placemarkName: String
+    enum LoadingState {
+        case loading, loaded, failed
+    }
+   
+    @StateObject var viewModel: FeatureAnnotationCardViewModel
+    @State private var loadingState = LoadingState.loading
+    @State var addStep: ((MKMapItem?) -> Void)?
     @Environment(\.dismiss) var dismiss
+    
+
+    init(featureAnnotation: MKMapFeatureAnnotation, addStep: ((MKMapItem?) -> Void)?) {
+        let viewModel = FeatureAnnotationCardViewModel(featureAnnotation: featureAnnotation, addStep: addStep)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         HStack {
-            Image(systemName: mapItem.pointOfInterestCategory?.symbolName ?? "mappin.and.ellipse")
-            VStack {
-                Text(mapItem.name ?? "No name available")
-                    .font(.title)
-                Text("\(mapItem.placemark.locality ?? "Unknown city")")
-            }
-            HStack {
-                Button("Add step") {
-                    viewModel.addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New step")
-                    placemarkName = mapItem.name ?? "New step"
-                    dismiss()
-                }
-                Button("Cancel", role: .cancel) {
-                    dismiss()
+            Group {
+                switch loadingState {
+                case .loaded:
+                    if let mapItem = viewModel.mapItem {
+                        Image(systemName: mapItem.pointOfInterestCategory?.symbolName ?? "mappin.and.ellipse")
+                        VStack {
+                            Text(mapItem.name ?? "No name available")
+                                .font(.title)
+                            Text("\(mapItem.placemark.locality ?? "Unknown city")")
+                        }
+                        HStack {
+                            Button("Add step") {
+                                if let addStep = viewModel.addStep {
+                                    addStep(mapItem)
+                                }
+                                dismiss()
+                            }
+                            Button("Cancel", role: .cancel) {
+                                dismiss()
+                            }
+                        }
+                    } else {
+                        Text("Could not get details of map item, no internet??")
+                    }
+                case .loading:
+                    Text("Loading…")
+                case .failed:
+                    Text("Could not get details of map item")
                 }
             }
         }
         .task {
-            mapItem = await viewModel.getMapItem(with: featureAnnotation)
+            viewModel.mapItem = await viewModel.getMapItem(with: viewModel.featureAnnotation)
+            loadingState = .loaded
         }
     }
 }

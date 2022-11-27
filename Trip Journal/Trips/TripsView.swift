@@ -15,7 +15,7 @@ struct TripsView: View {
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var locationManager: LocationManager
     @StateObject var viewModel: TripsViewModel
-    @State var tripAddViewIsPresented: Bool = false
+    @State var addTripViewIsPresented: Bool = false
     @State var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 30, longitude: 31), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
     
     init(dataController: DataController, locationManager: LocationManager) {
@@ -51,18 +51,17 @@ struct TripsView: View {
             }
             .toolbar {
                 Button {
-                    tripAddViewIsPresented.toggle()
+                    addTripViewIsPresented.toggle()
                 } label: {
                     Label("Add", systemImage: "plus")
                 }
             }
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $tripAddViewIsPresented) {
-                AddTripView(viewModel: viewModel)
-            }
-            .onAppear {
-                viewModel.getUsersDefaultLocale()
+            .sheet(isPresented: $addTripViewIsPresented) {
+                viewModel.updateFetchRequest()
+            } content: {
+                AddTripView(dataController: dataController, locationManager: locationManager)
             }
         }
     }
