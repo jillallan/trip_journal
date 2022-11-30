@@ -52,6 +52,9 @@ struct MapView: UIViewRepresentable {
         }
         
         if let routeOverlay = routeOverlay {
+            if !mapView.overlays.isEmpty {
+                mapView.removeOverlays(mapView.overlays)
+            }
             mapView.addOverlays(routeOverlay)
         }
         print("did update view: \(coordinateRegion.center)")

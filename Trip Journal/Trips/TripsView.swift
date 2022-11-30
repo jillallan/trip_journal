@@ -36,15 +36,22 @@ struct TripsView: View {
                     VStack {
                         HStack {
                             Text(trip.tripTitle)
+                                .font(.headline)
+                                .foregroundColor(.accentColor)
                             Spacer()
-                            Text("Steps: \(trip.tripSteps.count)")
+                            Text("\(trip.tripSteps.count) steps")
+                                .foregroundColor(.accentColor)
                         }
                         HStack {
                             Text(trip.tripStartDate, style: .date)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
                             Spacer()
                             Text("-")
                             Spacer()
                             Text(trip.tripEndDate, style: .date)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
                         }
                     }
                 }
@@ -59,7 +66,7 @@ struct TripsView: View {
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $addTripViewIsPresented) {
-                viewModel.updateFetchRequest()
+                viewModel.trips = viewModel.fetchTrips()
             } content: {
                 AddTripView(dataController: dataController, locationManager: locationManager)
             }
@@ -69,6 +76,8 @@ struct TripsView: View {
 
 struct TripsView_Previews: PreviewProvider {
     static var previews: some View {
-        TripsView(dataController: .preview, locationManager: LocationManager())
+        TripsView(dataController: .preview, locationManager: .preview)
+            .environmentObject(DataController.preview)
+            .environmentObject(LocationManager.preview)
     }
 }

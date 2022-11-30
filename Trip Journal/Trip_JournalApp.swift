@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct Trip_JournalApp: App {
+    
     @StateObject var dataController: DataController
     @StateObject var locationManager: LocationManager
     
@@ -25,6 +26,7 @@ struct Trip_JournalApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, dataController.container.viewContext)
+            // Inject dataController and locationManager into the environment so we can reference them from any view
                 .environmentObject(dataController)
                 .environmentObject(locationManager)
             

@@ -40,6 +40,10 @@ class DataController: ObservableObject {
             }
         }
     }
+    
+    func delete(_ object: NSManagedObject) {
+        container.viewContext.delete(object)
+    }
 }
 
 extension DataController {
@@ -50,11 +54,11 @@ extension DataController {
         let dataController = DataController(inMemory: true)
         let viewContext = dataController.container.viewContext
         
-//        do {
-//            try dataController.createSampleData()
-//        } catch {
-//            fatalError("Fatal error creating preview: \(error.localizedDescription)")
-//        }
+        do {
+            try dataController.createSampleData()
+        } catch {
+            fatalError("Fatal error creating preview: \(error.localizedDescription)")
+        }
 
         return dataController
     }()
@@ -62,22 +66,13 @@ extension DataController {
     func createSampleData() throws {
         let viewContext = container.viewContext
         
-        for tripCounter in 1...3 {
-            let trip = Trip(context: viewContext, title: "Test Trip \(tripCounter)", startDate: Date.now, endDate: Date(timeIntervalSinceNow: 86400))
-            trip.steps = []
-
-            for stepCounter in 1...5 {
-                let step = Step(
-                    context: viewContext,
-                    latitude: Double.random(in: 51.0...52.0),
-                    longitude: -Double.random(in: 2...3),
-                    timestamp: Date.now,
-                    name: "Step \(stepCounter)"
-                )
-                step.trip = trip
-            }
-        }
-
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
+        
+        let trip = Trip.createSampleTrip(managedObjectContext: viewContext)
+        let steps = Step.createSampleSteps(managedObjectContext: viewContext, trip: trip)
+        trip.steps = Set(steps) as NSSet
+        
         try viewContext.save()
     }
 }

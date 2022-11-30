@@ -37,27 +37,34 @@ extension Trip {
     }
 }
 
-//extension Trip {
-//    static var preview: Trip = {
-//        let dataController = DataController.preview
-//        let managedObjectContext = dataController.container.viewContext
-//        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd/MM/yy"
-//        
-//        let startDate = "14/11/2022"
-//        let endDate = "20/11/2022"
-//        
-//        let trip = Trip(
-//            context: managedObjectContext,
-//            title: "France",
-//            startDate: dateFormatter.date(from: startDate) ?? Date.now,
-//            endDate: dateFormatter.date(from: endDate) ?? Date.now
-//        )
-//        for step in Step.stepsPreview {
-//            trip.addToSteps(step)
-//        }
-////        trip.steps = []
-//        return trip
-//    }()
-//}
+// MARK: - Xcode Preview
+
+extension Trip {
+    static var preview: Trip = {
+        let dataController = DataController.preview
+        let viewContext = dataController.container.viewContext
+        
+        let trip = createSampleTrip(managedObjectContext: viewContext)
+        let steps = Step.createSampleSteps(managedObjectContext: viewContext, trip: trip)
+        
+        trip.steps = Set(steps) as NSSet
+        
+        return trip
+    }()
+    
+    static func createSampleTrip(managedObjectContext: NSManagedObjectContext) -> Trip {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy"
+        
+        let startDate = "14/11/2022"
+        let endDate = "20/11/2022"
+
+        let trip = Trip(
+            context: managedObjectContext,
+            title: "France",
+            startDate: dateFormatter.date(from: startDate) ?? Date.now,
+            endDate: dateFormatter.date(from: endDate) ?? Date.now
+        )
+        return trip
+    }
+}

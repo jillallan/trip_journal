@@ -44,43 +44,8 @@ final class TestTripViewModel: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    @MainActor func testAddStepForCoordinateIcreasesStepsArrayByOne() throws {
-        let stepsArrayLength = viewModel.steps.count                // Given
-        viewModel.addStep(for: coordinate, name: stepName)        // When
-        XCTAssertEqual(viewModel.steps.count, stepsArrayLength + 1) // Then
-    }
-    
-    @MainActor func testAddStepForCoordinateIcreasesStepsDataModelByOne() throws {
-        let request: NSFetchRequest<Step> = Step.fetchRequest()
-        let initialStepCount = try managedObjectContext.count(for: request)
+    @MainActor func testExample2() throws {
         
-        viewModel.addStep(for: coordinate, name: stepName)
-        
-        let stepCount = try managedObjectContext.count(for: request)
-        XCTAssertEqual(stepCount, initialStepCount + 1)
-    }
-    
-    @MainActor func testAddStepAddsStepWithCoordinateEqualToPassedInCoordinate() throws {
-        let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
-        viewModel.addStep(for: coordinate, name: stepName)
-        XCTAssertEqual(viewModel.steps.last?.coordinate, coordinate)
-    }
-    
-    @MainActor func testAddStepAddsStepWithNameEqualToPassedInName() throws {
-        let coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
-        viewModel.addStep(for: coordinate, name: stepName)
-        XCTAssertEqual(viewModel.steps.last?.coordinate, coordinate)
-    }
-    
-    @MainActor func testSetRegionSetsCoordinateRegionOnViewModel() throws {
-        // Given
-        let coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        
-        // When
-        viewModel.setRegion(for: coordinate)
-        
-        // Then
-        XCTAssertEqual(viewModel.region.center, coordinate)
     }
 
     override func testPerformanceExample() throws {

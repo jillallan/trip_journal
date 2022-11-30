@@ -52,7 +52,7 @@ extension Step {
     }
 }
 
-// MARK: - MKAnnotation
+// MARK: - Extension MKAnnotation
 
 extension Step: MKAnnotation {
     public var title: String? { stepName }
@@ -62,57 +62,44 @@ extension Step: MKAnnotation {
     
 }
 
-//extension Step {
-//    static var stepPreview: Step = {
-//        let dataController = DataController.preview
-//        let managedObjectContext = dataController.container.viewContext
-//
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd/MM/yy"
-//
-//        let date = "14/11/2022"
-//
-//        let step = Step(
-//            context: managedObjectContext,
-//            latitude: 51.1,
-//            longitude: 0.0,
-//            timestamp: dateFormatter.date(from: "14/11/2022") ?? Date.now,
-//            name: "Setting off")
-//        step.trip = Trip.preview
-//        return step
-//    }()
-//
-//    static var stepsPreview: [Step] = {
-//        let dataController = DataController.preview
-//        let managedObjectContext = dataController.container.viewContext
-//
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd/MM/yy"
-//
-//        let date = "14/11/2022"
-//
-//        let step1 = Step(context: managedObjectContext, latitude: 51.1, longitude: 0.0,
-//            timestamp: dateFormatter.date(from: "14/11/2022") ?? Date.now, name: "Setting off")
-//        step1.trip = Trip.preview
-//
-//        let step2 = Step(context: managedObjectContext, latitude: 51.2, longitude: 0.1,
-//            timestamp: dateFormatter.date(from: "15/11/2022") ?? Date.now, name: "Halfway there")
-//        step2.trip = Trip.preview
-//
-//        let step3 = Step(context: managedObjectContext, latitude: 51.5, longitude: 0.1,
-//            timestamp: dateFormatter.date(from: "16/11/2022") ?? Date.now, name: "Pit stop")
-//        step1.trip = Trip.preview
-//
-//        let step4 = Step(context: managedObjectContext, latitude: 51.6, longitude: 0.4,
-//            timestamp: dateFormatter.date(from: "17/11/2022") ?? Date.now, name: "Arrived")
-//        step2.trip = Trip.preview
-//
-//        return [step1, step2]
-//
-//    }()
-//}
+// MARK: - Extension Xcode Preview
 
-// MARK: - Equatable
+extension Step {
+    
+    static var preview: Step {
+        previews[0]
+    }
+    
+    static var previews: [Step] = {
+        let dataController = DataController.preview
+        let moc = dataController.container.viewContext
+        return createSampleSteps(managedObjectContext: moc, trip: Trip.preview)
+    }()
+    
+    static func createSampleSteps(managedObjectContext: NSManagedObjectContext, trip: Trip) -> [Step] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
+        
+        let step1 = Step(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
+                         timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station")
+        step1.trip = trip
+        let step2 = Step(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
+                         timestamp: dateFormatter.date(from: "28/11/2022 11:00:00") ?? Date.now, name: "St Pancras")
+        step2.trip = trip
+        let step3 = Step(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
+                         timestamp: dateFormatter.date(from: "29/11/2022 10:00:00") ?? Date.now, name: "Atomium")
+        step3.trip = trip
+        let step4 = Step(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
+                         timestamp: dateFormatter.date(from: "29/11/2022 18:00:00") ?? Date.now, name: "Cologne")
+        step4.trip = trip
+        let step5 = Step(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
+                         timestamp: dateFormatter.date(from: "01/08/2022 11:00:00") ?? Date.now, name: "Moscow")
+        step5.trip = trip
+        return [step1, step2, step3, step4, step5]
+    }
+}
+
+// MARK: - Extension Equatable
 
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {

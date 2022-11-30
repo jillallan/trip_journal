@@ -55,7 +55,6 @@ class AddStepViewModel: ObservableObject {
     
     // MARK: - Update Model Methods
     
-    
     func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
         let step = Step(
             context: dataController.container.viewContext,

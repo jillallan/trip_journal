@@ -22,8 +22,10 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView(persistanceController: .preview)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environmentObject(DataController.preview)
+            .environmentObject(LocationManager.preview)
+    }
+}

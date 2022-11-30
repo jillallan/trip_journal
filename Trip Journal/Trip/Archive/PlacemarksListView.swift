@@ -49,14 +49,15 @@ struct PlacemarksListView: View {
         }
         
         .task {
-            placemarks = await viewModel.fetchPlacemarks(for: coordinates)
+            // update to placemarkslistviewmodel
+//            placemarks = await viewModel.fetchPlacemarks(for: coordinates)
             loadingState = .loaded
         }
     }
 }
 
-struct AddStepPlacemarksView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlacemarksListView(viewModel: .preview, placemarkName: .constant("New Step"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
-    }
-}
+//struct AddStepPlacemarksView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PlacemarksListView(viewModel: .preview, placemarkName: .constant("New Step"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
+//    }
+//}

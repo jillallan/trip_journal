@@ -5,6 +5,7 @@
 //  Created by Jill Allan on 18/11/2022.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct AddTripView: View {
@@ -12,6 +13,8 @@ struct AddTripView: View {
     // MARK: - Properties
     
     @StateObject var viewModel: AddTripViewModel
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var selectedImageData: Data? = nil
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Init
@@ -29,7 +32,16 @@ struct AddTripView: View {
             DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
             DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
             Toggle("Enable Trip Tracking", isOn: $viewModel.tripTrackingIsOn)
-            
+            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                Text("Select a photo")
+            }
+            .onChange(of: selectedItem) { newValue in
+                Task {
+                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
+                        selectedImageData = data
+                    }
+                }
+            }
             Button {
                 viewModel.addTrip(
                     title: viewModel.title,
@@ -42,6 +54,13 @@ struct AddTripView: View {
                 dismiss()
             } label: {
                 Text("Add Trip")
+            }
+            if let selectedImageData,
+               let uiImage = UIImage(data: selectedImageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 250, height: 250)
             }
 
         }

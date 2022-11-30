@@ -94,26 +94,11 @@ struct AddStepView: View {
     }
 }
 
-//    .onDisappear {
-//        print("dissapper")
-//        if stepAdded {
-//            viewModel.setRegion(with: currentMapRegion)
-//        }
-//    }
-
-        
-
-
 // MARK: - Xcode preview
 
-//struct AddStepView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddStepView(
-//            viewModel: .preview,
-//            region: MKCoordinateRegion(
-//                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
-//                span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-//            )
-//        )
-//    }
-//}
+struct AddStepView_Previews: PreviewProvider {
+    static var previews: some View {
+        
+        AddStepView(coordinate: Step.preview.coordinate, trip: .preview, dataController: .preview)
+    }
+}

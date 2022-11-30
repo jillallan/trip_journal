@@ -41,28 +41,40 @@ struct TripView: View {
                 ) { region in
                     currentMapRegion = region
                 }
-                List(viewModel.steps) { step in
-                    VStack {
-                        Text(step.stepName)
-                        Text(step.stepTimestamp, style: .time)
-                        Text("Lat: \(step.latitude), Lon: \(step.longitude)")
-                            .font(.body)
+                List {
+                    ForEach(viewModel.steps) { step in
+                        VStack(alignment: .leading) {
+                            Text(step.stepName)
+                                .font(.headline)
+                                .foregroundColor(.accentColor)
+                            HStack {
+                                Text(step.stepTimestamp, style: .date)
+                                Text(step.stepTimestamp, style: .time)
+                            }
+                        }
+                    }
+                    .onDelete { indexSet in
+                        viewModel.deleteSteps(at: indexSet)
+                        viewModel.steps = viewModel.fetchSteps()
                     }
                 }
+                    
                 .frame(height: 200)
+
                 .onDisappear {
-                    print("did dissappear")
-                    viewModel.setRegion(with: currentMapRegion)
+                    viewModel.region = currentMapRegion
                 }
             }
             .sheet(isPresented: $addViewIsPresented) {
-                viewModel.updateFetchRequest()
+                // On dismiss of addView
+                viewModel.steps = viewModel.fetchSteps()
+                viewModel.region = viewModel.getRegionForLastStep()
             } content: {
                 AddStepView(coordinate: viewModel.region.center, trip: trip, dataController: dataController)
             }
             .toolbar {
                 Button {
-                    viewModel.setRegion(with: currentMapRegion)
+                    viewModel.region = currentMapRegion
                     addViewIsPresented.toggle()
                 } label: {
                     Label("Add", systemImage: "plus")
@@ -85,10 +97,6 @@ struct TripView: View {
             } message: {
                 Text("Choose a map from here")
             }
-            .onAppear {
-                viewModel.setRegionToLastStep()
-                viewModel.updateFetchRequest()
-            }
         }
     }
 }
@@ -97,13 +105,9 @@ struct TripView: View {
 
 struct TripView_Previews: PreviewProvider {
     static var previews: some View {
-        let dataController = DataController.preview
-        let managedObjectContext = dataController.container.viewContext
-        let trip = Trip(context: managedObjectContext, title: "France", startDate: Date.now, endDate: Date(timeIntervalSinceNow: 86400))
-        
         TripView(
-            trip: trip,
-            dataController: dataController,
+            trip: .preview,
+            dataController: .preview,
             locationManager: .preview
         )
     }

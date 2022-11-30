@@ -17,6 +17,7 @@ class LocationManager: NSObject, ObservableObject {
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var fetchedPlacemark: CLPlacemark?
     
     lazy var geocoder = CLGeocoder()
     
@@ -53,6 +54,27 @@ class LocationManager: NSObject, ObservableObject {
             // too many requests will cause a kCLErrorDomain
         }
         return fetchedPlacemarksLocal
+    }
+    
+    func fetchPlacemarks(for address: String) async -> [CLPlacemark] {
+        var localFetchedPlacemarks = [CLPlacemark]()
+        do {
+            let placemarks = try await geocoder.geocodeAddressString(address)
+            localFetchedPlacemarks = placemarks
+        } catch {
+            fatalError("Error getting placemarks: \(error.localizedDescription)")
+        }
+        return localFetchedPlacemarks
+    }
+    
+    func fetchPlacemark(for address: String) {
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            if let placemark = placemarks?.first {
+                DispatchQueue.main.async {
+                    self.fetchedPlacemark = placemark
+                }
+            }
+        }
     }
 }
 

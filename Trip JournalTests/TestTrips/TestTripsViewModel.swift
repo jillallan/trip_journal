@@ -11,9 +11,17 @@ import XCTest
 
 final class TestTripsViewModel: BaseTestCase {
     var viewModel: TripsViewModel!
-    var tripName: String!
-    var startDate: Date!
-    var endDate: Date!
+//    var title1: String!
+//    var startDate1: Date!
+//    var endDate1: Date!
+//
+//    var title2: String!
+//    var startDate2: Date!
+//    var endDate2: Date!
+//
+//    var title3: String!
+//    var startDate3: Date!
+//    var endDate3: Date!
 
     @MainActor override func setUpWithError() throws {
         try super.setUpWithError()
@@ -23,9 +31,18 @@ final class TestTripsViewModel: BaseTestCase {
         
         viewModel = TripsViewModel(dataController: dataController, locationManager: locationManager)
         
-        tripName = "France"
-        startDate = dateFormatter.date(from: "14/11/2022")
-        endDate = dateFormatter.date(from: "20/11/2022")
+//        title1 = "France"
+//        startDate1 = dateFormatter.date(from: "14/11/2022") ?? Date.now
+//        endDate1 = dateFormatter.date(from: "20/11/2022") ?? Date.now
+//
+//        title2 = "Italy"
+//        startDate2 = dateFormatter.date(from: "23/11/2022") ?? Date.now
+//        endDate2 = dateFormatter.date(from: "24/11/2022") ?? Date.now
+//
+//        title3 = "Spain"
+//        startDate3 = dateFormatter.date(from: "01/11/2022") ?? Date.now
+//        endDate3 = dateFormatter.date(from: "04/11/2022") ?? Date.now
+        
     }
 
     override func tearDownWithError() throws {
@@ -33,21 +50,30 @@ final class TestTripsViewModel: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-//    @MainActor func testAddTripIncreasesTripsArrayByOne() throws {
-//        let tripsArrayLength = viewModel.trips.count                // Given
-//        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)       // When
-//        XCTAssertEqual(viewModel.trips.count, tripsArrayLength + 1) // Then
-//    }
-//    
-//    @MainActor func testAddStepIcreasesTripsDataModelByOne() throws {
-//        let request: NSFetchRequest<Trip> = Trip.fetchRequest()
-//        let initialTripCount = try managedObjectContext.count(for: request)
-//        
-//        viewModel.addTrip(title: tripName, startDate: startDate, endDate: endDate)
-//        
-//        let tripCount = try managedObjectContext.count(for: request)
-//        XCTAssertEqual(tripCount, initialTripCount + 1)
-//    }
+    @MainActor func testFetchTripsFetchesAllTrips() {
+        let trips = viewModel.fetchTrips()
+        
+        XCTAssertTrue(trips.count == 3)
+    }
+    
+    @MainActor func testFetchTripsFetchesTripsInDescendingOrder() {
+//        let initialTrips: [Trip] = []
+        
+        let trips = viewModel.fetchTrips()
+        
+        if let trip1StartDateTimeInterval = trips[0].startDate?.timeIntervalSinceNow,
+           let trip2StartDateTimeInterval = trips[1].startDate?.timeIntervalSinceNow,
+           let trip3StartDateTimeInterval = trips[2].startDate?.timeIntervalSinceNow {
+            
+            XCTAssertGreaterThan(trip2StartDateTimeInterval, trip1StartDateTimeInterval)
+            XCTAssertGreaterThan(trip3StartDateTimeInterval, trip2StartDateTimeInterval)
+            XCTAssertGreaterThan(trip3StartDateTimeInterval, trip1StartDateTimeInterval)
+        }
+        
+        
+        
+//        XCTAssertEqual(trips.count, initialTrips.count + 1)
+    }
 
     override func testPerformanceExample() throws {
         // This is an example of a performance test case.
