@@ -29,7 +29,7 @@ import CoreData
         self.locationManager = locationManager
         
         let request: NSFetchRequest<Trip> = Trip.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Trip.startDate, ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Trip.startDate, ascending: false)]
         
         tripsController = NSFetchedResultsController(
             fetchRequest: request,
@@ -49,6 +49,23 @@ import CoreData
             print("Failed to fetch trips: \(error.localizedDescription)")
         }
         
+    }
+    
+    // MARK: - Update model
+    
+    func deleteTrips(at offsets: IndexSet) {
+        // TODO: - Do we need sort order
+        
+        for offset in offsets {
+            
+            let trip = trips[offset]
+            let steps = trip.tripSteps
+            for step in steps {
+                dataController.delete(step)
+            }
+            dataController.delete(trip)
+        }
+        dataController.save()
     }
     
     // MARK: - Update view methods

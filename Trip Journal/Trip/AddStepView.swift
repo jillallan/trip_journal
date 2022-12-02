@@ -79,9 +79,8 @@ struct AddStepView: View {
                         if let featureAnnotation = viewModel.featureAnnotation {
                             FeatureAnnotationCardView(featureAnnotation: featureAnnotation) { mapItem in
                                 if let mapItem = mapItem {
-                                    print("map item coordinates: \(mapItem.placemark.coordinate)")
                                     viewModel.addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New Step")
-                                    viewModel.setRegion(for: mapItem.placemark.coordinate)
+//                                    viewModel.setRegion(for: mapItem.placemark.coordinate)
                                     dismiss()
                                 }
                             }

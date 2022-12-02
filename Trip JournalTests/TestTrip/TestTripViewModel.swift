@@ -11,7 +11,6 @@ import XCTest
 import CoreData
 
 final class TestTripViewModel: BaseTestCase {
-    var trip: Trip!
     var viewModel: TripViewModel!
     var coordinate: CLLocationCoordinate2D!
     var stepName: String!
@@ -24,13 +23,9 @@ final class TestTripViewModel: BaseTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yy"
         
-        trip = Trip(
-            context: managedObjectContext, title: "Test Trip",
-            startDate: dateFormatter.date(from: "14/11/2022") ?? Date.now,
-            endDate: dateFormatter.date(from: "20/11/2022") ?? Date.now
-        )
+
         viewModel = TripViewModel(
-            trip: trip,
+            trip: trip1,
             dataController: dataController,
             locationManager: locationManager
         )
@@ -44,8 +39,40 @@ final class TestTripViewModel: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    @MainActor func testExample2() throws {
+    @MainActor func testDeleteStepsReducesStepsDataModelByOne() throws {
+        let indexSet = IndexSet(integer: 0)
+        viewModel.deleteSteps(at: indexSet)
         
+        let steps = viewModel.fetchSteps()
+        
+        XCTAssertEqual(steps.count, 2)
+    }
+    
+    @MainActor func testFetchStepsFetchesAllStepsForTrip() {
+        let steps = viewModel.fetchSteps()
+        
+        XCTAssertEqual(steps.count, 3)
+    }
+    
+    @MainActor func testFetchTripsFetchesTripsInDescendingOrder() {
+        let steps = viewModel.fetchSteps()
+        
+        if let step1StartDateTimeInterval = steps[0].timestamp?.timeIntervalSinceNow,
+           let step2StartDateTimeInterval = steps[1].timestamp?.timeIntervalSinceNow,
+           let step3StartDateTimeInterval = steps[2].timestamp?.timeIntervalSinceNow {
+            
+            XCTAssertGreaterThan(step3StartDateTimeInterval, step1StartDateTimeInterval)
+            XCTAssertGreaterThan(step3StartDateTimeInterval, step2StartDateTimeInterval)
+            XCTAssertGreaterThan(step2StartDateTimeInterval, step1StartDateTimeInterval)
+        }
+    }
+    
+    @MainActor func testGetRegionForLastStepSetsCoordinateToLastStepCoordinate() {
+        let lastStep = viewModel.steps.last
+        
+        let region = viewModel.getRegionForLastStep()
+        
+        XCTAssertEqual(lastStep?.coordinate, region.center)
     }
 
     override func testPerformanceExample() throws {

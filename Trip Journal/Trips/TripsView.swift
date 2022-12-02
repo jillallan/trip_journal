@@ -29,33 +29,20 @@ struct TripsView: View {
         NavigationStack {
             Map(coordinateRegion: $mapRegion)
                 .frame(height: 200)
-            List(viewModel.trips) { trip in
-                NavigationLink {
-                    TripView(trip: trip, dataController: dataController, locationManager: locationManager)
-                } label: {
-                    VStack {
-                        HStack {
-                            Text(trip.tripTitle)
-                                .font(.headline)
-                                .foregroundColor(.accentColor)
-                            Spacer()
-                            Text("\(trip.tripSteps.count) steps")
-                                .foregroundColor(.accentColor)
-                        }
-                        HStack {
-                            Text(trip.tripStartDate, style: .date)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                            Spacer()
-                            Text("-")
-                            Spacer()
-                            Text(trip.tripEndDate, style: .date)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
+            List {
+                ForEach(viewModel.trips) { trip in
+                    NavigationLink {
+                        TripView(trip: trip, dataController: dataController, locationManager: locationManager)
+                    } label: {
+                        TripCardView(trip: trip)
                     }
                 }
+                .onDelete { indexSet in
+                    viewModel.deleteTrips(at: indexSet)
+                    viewModel.trips = viewModel.fetchTrips()
+                }
             }
+            
             .toolbar {
                 Button {
                     addTripViewIsPresented.toggle()
@@ -69,6 +56,9 @@ struct TripsView: View {
                 viewModel.trips = viewModel.fetchTrips()
             } content: {
                 AddTripView(dataController: dataController, locationManager: locationManager)
+            }
+            .onAppear {
+                viewModel.trips = viewModel.fetchTrips()
             }
         }
     }

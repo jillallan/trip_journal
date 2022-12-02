@@ -25,7 +25,8 @@ import Contacts
     @Published var steps = [Step]()
     @Published var tripRoute = [MKPolyline]()
     
-    // replace with users current location or capital city of users locale
+    // TODO: - Does not centre on locale first time, for new trip
+    // TODO: - If location services enabled, focus on user location
 //    @Published var region = MKCoordinateRegion()
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
@@ -38,7 +39,6 @@ import Contacts
         self.trip = trip
         self.dataController = dataController
         self.locationManager = locationManager
-        
         
         let request: NSFetchRequest<Step> = Step.fetchRequest()
         request.predicate = NSPredicate(format: "trip.title = %@", trip.tripTitle)
@@ -61,9 +61,11 @@ import Contacts
             let mapViewHelper = MapViewHelper(locationManager: locationManager)
             
             if !steps.isEmpty {
+                print("init debug 1")
                 tripRoute = mapViewHelper.createRoute(from: steps.map(\.coordinate))
                 region = mapViewHelper.calculateMapRegion(from: steps)
             } else {
+                print("init debug 2")
                 region = mapViewHelper.calculateMapRegionWihLocale()
             }
             
@@ -73,6 +75,15 @@ import Contacts
     }
     
     // MARK: - Update model
+    
+    func deleteSteps(at offsets: IndexSet) {
+        
+        for offset in offsets {
+            let step = steps[offset]
+            dataController.delete(step)
+        }
+        dataController.save()
+    }
     
     
     // MARK: - Update View
@@ -105,14 +116,5 @@ import Contacts
             print("Failed to fetch last step: \(error.localizedDescription)")
         }
         return region
-    }
-    
-    func deleteSteps(at offsets: IndexSet) {
-        
-        for offset in offsets {
-            let step = steps[offset]
-            dataController.delete(step)
-        }
-        dataController.save()
     }
 }

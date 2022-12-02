@@ -50,6 +50,14 @@ extension Step {
     var stepName: String {
         name ?? "New Step"
     }
+    
+    var stepPhotoIdentifier: String {
+        photoIdentifier ?? "" // Replace with placeholder
+    }
+    
+    var stepPhotoIdentifiers: [PhotoAssetIdentifier] {
+        stepPhotoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
+    }
 }
 
 // MARK: - Extension MKAnnotation

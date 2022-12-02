@@ -43,24 +43,20 @@ struct TripView: View {
                 }
                 List {
                     ForEach(viewModel.steps) { step in
-                        VStack(alignment: .leading) {
-                            Text(step.stepName)
-                                .font(.headline)
-                                .foregroundColor(.accentColor)
-                            HStack {
-                                Text(step.stepTimestamp, style: .date)
-                                Text(step.stepTimestamp, style: .time)
-                            }
+                        NavigationLink {
+                            StepView(step: step)
+                        } label: {
+                            StepViewCell(step: step)
                         }
                     }
                     .onDelete { indexSet in
+                        print(indexSet.description)
                         viewModel.deleteSteps(at: indexSet)
                         viewModel.steps = viewModel.fetchSteps()
                     }
                 }
-                    
-                .frame(height: 200)
-
+                .frame(height: 300)
+                
                 .onDisappear {
                     viewModel.region = currentMapRegion
                 }
@@ -96,6 +92,12 @@ struct TripView: View {
                 }
             } message: {
                 Text("Choose a map from here")
+            }
+            .onAppear {
+                print("TripView did appear")
+                print("step timestamp\(String(describing: viewModel.steps[2].timestamp))")
+                viewModel.steps = viewModel.fetchSteps()
+                print("step timestamp\(String(describing: viewModel.steps[2].timestamp))")
             }
         }
     }

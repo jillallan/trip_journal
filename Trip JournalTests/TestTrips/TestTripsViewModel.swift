@@ -11,17 +11,6 @@ import XCTest
 
 final class TestTripsViewModel: BaseTestCase {
     var viewModel: TripsViewModel!
-//    var title1: String!
-//    var startDate1: Date!
-//    var endDate1: Date!
-//
-//    var title2: String!
-//    var startDate2: Date!
-//    var endDate2: Date!
-//
-//    var title3: String!
-//    var startDate3: Date!
-//    var endDate3: Date!
 
     @MainActor override func setUpWithError() throws {
         try super.setUpWithError()
@@ -30,19 +19,6 @@ final class TestTripsViewModel: BaseTestCase {
         dateFormatter.dateFormat = "dd/MM/yy"
         
         viewModel = TripsViewModel(dataController: dataController, locationManager: locationManager)
-        
-//        title1 = "France"
-//        startDate1 = dateFormatter.date(from: "14/11/2022") ?? Date.now
-//        endDate1 = dateFormatter.date(from: "20/11/2022") ?? Date.now
-//
-//        title2 = "Italy"
-//        startDate2 = dateFormatter.date(from: "23/11/2022") ?? Date.now
-//        endDate2 = dateFormatter.date(from: "24/11/2022") ?? Date.now
-//
-//        title3 = "Spain"
-//        startDate3 = dateFormatter.date(from: "01/11/2022") ?? Date.now
-//        endDate3 = dateFormatter.date(from: "04/11/2022") ?? Date.now
-        
     }
 
     override func tearDownWithError() throws {
@@ -57,22 +33,38 @@ final class TestTripsViewModel: BaseTestCase {
     }
     
     @MainActor func testFetchTripsFetchesTripsInDescendingOrder() {
-//        let initialTrips: [Trip] = []
-        
         let trips = viewModel.fetchTrips()
         
         if let trip1StartDateTimeInterval = trips[0].startDate?.timeIntervalSinceNow,
            let trip2StartDateTimeInterval = trips[1].startDate?.timeIntervalSinceNow,
            let trip3StartDateTimeInterval = trips[2].startDate?.timeIntervalSinceNow {
             
-            XCTAssertGreaterThan(trip2StartDateTimeInterval, trip1StartDateTimeInterval)
-            XCTAssertGreaterThan(trip3StartDateTimeInterval, trip2StartDateTimeInterval)
-            XCTAssertGreaterThan(trip3StartDateTimeInterval, trip1StartDateTimeInterval)
+            XCTAssertGreaterThan(trip1StartDateTimeInterval, trip2StartDateTimeInterval)
+            XCTAssertGreaterThan(trip2StartDateTimeInterval, trip3StartDateTimeInterval)
+            XCTAssertGreaterThan(trip1StartDateTimeInterval, trip3StartDateTimeInterval)
         }
+    }
+    
+    @MainActor func testDeleteTripsReducesTripsDataModelByOne() {
+        let indexSet = IndexSet(integer: 0)
+        viewModel.deleteTrips(at: indexSet)
         
+        let trips = viewModel.fetchTrips()
         
+        XCTAssertEqual(trips.count, 2)
+    }
+    
+    @MainActor func testDeleteTripsReducesStepsDataModelByNumberOfSteps() {
+        let indexSet = IndexSet(integer: 0)
+        let trip = viewModel.fetchTrips()[0]
         
-//        XCTAssertEqual(trips.count, initialTrips.count + 1)
+        let tripViewModel = TripViewModel(trip: trip, dataController: dataController, locationManager: locationManager)
+        
+        viewModel.deleteTrips(at: indexSet)
+        
+        let steps = tripViewModel.fetchSteps()
+        
+        XCTAssertEqual(steps.count, 0)
     }
 
     override func testPerformanceExample() throws {

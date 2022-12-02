@@ -35,6 +35,10 @@ extension Trip {
     var tripSteps: [Step] {
         steps?.allObjects as? [Step] ?? []
     }
+    
+    var tripPhotoIdentifiers: [PhotoAssetIdentifier] {
+        tripPhotoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
+    }
 }
 
 // MARK: - Xcode Preview

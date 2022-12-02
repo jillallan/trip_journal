@@ -10,6 +10,7 @@ import MapKit
 
 struct MapViewHelper {
     let locationManager: LocationManager
+//    let locale = Locale.current
     
     func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {
         
@@ -32,26 +33,25 @@ struct MapViewHelper {
     // Consider passing in CLLocationCoordinate2D array instead of step array for below functions
     
     func calculateMapRegionWihLocale() -> MKCoordinateRegion {
-        print("locale func 1")
+        // TODO: - Hardcode coordinates for all 7 continents
+        
         let locale = Locale.current
-        var region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0),
-            span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-        )
+        var centre = CLLocationCoordinate2D()
+        let span = MKCoordinateSpan(latitudeDelta: 50, longitudeDelta: 50)
+        var region = MKCoordinateRegion()
+        
         if let regionCode = locale.language.region?.identifier {
-            print("locale func 2 \(regionCode)")
             locationManager.fetchPlacemark(for: regionCode)
             if let coordinates = locationManager.fetchedPlacemark?.location?.coordinate {
-                print("locale func 3 \(region)")
-                region = MKCoordinateRegion(
-                    center: coordinates,
-                    span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10)
-                )
+                centre = coordinates
+            } else {
+                centre = CLLocationCoordinate2D(latitude: 60.0, longitude: -5.5)
             }
+        } else {
+            centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
         }
-        print("return from local func: \(region)")
+        region = MKCoordinateRegion(center: centre, span: span)
         return region
-        
     }
     
     func calculateMapRegion(from steps: [Step]) -> MKCoordinateRegion {
