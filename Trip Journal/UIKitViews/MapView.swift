@@ -17,7 +17,7 @@ struct MapView: UIViewRepresentable {
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
-    var onAnnotationSelection: ((MKAnnotation) -> ())? {
+    var onAnnotationSelection: ((MKMapFeatureAnnotation) -> ())? {
         didSet {
             print("Did set: \(String(describing: onAnnotationSelection))")
         }
@@ -58,9 +58,17 @@ struct MapView: UIViewRepresentable {
         if let routeOverlay = routeOverlay {
             if !mapView.overlays.isEmpty {
                 mapView.removeOverlays(mapView.overlays)
+                
             }
             mapView.addOverlays(routeOverlay)
         }
+//        if !mapView.selectedAnnotations.isEmpty {
+//            let selectedAnnotation = mapView.selectedAnnotations[0]
+//            mapView.deselectAnnotation(selectedAnnotation, animated: true)
+//        }
+        
+        
+        
         print("did update view: \(coordinateRegion.center)")
     }
     
@@ -102,18 +110,10 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-            print("mapview1 \(String(describing: annotation.title))")
             guard let featureAnnotation = annotation as? MKMapFeatureAnnotation else { return }
-//            guard let featureAnnotation = featureAnnotation else { return }
-            print("mapview2 \(String(describing: featureAnnotation.title))")
-            
-            let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
-            print(featureRequest.description)
-            
-            
+
             if let onAnnotationSelection = parent.onAnnotationSelection {
-                print("mapview3: \(featureAnnotation.featureType)")
-                onAnnotationSelection(annotation)
+                onAnnotationSelection(featureAnnotation)
                 
             }
         }

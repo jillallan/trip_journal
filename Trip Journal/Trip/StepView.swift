@@ -10,6 +10,7 @@ import SwiftUI
 
 struct StepView: View {
     @EnvironmentObject var dataController: DataController
+    @EnvironmentObject var photoAssetManager: PhotoAssetManager
     @ObservedObject var step: Step
     
     @State private var name: String
@@ -34,12 +35,24 @@ struct StepView: View {
                 // TODO: - Add photo picker
                 showingPhotoPicker = true
             }
+            if let inputImage = inputImage {
+                Image(uiImage: inputImage)
+            }
+            
+            Image("seamonster")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
         }
         .onDisappear {
             dataController.save()
         }
         .sheet(isPresented: $showingPhotoPicker) {
-            PhotoPicker(image: $inputImage)
+            PhotoPicker()
+        }
+        .onAppear {
+            let asset = photoAssetManager.fetchAssets().firstObject
+            getPhoto(from: asset, size: CGSize(width: 200, height: 200))
         }
     }
     
@@ -49,6 +62,23 @@ struct StepView: View {
         
         step.name = name
         step.timestamp = timestamp
+    }
+    
+    func getPhoto() {
+        let assest = photoAssetManager.fetchAssets()
+        let asset = assest.firstObject
+    }
+    
+    func getPhoto(from asset: PHAsset?, size: CGSize) {
+        
+        guard let asset = asset else { return }
+
+        
+        let resultHandler: (UIImage?, [AnyHashable: Any]?) -> Void = { image, info in
+            self.inputImage = image
+        }
+        
+        PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: nil, resultHandler: resultHandler)
     }
 }
 

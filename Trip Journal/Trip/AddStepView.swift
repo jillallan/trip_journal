@@ -13,6 +13,7 @@ struct AddStepView: View {
     // MARK: - Properties
     
     @EnvironmentObject var dataController: DataController
+    @State var wasStepAdded: Bool = false
     @State private var isFeatureAnnotationCardViewPresented: Bool = false
     @State private var featureAnnotation: MKMapFeatureAnnotation!
     @StateObject var searchQuery: SearchQuery
@@ -51,8 +52,7 @@ struct AddStepView: View {
                         routeOverlay: nil,
                         onRegionChange: nil
                     ) { annotation in
-                        guard let passedAnnotation = annotation as? MKMapFeatureAnnotation else { return }
-                        featureAnnotation = passedAnnotation
+                        featureAnnotation = annotation
                     }
                     .toolbar(.visible, for: .navigationBar)
                     .navigationTitle("Add Step")
@@ -85,19 +85,19 @@ struct AddStepView: View {
                     .onChange(of: featureAnnotation) { _ in
                         isFeatureAnnotationCardViewPresented = true
                     }
+                    .onChange(of: wasStepAdded) { stepAdded in
+                        if stepAdded {
+                            dismiss()
+                        }
+                    }
+
                     // TODO: - On dismiss unselect annotation or do this in update view of MapView
           
                     
                     .sheet(isPresented: $isFeatureAnnotationCardViewPresented) {
-                        // on dismiss
-                        // if steps count has increased dismiss
-//                        dismiss()
-                    } content: {
-                        // content
                         if let featureAnnotation = featureAnnotation {
-                            FeatureAnnotationCardView(trip: trip, featureAnnotation: featureAnnotation)
+                            FeatureAnnotationCardView(stepAdded: $wasStepAdded, trip: trip, featureAnnotation: featureAnnotation)
                         }
-                        
                     }
                 }
             }

@@ -9,13 +9,22 @@ import PhotosUI
 import SwiftUI
 
 struct PhotoPicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
+//    @Binding var image: UIImage?
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
-        var config = PHPickerConfiguration(photoLibrary: .shared())
+        let config = PHPickerConfiguration(photoLibrary: .shared())
         let photoPicker = PHPickerViewController(configuration: config)
         
         photoPicker.delegate = context.coordinator
+        
+        let photoAssetManager = PhotoAssetManager()
+        photoAssetManager.getPermissionIfNecessary { granted in
+            guard granted else { return }
+//            self.fetchAssets()
+//            DispatchQueue.main.async {
+//              self.collectionView.reloadData()
+//            }
+        }
         return photoPicker
     }
     
@@ -44,11 +53,11 @@ struct PhotoPicker: UIViewControllerRepresentable {
             
             print(assetIdentifier)
             
-            if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    self.parent.image = image as? UIImage
-                }
-            }
+//            if provider.canLoadObject(ofClass: UIImage.self) {
+//                provider.loadObject(ofClass: UIImage.self) { image, _ in
+//                    self.parent.image = image as? UIImage
+//                }
+//            }
         }
     }
 }

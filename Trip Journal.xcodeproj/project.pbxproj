@@ -41,6 +41,7 @@
 		78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */; };
 		78CE47BB2938EA6F008CEDD6 /* PhotoAssetIdentifier-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47BA2938EA6F008CEDD6 /* PhotoAssetIdentifier-CoreDataHelpers.swift */; };
 		78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47D9293A85F4008CEDD6 /* SearchQuery.swift */; };
+		78CE47DC293D37CB008CEDD6 /* PhotoAssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47DB293D37CB008CEDD6 /* PhotoAssetManager.swift */; };
 		78D89232292B96E80013E9FE /* PlacemarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89231292B96E80013E9FE /* PlacemarksListView.swift */; };
 		78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */; };
 		78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */; };
@@ -114,6 +115,7 @@
 		78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		78CE47BA2938EA6F008CEDD6 /* PhotoAssetIdentifier-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoAssetIdentifier-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 		78CE47D9293A85F4008CEDD6 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
+		78CE47DB293D37CB008CEDD6 /* PhotoAssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAssetManager.swift; sourceTree = "<group>"; };
 		78D89231292B96E80013E9FE /* PlacemarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarksListView.swift; sourceTree = "<group>"; };
 		78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLPlacemark-Identifiable.swift"; sourceTree = "<group>"; };
 		78D89235292BC4B70013E9FE /* PlacemarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkHelper.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				781F74B12924DF1800A0714A /* DataController.swift */,
 				785AA0D6292971D100F598AE /* LocationManager.swift */,
 				78CE47D9293A85F4008CEDD6 /* SearchQuery.swift */,
+				78CE47DB293D37CB008CEDD6 /* PhotoAssetManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */,
+				78CE47DC293D37CB008CEDD6 /* PhotoAssetManager.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
 				78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */,
 				78D89248292EBB640013E9FE /* AddressBuilder.swift in Sources */,

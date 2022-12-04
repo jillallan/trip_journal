@@ -12,6 +12,7 @@ import Contacts
 struct FeatureAnnotationCardView: View {
     
     @EnvironmentObject var dataController: DataController
+    @Binding var stepAdded: Bool
     
     enum LoadingState {
         case loading, loaded, failed
@@ -39,6 +40,7 @@ struct FeatureAnnotationCardView: View {
                         HStack {
                             Button("Add step") {
                                 addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New step")
+                                stepAdded = true
                                 dismiss()
                             }
                             Button("Cancel", role: .cancel) {
