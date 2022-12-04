@@ -13,39 +13,46 @@ struct AddStepView: View {
     // MARK: - Properties
     
     @EnvironmentObject var dataController: DataController
-    @StateObject var viewModel: AddStepViewModel
     @State private var isFeatureAnnotationCardViewPresented: Bool = false
+    @State private var featureAnnotation: MKMapFeatureAnnotation!
+    @StateObject var searchQuery: SearchQuery
 
     @Environment(\.dismissSearch) private var dismissSearch
     @Environment(\.dismiss) var dismiss
+    
+    @State var region: MKCoordinateRegion
+    let trip: Trip
+    
 
     // MARK: - Init
     
-    init(coordinate: CLLocationCoordinate2D, trip: Trip, dataController: DataController) {
+    init(coordinate: CLLocationCoordinate2D, trip: Trip) {
+        self.trip = trip
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: coordinate, span: span)
-        let viewModel = AddStepViewModel(region: region, trip: trip, dataController: dataController)
-        _viewModel = StateObject(wrappedValue: viewModel)
+        _region = State(initialValue: region)
+        let searchQuery = SearchQuery(region: region)
+        _searchQuery = StateObject(wrappedValue: searchQuery)
+        
     }
     
     // MARK: - View
     
     var body: some View {
-        let _ = print("view: \(viewModel.region.center)")
+        let _ = print("view: \(region.center)")
         let _ = Self._printChanges()
         NavigationStack {
             VStack {
                 ZStack {
                     let _ = Self._printChanges()
                     MapView(
-                        coordinateRegion: viewModel.region,
+                        coordinateRegion: region,
                         annotationItems: nil,
                         routeOverlay: nil,
                         onRegionChange: nil
                     ) { annotation in
-                        print("Add step: \(annotation.coordinate)")
-                        viewModel.featureAnnotation = annotation
-                        isFeatureAnnotationCardViewPresented = true
+                        guard let passedAnnotation = annotation as? MKMapFeatureAnnotation else { return }
+                        featureAnnotation = passedAnnotation
                     }
                     .toolbar(.visible, for: .navigationBar)
                     .navigationTitle("Add Step")
@@ -58,13 +65,13 @@ struct AddStepView: View {
                             }
                         }
                     }
-                    .searchable(text: $viewModel.searchQuery) {
-                        List(viewModel.searchResults) { result in
+                    .searchable(text: $searchQuery.searchQuery) {
+                        List(searchQuery.searchResults) { result in
                             NavigationLink {
                                 SearchResultMapView(result: result)
                                 .toolbar {
                                     Button("Add") {
-                                        viewModel.addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
+                                        addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
                                         dismiss()
                                         dismissSearch()
                                     }
@@ -75,22 +82,58 @@ struct AddStepView: View {
                         }
                         .frame(height: 400)
                     }
+                    .onChange(of: featureAnnotation) { _ in
+                        isFeatureAnnotationCardViewPresented = true
+                    }
+                    // TODO: - On dismiss unselect annotation or do this in update view of MapView
+          
+                    
                     .sheet(isPresented: $isFeatureAnnotationCardViewPresented) {
-                        if let featureAnnotation = viewModel.featureAnnotation {
-                            FeatureAnnotationCardView(featureAnnotation: featureAnnotation) { mapItem in
-                                if let mapItem = mapItem {
-                                    viewModel.addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New Step")
-//                                    viewModel.setRegion(for: mapItem.placemark.coordinate)
-                                    dismiss()
-                                }
-                            }
+                        // on dismiss
+                        // if steps count has increased dismiss
+//                        dismiss()
+                    } content: {
+                        // content
+                        if let featureAnnotation = featureAnnotation {
+                            FeatureAnnotationCardView(trip: trip, featureAnnotation: featureAnnotation)
                         }
+                        
                     }
                 }
             }
         }
-        .environmentObject(viewModel)
     }
+    
+    func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
+        let step = Step(
+            context: dataController.container.viewContext,
+            coordinate: coordinate,
+            timestamp: Date.now,
+            name: name
+        )
+        step.trip = trip
+        dataController.save()
+    }
+    
+    func setRegion(for coordinate: CLLocationCoordinate2D) {
+        print("will set region \(region.center)")
+        region = MKCoordinateRegion(
+            center: coordinate,
+            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        )
+        print("did set region \(region.center)")
+    }
+    
+//    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
+//        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+//
+//        do {
+//            let featureItem = try await featureRequest.mapItem
+//            return featureItem
+//        } catch {
+//            fatalError("Failed to get map item: \(error.localizedDescription)")
+//        }
+//    }
 }
 
 // MARK: - Xcode preview
@@ -98,6 +141,6 @@ struct AddStepView: View {
 struct AddStepView_Previews: PreviewProvider {
     static var previews: some View {
         
-        AddStepView(coordinate: Step.preview.coordinate, trip: .preview, dataController: .preview)
+        AddStepView(coordinate: Step.preview.coordinate, trip: .preview)
     }
 }

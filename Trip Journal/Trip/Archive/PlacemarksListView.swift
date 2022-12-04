@@ -13,7 +13,6 @@ struct PlacemarksListView: View {
         case loading, loaded, failed
     }
     
-    @ObservedObject var viewModel: TripViewModel
     @State private var loadingState = LoadingState.loading
     @State private var placemarks = [String]()
     @Binding var placemarkName: String

@@ -13,9 +13,18 @@ struct TripView: View {
     // MARK: - Properties
     
     let trip: Trip
+    
+    @FetchRequest var steps: FetchedResults<Step>
+    @State var tripRoute = [MKPolyline]()
+    @State var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
+        span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+    )
+    @State var featureAnnotation: MKMapFeatureAnnotation!
+    
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var locationManager: LocationManager
-    @StateObject var viewModel: TripViewModel
+
     @State var addViewIsPresented: Bool = false
     @State var mapTypeConfirmationDialogIsPresented = false
     @State var mapConfiguration: MKMapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
@@ -23,10 +32,12 @@ struct TripView: View {
     
     // MARK: - Init
     
-    init(trip: Trip, dataController: DataController, locationManager: LocationManager) {
+    init(trip: Trip) {
         self.trip = trip
-        let viewModel = TripViewModel(trip: trip, dataController: dataController, locationManager: locationManager)
-        _viewModel = StateObject(wrappedValue: viewModel)
+        _steps = FetchRequest<Step>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
+            predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
+        )
     }
     
     // MARK: - View
@@ -35,42 +46,41 @@ struct TripView: View {
         NavigationStack {
             VStack {
                 MapView(
-                    coordinateRegion: viewModel.region,
-                    annotationItems: viewModel.steps,
-                    routeOverlay: viewModel.tripRoute
+                    coordinateRegion: region,
+                    annotationItems: steps.map({ step in
+                        step
+                    }),
+                    routeOverlay: createRoute(from: steps.map(\.coordinate))
                 ) { region in
                     currentMapRegion = region
                 }
                 List {
-                    ForEach(viewModel.steps) { step in
+                    ForEach(steps) { step in
                         NavigationLink {
                             StepView(step: step)
                         } label: {
-                            StepViewCell(step: step)
+                            TripViewStepCell(step: step)
                         }
                     }
                     .onDelete { indexSet in
-                        print(indexSet.description)
-                        viewModel.deleteSteps(at: indexSet)
-                        viewModel.steps = viewModel.fetchSteps()
+                        deleteSteps(at: indexSet)
                     }
                 }
                 .frame(height: 300)
                 
                 .onDisappear {
-                    viewModel.region = currentMapRegion
+                    region = currentMapRegion
                 }
             }
             .sheet(isPresented: $addViewIsPresented) {
                 // On dismiss of addView
-                viewModel.steps = viewModel.fetchSteps()
-                viewModel.region = viewModel.getRegionForLastStep()
+                region = getRegionForLastStep()
             } content: {
-                AddStepView(coordinate: viewModel.region.center, trip: trip, dataController: dataController)
+                AddStepView(coordinate: region.center, trip: trip)
             }
             .toolbar {
                 Button {
-                    viewModel.region = currentMapRegion
+                    region = currentMapRegion
                     addViewIsPresented.toggle()
                 } label: {
                     Label("Add", systemImage: "plus")
@@ -78,7 +88,7 @@ struct TripView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             .ignoresSafeArea(edges: .bottom)
-            .navigationTitle(viewModel.title)
+            .navigationTitle(trip.tripTitle)
             .navigationBarTitleDisplayMode(.inline)
             .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {
                 Button("Standard") {
@@ -94,12 +104,116 @@ struct TripView: View {
                 Text("Choose a map from here")
             }
             .onAppear {
-                print("TripView did appear")
-                print("step timestamp\(String(describing: viewModel.steps[2].timestamp))")
-                viewModel.steps = viewModel.fetchSteps()
-                print("step timestamp\(String(describing: viewModel.steps[2].timestamp))")
+                region = calculateMapRegion(from: steps.map(\.coordinate))
             }
         }
+    }
+    
+    func deleteSteps(at offsets: IndexSet) {
+        
+        for offset in offsets {
+            let step = steps[offset]
+            dataController.delete(step)
+        }
+        dataController.save()
+    }
+    
+    func getRegionForLastStep() -> MKCoordinateRegion {
+        var region = MKCoordinateRegion()
+        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        if let center = steps.last?.coordinate {
+            region = MKCoordinateRegion(center: center, span: span)
+        }
+        return region
+    }
+    
+    func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {
+        var route = [MKPolyline]()
+
+        if !coordinates.isEmpty {
+            var tripRouteStart = coordinates
+            var tripRouteEnd = coordinates
+            
+            tripRouteStart.removeLast()
+            tripRouteEnd.removeFirst()
+            
+            for (startCoordinate, endCoordinate) in zip(tripRouteStart, tripRouteEnd) {
+                let polyline = MKPolyline(coordinates: [startCoordinate, endCoordinate], count: 2)
+                route.append(polyline)
+                
+            }
+        }
+        return route
+    }
+    
+    func calculateMapRegion(from coordinate: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
+        
+        if let maxLatitude = coordinate.map(\.latitude).max(),
+           let minLatitude = coordinate.map(\.latitude).min(),
+           let maxLongitude = coordinate.map(\.longitude).max(),
+           let minLongitude = coordinate.map(\.longitude).min() {
+            let centre = calculateCentreCoordinate(
+                from: minLatitude,
+                maxLatitude: maxLatitude,
+                minLongitude: minLongitude,
+                maxLongitude: maxLongitude
+            )
+            let span = calculateCoordinateSpan(
+                from: minLatitude,
+                maxLatitude: maxLatitude,
+                minLongitude: minLongitude,
+                maxLongitude: maxLongitude
+            )
+            return MKCoordinateRegion(center: centre, span: span)
+        } else {
+            return calculateMapRegionWihLocale()
+        }
+    }
+    
+    private func calculateCentreCoordinate(
+        from minLatitude: Double,
+        maxLatitude: Double,
+        minLongitude: Double,
+        maxLongitude: Double
+    ) -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: (minLatitude + maxLatitude) / 2,
+            longitude: (minLongitude + maxLongitude) / 2
+        )
+    }
+    
+    private func calculateCoordinateSpan(
+        from minLatitude: Double,
+        maxLatitude: Double,
+        minLongitude: Double,
+        maxLongitude: Double
+    ) -> MKCoordinateSpan {
+        return MKCoordinateSpan(
+            latitudeDelta: (maxLatitude - minLatitude) * 1.2,
+            longitudeDelta: (maxLongitude - minLongitude) * 1.2
+        )
+    }
+    
+    func calculateMapRegionWihLocale() -> MKCoordinateRegion {
+        // TODO: - Hardcode coordinates for all 7 continents
+
+        let locale = Locale.current
+        var centre = CLLocationCoordinate2D()
+        let span = MKCoordinateSpan(latitudeDelta: 50, longitudeDelta: 50)
+        var region = MKCoordinateRegion()
+
+        if let regionCode = locale.language.region?.identifier {
+            locationManager.fetchPlacemark(for: regionCode)
+            if let coordinates = locationManager.fetchedPlacemark?.location?.coordinate {
+                centre = coordinates
+            } else {
+                centre = CLLocationCoordinate2D(latitude: 60.0, longitude: -5.5)
+            }
+        } else {
+            centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
+        }
+        region = MKCoordinateRegion(center: centre, span: span)
+        return region
     }
 }
 
@@ -107,11 +221,7 @@ struct TripView: View {
 
 struct TripView_Previews: PreviewProvider {
     static var previews: some View {
-        TripView(
-            trip: .preview,
-            dataController: .preview,
-            locationManager: .preview
-        )
+        TripView(trip: .preview)
     }
 }
 

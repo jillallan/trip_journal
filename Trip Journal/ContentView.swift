@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            TripsView(dataController: dataController, locationManager: locationManager)
+            TripsView()
                 .tabItem {
                     Label("Trips", systemImage: "airplane")
                 }

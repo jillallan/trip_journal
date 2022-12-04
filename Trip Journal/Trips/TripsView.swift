@@ -14,14 +14,13 @@ struct TripsView: View {
     
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var locationManager: LocationManager
-    @StateObject var viewModel: TripsViewModel
+    @FetchRequest(
+        entity: Trip.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Trip.startDate, ascending: false)]
+    ) var trips: FetchedResults<Trip>
+
     @State var addTripViewIsPresented: Bool = false
     @State var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 30, longitude: 31), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
-    
-    init(dataController: DataController, locationManager: LocationManager) {
-        let viewModel = TripsViewModel(dataController: dataController, locationManager: locationManager)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     // MARK: - View
     
@@ -30,16 +29,15 @@ struct TripsView: View {
             Map(coordinateRegion: $mapRegion)
                 .frame(height: 200)
             List {
-                ForEach(viewModel.trips) { trip in
+                ForEach(trips) { trip in
                     NavigationLink {
-                        TripView(trip: trip, dataController: dataController, locationManager: locationManager)
+                        TripView(trip: trip)
                     } label: {
                         TripCardView(trip: trip)
                     }
                 }
                 .onDelete { indexSet in
-                    viewModel.deleteTrips(at: indexSet)
-                    viewModel.trips = viewModel.fetchTrips()
+                    deleteTrips(at: indexSet)
                 }
             }
             
@@ -50,23 +48,36 @@ struct TripsView: View {
                     Label("Add", systemImage: "plus")
                 }
             }
-            .navigationTitle(viewModel.title)
+            .navigationTitle("Trips")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $addTripViewIsPresented) {
-                viewModel.trips = viewModel.fetchTrips()
             } content: {
-                AddTripView(dataController: dataController, locationManager: locationManager)
-            }
-            .onAppear {
-                viewModel.trips = viewModel.fetchTrips()
+                AddTripView()
             }
         }
+    }
+    
+    // MARK: - Update model
+    
+    func deleteTrips(at offsets: IndexSet) {
+        // TODO: - Do we need sort order
+        
+        for offset in offsets {
+            
+            let trip = trips[offset]
+            let steps = trip.tripSteps
+            for step in steps {
+                dataController.delete(step)
+            }
+            dataController.delete(trip)
+        }
+        dataController.save()
     }
 }
 
 struct TripsView_Previews: PreviewProvider {
     static var previews: some View {
-        TripsView(dataController: .preview, locationManager: .preview)
+        TripsView()
             .environmentObject(DataController.preview)
             .environmentObject(LocationManager.preview)
     }

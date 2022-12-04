@@ -11,45 +11,47 @@ import SwiftUI
 struct AddTripView: View {
     
     // MARK: - Properties
+    @EnvironmentObject var dataController: DataController
+    @EnvironmentObject var locationManager: LocationManager
     
-    @StateObject var viewModel: AddTripViewModel
+    @State var title: String = ""
+    @State var startDate: Date = Date.now
+    @State var endDate: Date = Date.now
+    @State var tripTrackingIsOn: Bool = false
+    
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Init
     
-    init(dataController: DataController, locationManager: LocationManager) {
-        let viewModel = AddTripViewModel(dataController: dataController, locationManager: locationManager)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     // MARK: - View
     
     var body: some View {
         Form {
-            TextField("Trip Title", text: $viewModel.title)
-            DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
-            DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
-            Toggle("Enable Trip Tracking", isOn: $viewModel.tripTrackingIsOn)
+            TextField("Trip Title", text: $title)
+            DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+            DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+            Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
             PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
                 Text("Select a photo")
             }
-            .onChange(of: selectedItem) { newValue in
-                Task {
-                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
-                        selectedImageData = data
-                    }
-                }
-            }
+//            .onChange(of: selectedItem) { newValue in
+//                Task {
+//                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
+//                        selectedImageData = data
+//                    }
+//                }
+//            }
             Button {
-                viewModel.addTrip(
-                    title: viewModel.title,
-                    startDate: viewModel.startDate,
-                    endDate: viewModel.endDate
+                addTrip(
+                    title: title,
+                    startDate: startDate,
+                    endDate: endDate
                 )
-                if viewModel.tripTrackingIsOn {
-                    viewModel.locationManager.startLocationServices()
+                if tripTrackingIsOn {
+                    locationManager.startLocationServices()
                 }
                 dismiss()
             } label: {
@@ -65,12 +67,19 @@ struct AddTripView: View {
 
         }
     }
+    
+    // MARK: - Update Model Methods
+    
+    func addTrip(title: String, startDate: Date, endDate: Date) {
+        _ = Trip(context: dataController.container.viewContext, title: title, startDate: startDate, endDate: endDate)
+        dataController.save()
+    }
 }
 
 // MARK: - Xcode Preview
 
 struct AddTripView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTripView(dataController: .preview, locationManager: .preview)
+        AddTripView()
     }
 }

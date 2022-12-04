@@ -11,27 +11,25 @@ import Contacts
 
 struct FeatureAnnotationCardView: View {
     
+    @EnvironmentObject var dataController: DataController
+    
     enum LoadingState {
         case loading, loaded, failed
     }
    
-    @StateObject var viewModel: FeatureAnnotationCardViewModel
+    let trip: Trip
+    let featureAnnotation: MKAnnotation
     @State private var loadingState = LoadingState.loading
-    @State var addStep: ((MKMapItem?) -> Void)?
-    @Environment(\.dismiss) var dismiss
+    @State var mapItem: MKMapItem?
     
-
-    init(featureAnnotation: MKMapFeatureAnnotation, addStep: ((MKMapItem?) -> Void)?) {
-        let viewModel = FeatureAnnotationCardViewModel(featureAnnotation: featureAnnotation, addStep: addStep)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         HStack {
             Group {
                 switch loadingState {
                 case .loaded:
-                    if let mapItem = viewModel.mapItem {
+                    if let mapItem = mapItem {
                         Image(systemName: mapItem.pointOfInterestCategory?.symbolName ?? "mappin.and.ellipse")
                         VStack {
                             Text(mapItem.name ?? "No name available")
@@ -40,9 +38,7 @@ struct FeatureAnnotationCardView: View {
                         }
                         HStack {
                             Button("Add step") {
-                                if let addStep = viewModel.addStep {
-                                    addStep(mapItem)
-                                }
+                                addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New step")
                                 dismiss()
                             }
                             Button("Cancel", role: .cancel) {
@@ -60,9 +56,34 @@ struct FeatureAnnotationCardView: View {
             }
         }
         .task {
-            viewModel.mapItem = await viewModel.getMapItem(with: viewModel.featureAnnotation)
+            mapItem = await getMapItem(with: featureAnnotation)
             loadingState = .loaded
         }
+    }
+    
+    func getMapItem(with annotation: MKAnnotation) async -> MKMapItem? {
+        if let featureAnnotation = annotation as? MKMapFeatureAnnotation {
+            do {
+                let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+                let featureItem = try await featureRequest.mapItem
+                return featureItem
+            } catch {
+                fatalError("Failed to get map item: \(error.localizedDescription)")
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
+        let step = Step(
+            context: dataController.container.viewContext,
+            coordinate: coordinate,
+            timestamp: Date.now,
+            name: name
+        )
+        step.trip = trip
+        dataController.save()
     }
 }
 

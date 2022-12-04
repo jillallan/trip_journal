@@ -8,9 +8,9 @@
 import SwiftUI
 import Photos
 
-struct StepViewCell: View {
+struct TripViewStepCell: View {
     let step: Step
-    let 
+
     
     var body: some View {
         HStack(alignment: .top) {
@@ -23,7 +23,7 @@ struct StepViewCell: View {
                     Text(step.stepTimestamp, style: .time)
                 }
             }
-            Image(<#T##name: String##String#>)
+//            Image("seamonster")
         }
     }
     
@@ -37,6 +37,6 @@ struct StepViewCell: View {
 
 struct StepViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        StepViewCell(step: .preview)
+        TripViewStepCell(step: .preview)
     }
 }
