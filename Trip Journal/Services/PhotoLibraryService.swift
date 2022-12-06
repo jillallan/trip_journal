@@ -8,9 +8,9 @@
 import Foundation
 import Photos
 
-class PhotoAssetManager: ObservableObject {
+// TODO: - Add main actor
+class PhotoLibraryService: ObservableObject {
 
-    
     func getPermissionIfNecessary(completionHandler: @escaping (Bool) -> Void) {
         guard PHPhotoLibrary.authorizationStatus() != .authorized else {
             completionHandler(true)
@@ -22,6 +22,10 @@ class PhotoAssetManager: ObservableObject {
         }
     }
     
+    func fetchAllPhotos() {
+        // TODO: - 
+    }
+    
     func fetchAssets() -> PHFetchResult<PHAsset> {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [
@@ -31,6 +35,19 @@ class PhotoAssetManager: ObservableObject {
         ]
         return PHAsset.fetchAssets(with: allPhotosOptions)
     }
+    
+    func fetchAssets(with identifiers: [Photo]) -> PHFetchResult<PHAsset> {
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [
+            NSSortDescriptor(
+                key: "creationDate",
+                ascending: false)
+        ]
+        let identifierStrings = identifiers.compactMap(\.assetIdentifier)
+        return PHAsset.fetchAssets(withLocalIdentifiers: identifierStrings, options: allPhotosOptions)
+    }
+    
+    
     
 //    func getAsset() -> PHAsset {
 //        //

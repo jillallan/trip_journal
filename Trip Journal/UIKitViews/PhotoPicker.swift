@@ -17,7 +17,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
         
         photoPicker.delegate = context.coordinator
         
-        let photoAssetManager = PhotoAssetManager()
+        let photoAssetManager = PhotoLibraryService()
         photoAssetManager.getPermissionIfNecessary { granted in
             guard granted else { return }
 //            self.fetchAssets()

@@ -50,6 +50,7 @@ struct TripsView: View {
             }
             .navigationTitle("Trips")
             .navigationBarTitleDisplayMode(.inline)
+            
             .sheet(isPresented: $addTripViewIsPresented) {
             } content: {
                 AddTripView()

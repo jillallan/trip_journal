@@ -36,8 +36,8 @@ extension Trip {
         steps?.allObjects as? [Step] ?? []
     }
     
-    var tripPhotoIdentifiers: [PhotoAssetIdentifier] {
-        tripPhotoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
+    var tripPhotos: [Photo] {
+        photos?.allObjects as? [Photo] ?? []
     }
 }
 
