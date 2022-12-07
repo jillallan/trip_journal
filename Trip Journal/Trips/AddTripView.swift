@@ -34,7 +34,7 @@ struct AddTripView: View {
             DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
             DatePicker("End Date", selection: $endDate, displayedComponents: .date)
             Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
-            PhotoPicker()
+//            PhotoPicker()
 //            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
 //                Text("Select a photo")
 //            }

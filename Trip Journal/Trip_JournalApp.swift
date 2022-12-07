@@ -19,13 +19,13 @@ struct Trip_JournalApp: App {
         // (not just the stateobject wrapper, so we can pass it in to environment object below
         let dataController = DataController()
         let locationManager = LocationManager()
-        let photoLibraryService = PhotoLibraryService()
+        let photoLibraryService = PhotoLibraryService(dataController: dataController)
         _dataController = StateObject(wrappedValue: dataController)
         _locationManager = StateObject(wrappedValue: locationManager)
         _photoLibraryService = StateObject(wrappedValue: photoLibraryService)
         
         photoLibraryService.getPermissionIfNecessary { granted in
-            photoLibraryService.fetchAllPhotos()
+            photoLibraryService.fetchAllAssets()
         }
     }
     

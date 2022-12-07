@@ -21,3 +21,12 @@ extension Photo {
         assetIdentifier ?? ""
     }
 }
+
+extension Photo {
+    static var preview: Photo = {
+        let dataController = DataController.preview
+        let viewContext = dataController.container.viewContext
+
+        return Photo(context: viewContext, assetIdentifier: "9F983DBA-EC35-42B8-8773-B597CF782EDD/L0/001")
+    }()
+}

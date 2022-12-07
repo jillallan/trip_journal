@@ -17,7 +17,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("Trips", systemImage: "airplane")
                 }
-            
+            PhotoGridView()
+                .tabItem {
+                    Label("Photos", systemImage: "photo.on.rectangle.angled")
+                }
         }
     }
 }

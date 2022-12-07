@@ -68,9 +68,6 @@ struct StepView: View {
         .onDisappear {
             dataController.save()
         }
-        .sheet(isPresented: $showingPhotoPicker) {
-            PhotoPicker()
-        }
         .onAppear {
             let assetIdetifiers = step.stepPhotos
             if let asset = photoAssetManager.fetchAssets(with: assetIdetifiers).firstObject {
