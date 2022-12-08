@@ -25,7 +25,7 @@ struct Trip_JournalApp: App {
         _photoLibraryService = StateObject(wrappedValue: photoLibraryService)
         
         photoLibraryService.getPermissionIfNecessary { granted in
-            photoLibraryService.fetchAllAssets()
+            photoLibraryService.cacheAllAssets2()
         }
     }
     

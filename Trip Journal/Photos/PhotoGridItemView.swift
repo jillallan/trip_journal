@@ -9,6 +9,7 @@ import SwiftUI
 import Photos
 
 struct PhotoGridItemView: View {
+    @EnvironmentObject var photoLibraryService: PhotoLibraryService
     let asset: PHAsset
     @State var inputImage: UIImage?
     
@@ -23,24 +24,33 @@ struct PhotoGridItemView: View {
                 .clipped(antialiased: true)
         }
         .onAppear {
-            PHImageManager.default().requestImage(
+            photoLibraryService.imageCachingManager.requestImage(
                 for: asset,
-                targetSize: CGSize(width: 200, height: 200),
-                contentMode: .aspectFit,
-                options: nil) { image, info in
-                    if let image = image {
-                        inputImage = image
-                    }
+                targetSize: CGSize(width: 600, height: 600),
+                contentMode: .aspectFill,
+                options: nil
+            ) { image, info in
+                if let image = image {
+                    inputImage = image
                 }
+            }
+            
+            
+//            PHImageManager.default().requestImage(
+//                for: asset,
+//                targetSize: CGSize(width: 600, height: 600),
+//                contentMode: .aspectFill,
+//                options: nil) { image, info in
+//                    if let image = image {
+//                        inputImage = image
+//                    }
+//                }
         }
     }
 }
 
 //struct PhotoView_Previews: PreviewProvider {
 //    static var previews: some View {
-//
-//        let fetchResult = PHAsset.fetchAssets(with: .image, options: nil)
-//        let asset = fetchResult.firstObject!
 //
 ////        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [Photo.preview.photoAssetIdentifier], options: nil).firstObject!
 //

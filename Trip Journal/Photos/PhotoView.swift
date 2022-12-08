@@ -18,15 +18,17 @@ struct PhotoView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 600, height: 600)
-                .cornerRadius(5)
+                .cornerRadius(16)
                 .clipped(antialiased: true)
         }
         .onAppear {
+            
             PHImageManager.default().requestImage(
                 for: asset,
                 targetSize: CGSize(width: 600, height: 600),
                 contentMode: .aspectFit,
                 options: nil) { image, info in
+                    print("photo info: \(String(describing: info))")
                     if let image = image {
                         inputImage = image
                     }

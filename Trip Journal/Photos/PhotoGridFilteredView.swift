@@ -13,7 +13,7 @@ struct PhotoGridFilteredView: View {
     let trip: Trip
     
     @EnvironmentObject var dataController: DataController
-    @State var photos = PHFetchResultCollection(fetchResult: .init())
+    @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     let columns = [
         GridItem(spacing: 0),
@@ -23,7 +23,7 @@ struct PhotoGridFilteredView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(photos, id: \.localIdentifier) { asset in
+                ForEach(photoAssets, id: \.localIdentifier) { asset in
                     HStack {
                         PhotoGridItemView(asset: asset)
                     }
@@ -32,9 +32,9 @@ struct PhotoGridFilteredView: View {
             }
         }
         .onAppear {
-            let assetIdentifiers = trip.tripPhotos.compactMap(\.assetIdentifier)
+            let assetIdentifiers = trip.tripPhotosAssetIdentifiers.compactMap(\.assetIdentifier)
             print("assetIdentifiers filteredGridView: \(assetIdentifiers)")
-            photos.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+            photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }
 }

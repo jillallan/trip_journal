@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 
 
-extension Photo {
+extension PhotoAssetIdentifier {
     
     convenience init(context: NSManagedObjectContext, assetIdentifier: String) {
         self.init(context: context)
@@ -22,11 +22,11 @@ extension Photo {
     }
 }
 
-extension Photo {
-    static var preview: Photo = {
+extension PhotoAssetIdentifier {
+    static var preview: PhotoAssetIdentifier = {
         let dataController = DataController.preview
         let viewContext = dataController.container.viewContext
 
-        return Photo(context: viewContext, assetIdentifier: "9F983DBA-EC35-42B8-8773-B597CF782EDD/L0/001")
+        return PhotoAssetIdentifier(context: viewContext, assetIdentifier: "9F983DBA-EC35-42B8-8773-B597CF782EDD/L0/001")
     }()
 }

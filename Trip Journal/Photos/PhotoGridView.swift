@@ -11,12 +11,12 @@ import Photos
 
 struct PhotoGridView: View {
     @EnvironmentObject var dataController: DataController
-    
+
     @FetchRequest(
-        entity: Photo.entity(),
+        entity: PhotoAssetIdentifier.entity(),
         sortDescriptors: []
-    ) var photos: FetchedResults<Photo>
-    
+    ) var photoAssetIdentifiers: FetchedResults<PhotoAssetIdentifier>
+
     @State var photosAssets = PHFetchResultCollection(fetchResult: .init())
     
     // TODO: - Add fetch request for photos
@@ -43,7 +43,7 @@ struct PhotoGridView: View {
                 }
             }
             .onAppear {
-                let assetIdentifiers = photos.compactMap(\.assetIdentifier)
+                let assetIdentifiers = photoAssetIdentifiers.compactMap(\.assetIdentifier)
                 let fetchOptions = PHFetchOptions()
                 fetchOptions.includeHiddenAssets = false
                 fetchOptions.sortDescriptors = [

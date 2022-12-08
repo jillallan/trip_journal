@@ -11,18 +11,14 @@ import Photos
 struct TripCardView: View {
     let trip: Trip
     
-    @State var photos = PHFetchResultCollection(fetchResult: .init())
+    @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
         VStack {
             ZStack {
-                if let asset = photos.fetchResult.firstObject {
+                if let asset = photoAssets.fetchResult.firstObject {
                     PhotoGridItemView(asset: asset)
                 }
-
-//                Image("santa")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
             }
             VStack {
                 HStack {
@@ -49,9 +45,9 @@ struct TripCardView: View {
             
         }
         .onAppear {
-            let assetIdentifiers = trip.tripPhotos.compactMap(\.assetIdentifier)
+            let assetIdentifiers = trip.tripPhotosAssetIdentifiers.compactMap(\.assetIdentifier)
             print("assetIdentifiers tripsView: \(assetIdentifiers)")
-            photos.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+            photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }
 }

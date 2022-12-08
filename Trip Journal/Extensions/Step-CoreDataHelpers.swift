@@ -51,8 +51,8 @@ extension Step {
         name ?? "New Step"
     }
     
-    var stepPhotos: [Photo] {
-        photos?.allObjects as? [Photo] ?? []
+    var stepPhotoAssetIdentifiers: [PhotoAssetIdentifier] {
+        photoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
     }
 }
 

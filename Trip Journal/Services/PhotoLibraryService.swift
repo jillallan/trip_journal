@@ -5,9 +5,11 @@
 //  Created by Jill Allan on 04/12/2022.
 //
 
+import CoreData
 import Foundation
 import Photos
 import UIKit
+import SwiftUI
 
 struct PHFetchResultCollection: RandomAccessCollection, Equatable {
 
@@ -46,16 +48,47 @@ class PhotoLibraryService: ObservableObject {
         }
     }
     
-    func fetchAllAssets() {
+    func cacheAllAssets() {
         // TODO: -
-        imageCachingManager.allowsCachingHighQualityImages = false
+        imageCachingManager.allowsCachingHighQualityImages = true
         let fetchOptions = PHFetchOptions()
         fetchOptions.includeHiddenAssets = false
         fetchOptions.sortDescriptors = [
             NSSortDescriptor(key: "creationDate", ascending: false)
         ]
         DispatchQueue.main.async {
-
+            self.results.fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        }
+    }
+    
+    func cacheAllAssets2() {
+        imageCachingManager.allowsCachingHighQualityImages = true
+        
+        let request: NSFetchRequest<PhotoAssetIdentifier> = PhotoAssetIdentifier.fetchRequest()
+        do {
+            let photoAssetIdentifiers = try dataController.container.viewContext.fetch(request)
+            let identifierStrings = photoAssetIdentifiers.compactMap(\.assetIdentifier)
+            let assetFetchRequest = PHAsset.fetchAssets(withLocalIdentifiers: identifierStrings, options: nil)
+            var assets = [PHAsset]()
+            assetFetchRequest.enumerateObjects { asset, _, _ in
+                assets.append(asset)
+                print("cachedImage: \(assets.count)")
+            }
+            
+            imageCachingManager.startCachingImages(for: assets, targetSize: CGSize(width: 600, height: 600), contentMode: .aspectFill, options: nil)
+        } catch {
+            print("Failed to fetch photo request: \(error.localizedDescription)")
+        }
+        
+        
+//        imageCachingManager.startCachingImage
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
+        ]
+        DispatchQueue.main.async {
             self.results.fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         }
     }
@@ -72,38 +105,16 @@ class PhotoLibraryService: ObservableObject {
 //        options.isSynchronous = true
 //    }
     
-    func fetchAssets() -> PHFetchResult<PHAsset> {
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [
-            NSSortDescriptor(
-                key: "creationDate",
-                ascending: false)
+    func fetchAssets(with photoAssetIdentifiers: FetchedResults<PhotoAssetIdentifier>) -> PHFetchResult<PHAsset> {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
         ]
-        return PHAsset.fetchAssets(with: allPhotosOptions)
+        
+        let identifierStrings = photoAssetIdentifiers.compactMap(\.assetIdentifier)
+        return PHAsset.fetchAssets(withLocalIdentifiers: identifierStrings, options: fetchOptions)
     }
-    
-    func fetchAssets(with identifiers: [Photo]) -> PHFetchResult<PHAsset> {
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [
-            NSSortDescriptor(
-                key: "creationDate",
-                ascending: false)
-        ]
-        let identifierStrings = identifiers.compactMap(\.assetIdentifier)
-        return PHAsset.fetchAssets(withLocalIdentifiers: identifierStrings, options: allPhotosOptions)
-    }
-    
-    func fetchAssets(with identifiers: [String]) -> PHFetchResult<PHAsset> {
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [
-            NSSortDescriptor(
-                key: "creationDate",
-                ascending: false)
-        ]
-//        let identifierStrings = identifiers.compactMap(\.assetIdentifier)
-        return PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: allPhotosOptions)
-    }
-    
 }
 
 
