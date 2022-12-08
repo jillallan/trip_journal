@@ -9,25 +9,19 @@ import PhotosUI
 import SwiftUI
 
 struct StepView: View {
-    enum LoadingState {
-        case loading, loaded, failed
-    }
-    
     let rows = [
         GridItem(.fixed(200))
     ]
     
-    @State private var loadingState = LoadingState.loading
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var photoAssetManager: PhotoLibraryService
+    @State var photos = PHFetchResultCollection(fetchResult: .init())
     @ObservedObject var step: Step
     
     @State private var name: String
     @State private var timestamp: Date
-//    @State private var photos: [UIImage]
-//    @State private var photoIdentifier: String
+
     
-    @State private var inputImage: UIImage?
     @State private var showingPhotoPicker = false
     
     @State private var selectedPhoto: PhotosPickerItem?
@@ -44,21 +38,15 @@ struct StepView: View {
                 TextField("Step Name", text: $name.onChange(updateStep))
                 DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
                 PhotosPicker("Add photo", selection: $selectedPhoto, photoLibrary: .shared())
-                
-                if let inputImage = inputImage {
-                    Image(uiImage: inputImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 400, height: 400)
-                }
             }
             ScrollView(.horizontal) {
                 LazyHGrid(rows: rows, spacing: 20) {
-                    ForEach(0..<3) { int in
-                        Image("seamonster")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 200, height: 200)
+                    ForEach(photos, id: \.localIdentifier) { asset in
+                        NavigationLink {
+                            PhotoView(asset: asset)
+                        } label: {
+                            PhotoGridItemView(asset: asset)
+                        }
                     }
                 }
             }
@@ -69,14 +57,14 @@ struct StepView: View {
             dataController.save()
         }
         .onAppear {
-            let assetIdetifiers = step.stepPhotos
-            if let asset = photoAssetManager.fetchAssets(with: assetIdetifiers).firstObject {
-                getPhoto(from: asset, size: CGSize(width: 400, height: 400))
-            }
+            let assetIdentifiers = step.stepPhotos.compactMap(\.assetIdentifier)
+            photos.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
         .onChange(of: selectedPhoto) { newPhoto in
             Task {
                 addPhoto(photo: newPhoto)
+                let assetIdentifiers = step.stepPhotos.compactMap(\.assetIdentifier)
+                photos.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
             }
         }
     }
@@ -95,18 +83,6 @@ struct StepView: View {
             step.trip?.addToPhotos(newPhoto)
             dataController.save()
         }
-    }
-    
-    func getPhoto(from asset: PHAsset?, size: CGSize) {
-        guard let asset = asset else { return }
-        
-        PHImageManager.default().requestImage(
-            for: asset,
-            targetSize: size,
-            contentMode: .aspectFit,
-            options: nil) { image, info in
-                self.inputImage = image
-            }
     }
 }
 
