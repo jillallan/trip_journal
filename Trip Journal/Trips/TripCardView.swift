@@ -6,18 +6,23 @@
 //
 
 import SwiftUI
+import Photos
 
 struct TripCardView: View {
     let trip: Trip
     
+    @State var photos = PHFetchResultCollection(fetchResult: .init())
+    
     var body: some View {
         VStack {
             ZStack {
-                Image("santa")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                
-                
+                if let asset = photos.fetchResult.firstObject {
+                    PhotoGridItemView(asset: asset)
+                }
+
+//                Image("santa")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
             }
             VStack {
                 HStack {
@@ -41,6 +46,12 @@ struct TripCardView: View {
                 }
             }
             .padding()
+            
+        }
+        .onAppear {
+            let assetIdentifiers = trip.tripPhotos.compactMap(\.assetIdentifier)
+            print("assetIdentifiers tripsView: \(assetIdentifiers)")
+            photos.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }
 }

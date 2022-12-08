@@ -57,7 +57,9 @@
 		78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89274293173710013E9FE /* SearchResultCellViewModel.swift */; };
 		78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
-		78E1D2CE293FE12700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* PhotoView.swift */; };
+		78E1D2CE293FE12700FD6AAF /* PhotoGridItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */; };
+		78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */; };
+		78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* PhotoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,7 +135,9 @@
 		78D89274293173710013E9FE /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
 		78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewModel.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
-		78E1D2CD293FE12700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridItemView.swift; sourceTree = "<group>"; };
+		78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridFilteredView.swift; sourceTree = "<group>"; };
+		78E1D2D1294135C700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,7 +374,9 @@
 			isa = PBXGroup;
 			children = (
 				78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */,
-				78E1D2CD293FE12700FD6AAF /* PhotoView.swift */,
+				78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */,
+				78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */,
+				78E1D2D1294135C700FD6AAF /* PhotoView.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -522,6 +528,7 @@
 				78D892522930DF5D0013E9FE /* PlacemarksListViewModel.swift in Sources */,
 				78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
+				78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
@@ -539,11 +546,12 @@
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
-				78E1D2CE293FE12700FD6AAF /* PhotoView.swift in Sources */,
+				78E1D2CE293FE12700FD6AAF /* PhotoGridItemView.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */,
 				78CE47A92937FEA8008CEDD6 /* TripCardView.swift in Sources */,
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
+				78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */,
 				78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */,
 				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,

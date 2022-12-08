@@ -1,14 +1,14 @@
 //
-//  SwiftUIView.swift
+//  PhotoView.swift
 //  Trip Journal
 //
-//  Created by Jill Allan on 07/12/2022.
+//  Created by Jill Allan on 06/12/2022.
 //
 
 import SwiftUI
 import Photos
 
-struct PhotoView: View {
+struct PhotoGridItemView: View {
     let asset: PHAsset
     @State var inputImage: UIImage?
     
@@ -16,15 +16,16 @@ struct PhotoView: View {
         VStack {
             Image(uiImage: (inputImage ?? UIImage(named: "seamonster"))!)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 600, height: 600)
-                .cornerRadius(5)
+                .scaledToFill()
+//                .aspectRatio(contentMode: .fill)
+                .frame(width: 150, height: 150)
+                .cornerRadius(16)
                 .clipped(antialiased: true)
         }
         .onAppear {
             PHImageManager.default().requestImage(
                 for: asset,
-                targetSize: CGSize(width: 600, height: 600),
+                targetSize: CGSize(width: 200, height: 200),
                 contentMode: .aspectFit,
                 options: nil) { image, info in
                     if let image = image {
@@ -35,8 +36,14 @@ struct PhotoView: View {
     }
 }
 
-//struct Photoiew_Previews: PreviewProvider {
+//struct PhotoView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        PhotoView()
+//
+//        let fetchResult = PHAsset.fetchAssets(with: .image, options: nil)
+//        let asset = fetchResult.firstObject!
+//
+////        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [Photo.preview.photoAssetIdentifier], options: nil).firstObject!
+//
+//        PhotoView(asset: asset)
 //    }
 //}

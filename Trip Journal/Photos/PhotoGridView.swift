@@ -10,11 +10,18 @@ import Photos
 
 
 struct PhotoGridView: View {
-    @EnvironmentObject var photoLibraryService: PhotoLibraryService
+    @EnvironmentObject var dataController: DataController
     
-//    let columns = [
-//        GridItem(.adaptive(minimum: 150), spacing: 10)
-//    ]
+    @FetchRequest(
+        entity: Photo.entity(),
+        sortDescriptors: []
+    ) var photos: FetchedResults<Photo>
+    
+    @State var photosAssets = PHFetchResultCollection(fetchResult: .init())
+    
+    // TODO: - Add fetch request for photos
+    // TODO: - refactor as per photoGridFilteredView using fetch request
+    
 
     let columns = [
         GridItem(spacing: 0),
@@ -22,14 +29,27 @@ struct PhotoGridView: View {
     ]
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(photoLibraryService.results, id: \.localIdentifier) { asset in
-                    HStack {
-                        PhotoView(asset: asset)
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(photosAssets, id: \.localIdentifier) { asset in
+                        NavigationLink {
+                            PhotoView(asset: asset)
+                        } label: {
+                            PhotoGridItemView(asset: asset)
+                        }
                     }
+                    .padding(10)
                 }
-                .padding(10)
+            }
+            .onAppear {
+                let assetIdentifiers = photos.compactMap(\.assetIdentifier)
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.includeHiddenAssets = false
+                fetchOptions.sortDescriptors = [
+                    NSSortDescriptor(key: "creationDate", ascending: false)
+                ]
+                photosAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: fetchOptions)
             }
         }
     }

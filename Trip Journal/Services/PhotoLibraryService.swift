@@ -55,6 +55,7 @@ class PhotoLibraryService: ObservableObject {
             NSSortDescriptor(key: "creationDate", ascending: false)
         ]
         DispatchQueue.main.async {
+
             self.results.fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         }
     }

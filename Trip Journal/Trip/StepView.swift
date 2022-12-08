@@ -92,6 +92,7 @@ struct StepView: View {
         if let photoIdentifier = photo?.itemIdentifier {
             let newPhoto = Photo(context: dataController.container.viewContext, assetIdentifier: photoIdentifier)
             step.addToPhotos(newPhoto)
+            step.trip?.addToPhotos(newPhoto)
             dataController.save()
         }
     }
@@ -106,11 +107,6 @@ struct StepView: View {
             options: nil) { image, info in
                 self.inputImage = image
             }
-    }
-    
-    func getPhotos() {
-        let assetIdetifiers = step.stepPhotos
-        let photoIdentifiers = photoAssetManager.fetchAssets(with: assetIdetifiers)
     }
 }
 

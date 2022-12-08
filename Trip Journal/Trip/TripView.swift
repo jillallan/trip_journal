@@ -67,6 +67,7 @@ struct TripView: View {
                     }
                 }
                 .frame(height: 300)
+                PhotoGridFilteredView(trip: trip)
                 
                 .onDisappear {
                     region = currentMapRegion

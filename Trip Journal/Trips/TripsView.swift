@@ -30,6 +30,7 @@ struct TripsView: View {
                 .frame(height: 200)
             List {
                 ForEach(trips) { trip in
+                    
                     NavigationLink {
                         TripView(trip: trip)
                     } label: {
