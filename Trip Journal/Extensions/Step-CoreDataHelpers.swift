@@ -87,15 +87,20 @@ extension Step {
         let step1 = Step(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
                          timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station")
         step1.trip = trip
+//        step1.addToPhotoAssetIdentifiers(PhotoAssetIdentifier.preview)
+        
         let step2 = Step(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
                          timestamp: dateFormatter.date(from: "28/11/2022 11:00:00") ?? Date.now, name: "St Pancras")
         step2.trip = trip
+        
         let step3 = Step(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
                          timestamp: dateFormatter.date(from: "29/11/2022 10:00:00") ?? Date.now, name: "Atomium")
         step3.trip = trip
+        
         let step4 = Step(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
                          timestamp: dateFormatter.date(from: "29/11/2022 18:00:00") ?? Date.now, name: "Cologne")
         step4.trip = trip
+        
         let step5 = Step(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
                          timestamp: dateFormatter.date(from: "01/08/2022 11:00:00") ?? Date.now, name: "Moscow")
         step5.trip = trip

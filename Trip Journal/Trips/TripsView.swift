@@ -26,22 +26,22 @@ struct TripsView: View {
     
     var body: some View {
         NavigationStack {
-            Map(coordinateRegion: $mapRegion)
-                .frame(height: 200)
-            List {
-                ForEach(trips) { trip in
-                    
-                    NavigationLink {
-                        TripView(trip: trip)
-                    } label: {
-                        TripCardView(trip: trip)
+//            Map(coordinateRegion: $mapRegion)
+//                .frame(height: 200)
+            ScrollView() {
+                LazyVGrid(columns: [GridItem(.flexible())]) {
+                    ForEach(trips) { trip in
+                        NavigationLink {
+                            TripView(trip: trip)
+                        } label: {
+                            TripCardView(trip: trip)
+                        }
+                    }
+                    .onDelete { indexSet in
+                        deleteTrips(at: indexSet)
                     }
                 }
-                .onDelete { indexSet in
-                    deleteTrips(at: indexSet)
-                }
             }
-            
             .toolbar {
                 Button {
                     addTripViewIsPresented.toggle()

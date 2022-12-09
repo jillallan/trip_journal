@@ -19,34 +19,37 @@ struct TripCardView: View {
                 if let asset = photoAssets.fetchResult.firstObject {
                     PhotoGridItemView(asset: asset)
                 }
+                Text(trip.tripTitle)
+                    .font(.title)
+                    .foregroundColor(.white)
+                    
             }
-            VStack {
-                HStack {
-                    Text(trip.tripTitle)
-                        .font(.title)
-                        .foregroundColor(.accentColor)
-                    Spacer()
-                    Text("\(trip.tripSteps.count) steps")
-                        .foregroundColor(.accentColor)
-                }
-                HStack {
-                    Text(trip.tripStartDate, style: .date)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Text("-")
-                    Spacer()
-                    Text(trip.tripEndDate, style: .date)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-            }
-            .padding()
+//            VStack {
+//                HStack {
+//                    Text(trip.tripTitle)
+//                        .font(.title)
+//                        .foregroundColor(.accentColor)
+//                    Spacer()
+//                    Text("\(trip.tripSteps.count) steps")
+//                        .foregroundColor(.accentColor)
+//                }
+//                HStack {
+//                    Text(trip.tripStartDate, style: .date)
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                    Text("-")
+//                    Spacer()
+//                    Text(trip.tripEndDate, style: .date)
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
+//            }
+//            .padding()
             
         }
         .onAppear {
             let assetIdentifiers = trip.tripPhotosAssetIdentifiers.compactMap(\.assetIdentifier)
-            print("assetIdentifiers tripsView: \(assetIdentifiers)")
             photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }

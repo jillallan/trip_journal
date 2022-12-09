@@ -33,7 +33,6 @@ struct PhotoGridFilteredView: View {
         }
         .onAppear {
             let assetIdentifiers = trip.tripPhotosAssetIdentifiers.compactMap(\.assetIdentifier)
-            print("assetIdentifiers filteredGridView: \(assetIdentifiers)")
             photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }

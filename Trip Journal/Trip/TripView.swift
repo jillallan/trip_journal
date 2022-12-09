@@ -54,20 +54,22 @@ struct TripView: View {
                 ) { region in
                     currentMapRegion = region
                 }
-                List {
-                    ForEach(steps) { step in
-                        NavigationLink {
-                            StepView(step: step)
-                        } label: {
-                            TripViewStepCell(step: step)
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: [GridItem(.flexible(), spacing: 10)]) {
+                        ForEach(steps) { step in
+                            NavigationLink {
+                                StepView(step: step)
+                            } label: {
+                                TripViewStepCell(step: step)
+                            }
                         }
-                    }
-                    .onDelete { indexSet in
-                        deleteSteps(at: indexSet)
+                        .onDelete { indexSet in
+                            deleteSteps(at: indexSet)
+                        }
                     }
                 }
                 .frame(height: 300)
-                PhotoGridFilteredView(trip: trip)
+//                PhotoGridFilteredView(trip: trip)
                 
                 .onDisappear {
                     region = currentMapRegion

@@ -18,8 +18,7 @@ struct PhotoGridItemView: View {
             Image(uiImage: (inputImage ?? UIImage(named: "seamonster"))!)
                 .resizable()
                 .scaledToFill()
-//                .aspectRatio(contentMode: .fill)
-                .frame(width: 150, height: 150)
+                .frame(maxWidth: .infinity, maxHeight: 300)
                 .cornerRadius(16)
                 .clipped(antialiased: true)
         }
@@ -34,17 +33,6 @@ struct PhotoGridItemView: View {
                     inputImage = image
                 }
             }
-            
-            
-//            PHImageManager.default().requestImage(
-//                for: asset,
-//                targetSize: CGSize(width: 600, height: 600),
-//                contentMode: .aspectFill,
-//                options: nil) { image, info in
-//                    if let image = image {
-//                        inputImage = image
-//                    }
-//                }
         }
     }
 }
