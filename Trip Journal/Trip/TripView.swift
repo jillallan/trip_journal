@@ -44,35 +44,43 @@ struct TripView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                MapView(
-                    coordinateRegion: region,
-                    annotationItems: steps.map({ step in
-                        step
-                    }),
-                    routeOverlay: createRoute(from: steps.map(\.coordinate))
-                ) { region in
-                    currentMapRegion = region
-                }
-                ScrollView(.horizontal) {
-                    LazyHGrid(rows: [GridItem(.flexible(), spacing: 10)]) {
-                        ForEach(steps) { step in
-                            NavigationLink {
-                                StepView(step: step)
-                            } label: {
-                                TripViewStepCell(step: step)
+            GeometryReader { geo in
+                VStack {
+                    MapView(
+                        coordinateRegion: region,
+                        annotationItems: steps.map({ step in
+                            step
+                        }),
+                        routeOverlay: createRoute(from: steps.map(\.coordinate))
+                    ) { region in
+                        currentMapRegion = region
+                    }
+                    .frame(height: geo.frame(in: .local).height * 0.75)
+                    .frame(height: geo.size.height * 0.75)
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: [GridItem(.flexible(), spacing: 10)]) {
+                            ForEach(steps) { step in
+                                NavigationLink {
+                                    StepView(step: step)
+                                } label: {
+                                    TripViewStepCell(step: step)
+                                        .frame(width: geo.size.width * 0.75, height: geo.size.height)
+//                                        .frame(width: geo.size.width * 0.75, height: geo.size.height)
+                                }
+                            }
+                            .onDelete { indexSet in
+                                deleteSteps(at: indexSet)
                             }
                         }
-                        .onDelete { indexSet in
-                            deleteSteps(at: indexSet)
-                        }
                     }
-                }
-                .frame(height: 300)
-//                PhotoGridFilteredView(trip: trip)
-                
-                .onDisappear {
-                    region = currentMapRegion
+//                    .frame(height: geo.frame(in: .local).height)
+                    .frame(height: geo.size.height * 0.25)
+//                    .frame(height: geo.safeAreaInsets.bottom)
+                    //                PhotoGridFilteredView(trip: trip)
+                    
+                    .onDisappear {
+                        region = currentMapRegion
+                    }
                 }
             }
             .sheet(isPresented: $addViewIsPresented) {

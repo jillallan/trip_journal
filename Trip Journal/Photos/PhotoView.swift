@@ -38,6 +38,7 @@ struct PhotoView: View {
 }
 
 //struct Photoiew_Previews: PreviewProvider {
+//
 //    static var previews: some View {
 //        PhotoView()
 //    }
