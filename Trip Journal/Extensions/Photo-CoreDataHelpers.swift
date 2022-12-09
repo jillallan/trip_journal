@@ -60,6 +60,4 @@ extension PhotoAssetIdentifier {
 //
 //        return photoAssetIdentifiers
 //    }
-    
-    
 //}

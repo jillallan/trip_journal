@@ -55,29 +55,27 @@ struct TripView: View {
                     ) { region in
                         currentMapRegion = region
                     }
-                    .frame(height: geo.frame(in: .local).height * 0.75)
                     .frame(height: geo.size.height * 0.75)
+                    
+                    
                     ScrollView(.horizontal) {
-                        LazyHGrid(rows: [GridItem(.flexible(), spacing: 10)]) {
+                        LazyHGrid(rows: [GridItem(.flexible(), spacing: 20)], spacing: 20) {
                             ForEach(steps) { step in
                                 NavigationLink {
                                     StepView(step: step)
                                 } label: {
-                                    TripViewStepCell(step: step)
-                                        .frame(width: geo.size.width * 0.75, height: geo.size.height)
-//                                        .frame(width: geo.size.width * 0.75, height: geo.size.height)
+                                    StepCardView(step: step, geometry: geo)
+                                        .cornerRadius(12)
+                                        .clipped(antialiased: true)
                                 }
                             }
                             .onDelete { indexSet in
                                 deleteSteps(at: indexSet)
                             }
-                        }
+                        }.padding(.bottom, 20)
                     }
-//                    .frame(height: geo.frame(in: .local).height)
                     .frame(height: geo.size.height * 0.25)
-//                    .frame(height: geo.safeAreaInsets.bottom)
-                    //                PhotoGridFilteredView(trip: trip)
-                    
+                    .padding(10)
                     .onDisappear {
                         region = currentMapRegion
                     }
@@ -98,7 +96,6 @@ struct TripView: View {
                 }
             }
             .toolbar(.hidden, for: .tabBar)
-            .ignoresSafeArea(edges: .bottom)
             .navigationTitle(trip.tripTitle)
             .navigationBarTitleDisplayMode(.inline)
             .confirmationDialog("Choose map", isPresented: $mapTypeConfirmationDialogIsPresented) {

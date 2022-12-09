@@ -17,7 +17,7 @@ struct TripCardView: View {
         VStack {
             ZStack {
                 if let asset = photoAssets.fetchResult.firstObject {
-                    PhotoGridItemView(asset: asset)
+                    PhotoGridItemView(asset: asset, geometry: nil)
                 }
                 Text(trip.tripTitle)
                     .font(.title)

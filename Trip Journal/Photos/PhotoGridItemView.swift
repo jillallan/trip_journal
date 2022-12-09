@@ -11,6 +11,7 @@ import Photos
 struct PhotoGridItemView: View {
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
     let asset: PHAsset
+    let geometry: GeometryProxy!
     @State var inputImage: UIImage?
     
     var body: some View {
@@ -18,7 +19,7 @@ struct PhotoGridItemView: View {
             Image(uiImage: (inputImage ?? UIImage(named: "seamonster"))!)
                 .resizable()
                 .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 300)
+                .frame(maxWidth: (geometry != nil) ? geometry?.size.width : .infinity, maxHeight: 300)
                 .cornerRadius(16)
                 .clipped(antialiased: true)
         }
