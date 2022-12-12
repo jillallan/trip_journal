@@ -37,9 +37,10 @@ struct PhotoView: View {
     }
 }
 
-//struct Photoiew_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        PhotoView()
-//    }
-//}
+struct Photoiew_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let asset = PHAsset()
+        PhotoView(asset: asset)
+    }
+}

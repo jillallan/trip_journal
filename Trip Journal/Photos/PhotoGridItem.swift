@@ -8,7 +8,7 @@
 import SwiftUI
 import Photos
 
-struct PhotoGridItemView: View {
+struct PhotoGridItem: View {
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
     let asset: PHAsset
     let geometry: GeometryProxy!
@@ -38,11 +38,10 @@ struct PhotoGridItemView: View {
     }
 }
 
-//struct PhotoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-////        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [Photo.preview.photoAssetIdentifier], options: nil).firstObject!
-//
-//        PhotoView(asset: asset)
-//    }
-//}
+struct PhotoView_Previews: PreviewProvider {
+    static var previews: some View {
+
+        let asset = PHAsset()
+        PhotoView(asset: asset)
+    }
+}

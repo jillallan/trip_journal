@@ -34,7 +34,7 @@ struct TripsView: View {
                         NavigationLink {
                             TripView(trip: trip)
                         } label: {
-                            TripCardView(trip: trip)
+                            TripCard(trip: trip)
                         }
                     }
                     .onDelete { indexSet in

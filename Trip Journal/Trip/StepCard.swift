@@ -8,7 +8,7 @@
 import SwiftUI
 import Photos
 
-struct StepCardView: View {
+struct StepCard: View {
     let step: Step
     let geometry: GeometryProxy
     
@@ -18,7 +18,7 @@ struct StepCardView: View {
         ZStack(alignment: .bottomLeading) {
 
             if let asset = photoAssets.fetchResult.firstObject {
-                PhotoGridItemView(asset: asset, geometry: geometry)
+                PhotoGridItem(asset: asset, geometry: geometry)
             }
 //            Text(step.stepName)
 //                .font(.title)
@@ -28,6 +28,7 @@ struct StepCardView: View {
                 VStack(alignment: .leading) {
                     Text(step.stepName)
                         .font(.headline)
+                    Text(step.longitude.formatted())
                     HStack {
                         Text(step.stepTimestamp, style: .date)
                         Text(step.stepTimestamp, style: .time)

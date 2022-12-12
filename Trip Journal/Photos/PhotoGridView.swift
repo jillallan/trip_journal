@@ -18,10 +18,6 @@ struct PhotoGridView: View {
     ) var photoAssetIdentifiers: FetchedResults<PhotoAssetIdentifier>
 
     @State var photosAssets = PHFetchResultCollection(fetchResult: .init())
-    
-    // TODO: - Add fetch request for photos
-    // TODO: - refactor as per photoGridFilteredView using fetch request
-    
 
     let columns = [
         GridItem(spacing: 0),
@@ -36,7 +32,7 @@ struct PhotoGridView: View {
                         NavigationLink {
                             PhotoView(asset: asset)
                         } label: {
-                            PhotoGridItemView(asset: asset, geometry: nil)
+                            PhotoGridItem(asset: asset, geometry: nil)
                         }
                     }
                     .padding(10)

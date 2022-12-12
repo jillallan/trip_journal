@@ -45,7 +45,7 @@ struct StepView: View {
                         NavigationLink {
                             PhotoView(asset: asset)
                         } label: {
-                            PhotoGridItemView(asset: asset, geometry: nil)
+                            PhotoGridItem(asset: asset, geometry: nil)
                         }
                     }
                 }

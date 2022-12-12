@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-struct TripView: View {
+struct Trip2View: View {
     
     // MARK: - Properties
     
@@ -16,10 +16,9 @@ struct TripView: View {
     
     @FetchRequest var steps: FetchedResults<Step>
     @State var tripRoute = [MKPolyline]()
-    @State var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0),
-        span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-    )
+    @State var region: MKCoordinateRegion
+
+    
     @State var featureAnnotation: MKMapFeatureAnnotation!
     
     @EnvironmentObject var dataController: DataController
@@ -34,18 +33,25 @@ struct TripView: View {
     
     init(trip: Trip) {
         self.trip = trip
+        let region = trip.region
+        
         _steps = FetchRequest<Step>(
             sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
         )
+        _region = State(initialValue: region)
+ 
+        
     }
     
     // MARK: - View
     
     var body: some View {
         NavigationStack {
+            
             GeometryReader { geo in
                 VStack {
+                    Text("\(region.center.latitude)")
                     MapView(
                         coordinateRegion: region,
                         annotationItems: steps.map({ step in
@@ -57,16 +63,29 @@ struct TripView: View {
                     }
                     .frame(height: geo.size.height * 0.75)
                     
-                    
+                    let _ = Self._printChanges()
+                    let _ = print(region)
                     ScrollView(.horizontal) {
                         LazyHGrid(rows: [GridItem(.flexible(), spacing: 20)], spacing: 20) {
                             ForEach(steps) { step in
                                 NavigationLink {
                                     StepView(step: step)
                                 } label: {
-                                    StepCardView(step: step, geometry: geo)
+                                    StepCard(step: step, geometry: geo)
                                         .cornerRadius(12)
                                         .clipped(antialiased: true)
+                                        
+                                        .onAppear {
+                                            getRegion(for: step)
+                                       
+                                       
+                                        }
+//                                        .onChange(of: currentStep) { newStep in
+//                                            region = getRegion(for: newStep)
+//                                        }
+                                        
+
+                                        
                                 }
                             }
                             .onDelete { indexSet in
@@ -111,9 +130,10 @@ struct TripView: View {
             } message: {
                 Text("Choose a map from here")
             }
-            .onAppear {
-                region = calculateMapRegion(from: steps.map(\.coordinate))
-            }
+            
+//            .onAppear {
+//                region = calculateMapRegion(from: steps.map(\.coordinate))
+//            }
         }
     }
     
@@ -133,6 +153,15 @@ struct TripView: View {
             region = MKCoordinateRegion(center: center, span: span)
         }
         return region
+    }
+    
+    func getRegion(for step: Step) {
+        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        let center = step.coordinate
+        print("getRegion fr step \(MKCoordinateRegion(center: center, span: span))")
+
+//        return MKCoordinateRegion(center: center, span: span)
+        region = MKCoordinateRegion(center: center, span: span)
     }
     
     func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {

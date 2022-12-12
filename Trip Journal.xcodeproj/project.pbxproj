@@ -34,8 +34,8 @@
 		787855E229130C6F00D1F199 /* TestTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E129130C6F00D1F199 /* TestTripView.swift */; };
 		787855E9291449D700D1F199 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E8291449D700D1F199 /* MapView.swift */; };
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
-		78CE47A92937FEA8008CEDD6 /* TripCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47A82937FEA8008CEDD6 /* TripCardView.swift */; };
-		78CE47AF2938BEAC008CEDD6 /* StepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47AE2938BEAC008CEDD6 /* StepCardView.swift */; };
+		78CE47A92937FEA8008CEDD6 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47A82937FEA8008CEDD6 /* TripCard.swift */; };
+		78CE47AF2938BEAC008CEDD6 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47AE2938BEAC008CEDD6 /* StepCard.swift */; };
 		78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B22938BF60008CEDD6 /* StepView.swift */; };
 		78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */; };
 		78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */; };
@@ -57,9 +57,10 @@
 		78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89274293173710013E9FE /* SearchResultCellViewModel.swift */; };
 		78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
-		78E1D2CE293FE12700FD6AAF /* PhotoGridItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */; };
+		78E1D2CE293FE12700FD6AAF /* PhotoGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */; };
 		78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */; };
 		78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* PhotoView.swift */; };
+		78E1D2F929452E3800FD6AAF /* Trip2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2F829452E3800FD6AAF /* Trip2View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,8 +113,8 @@
 		787855E129130C6F00D1F199 /* TestTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTripView.swift; sourceTree = "<group>"; };
 		787855E8291449D700D1F199 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
-		78CE47A82937FEA8008CEDD6 /* TripCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardView.swift; sourceTree = "<group>"; };
-		78CE47AE2938BEAC008CEDD6 /* StepCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCardView.swift; sourceTree = "<group>"; };
+		78CE47A82937FEA8008CEDD6 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
+		78CE47AE2938BEAC008CEDD6 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
 		78CE47B22938BF60008CEDD6 /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding-OnChange.swift"; sourceTree = "<group>"; };
 		78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -135,9 +136,10 @@
 		78D89274293173710013E9FE /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
 		78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewModel.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
-		78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridItemView.swift; sourceTree = "<group>"; };
+		78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridItem.swift; sourceTree = "<group>"; };
 		78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridFilteredView.swift; sourceTree = "<group>"; };
 		78E1D2D1294135C700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		78E1D2F829452E3800FD6AAF /* Trip2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip2View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,7 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				785AA0CD2927D45700F598AE /* TripsView.swift */,
-				78CE47A82937FEA8008CEDD6 /* TripCardView.swift */,
+				78CE47A82937FEA8008CEDD6 /* TripCard.swift */,
 				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 			);
 			path = Trips;
@@ -304,7 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				781FFB9929198FAC00605DAE /* TripView.swift */,
-				78CE47AE2938BEAC008CEDD6 /* StepCardView.swift */,
+				78E1D2F829452E3800FD6AAF /* Trip2View.swift */,
+				78CE47AE2938BEAC008CEDD6 /* StepCard.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
 				78CE47B22938BF60008CEDD6 /* StepView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
@@ -375,7 +378,7 @@
 			children = (
 				78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */,
 				78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */,
-				78E1D2CD293FE12700FD6AAF /* PhotoGridItemView.swift */,
+				78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */,
 				78E1D2D1294135C700FD6AAF /* PhotoView.swift */,
 			);
 			path = Photos;
@@ -542,14 +545,15 @@
 				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				781F74A929238A5C00A0714A /* TimelineView.swift in Sources */,
 				785AA0D7292971D100F598AE /* LocationManager.swift in Sources */,
+				78E1D2F929452E3800FD6AAF /* Trip2View.swift in Sources */,
 				78D89244292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift in Sources */,
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
-				78E1D2CE293FE12700FD6AAF /* PhotoGridItemView.swift in Sources */,
+				78E1D2CE293FE12700FD6AAF /* PhotoGridItem.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */,
-				78CE47A92937FEA8008CEDD6 /* TripCardView.swift in Sources */,
+				78CE47A92937FEA8008CEDD6 /* TripCard.swift in Sources */,
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
 				78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */,
 				78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */,
@@ -559,7 +563,7 @@
 				78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */,
 				78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
-				78CE47AF2938BEAC008CEDD6 /* StepCardView.swift in Sources */,
+				78CE47AF2938BEAC008CEDD6 /* StepCard.swift in Sources */,
 				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
 				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,

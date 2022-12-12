@@ -8,7 +8,7 @@
 import SwiftUI
 import Photos
 
-struct TripCardView: View {
+struct TripCard: View {
     let trip: Trip
     
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
@@ -17,7 +17,7 @@ struct TripCardView: View {
         VStack {
             ZStack {
                 if let asset = photoAssets.fetchResult.firstObject {
-                    PhotoGridItemView(asset: asset, geometry: nil)
+                    PhotoGridItem(asset: asset, geometry: nil)
                 }
                 Text(trip.tripTitle)
                     .font(.title)
@@ -57,6 +57,6 @@ struct TripCardView: View {
 
 struct TripCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TripCardView(trip: .preview)
+        TripCard(trip: .preview)
     }
 }

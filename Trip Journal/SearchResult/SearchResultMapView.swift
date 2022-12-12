@@ -9,28 +9,32 @@ import MapKit
 import SwiftUI
 
 struct SearchResultMapView: View {
-    let viewModel: SearchResultMapViewModel
+    let result: MKMapItem
+    @State var region: MKCoordinateRegion
+//    let annotationItems: [AnnotationItem]
     
     init(result: MKMapItem) {
+        self.result = result
         let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
         let region = MKCoordinateRegion(center: result.placemark.coordinate, span: span)
-        let annotationItem = AnnotationItem(
-            title: result.placemark.title ?? "No title", // Update to better placeholder
-            latitude: result.placemark.coordinate.latitude,
-            longitude: result.placemark.coordinate.longitude
-        )
+        _region = State(initialValue: region)
+//        let annotationItem = AnnotationItem(
+//            title: result.placemark.title ?? "No title", // Update to better placeholder
+//            latitude: result.placemark.coordinate.latitude,
+//            longitude: result.placemark.coordinate.longitude
+//        )
         
-        viewModel = SearchResultMapViewModel(result: result, region: region, annotationItems: [annotationItem])
+//        viewModel = SearchResultMapViewModel(result: result, region: region, annotationItems: [annotationItem])
     }
     
     var body: some View {
         VStack {
             MapView(
-                coordinateRegion: viewModel.region,
+                coordinateRegion: region,
                 annotationItems: nil,
                 routeOverlay: nil
             )
-            Text("\(viewModel.result)")
+            Text("\(result)")
                 .padding()
         }
     }
