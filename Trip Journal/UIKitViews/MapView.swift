@@ -26,8 +26,6 @@ struct MapView: UIViewRepresentable {
     // MARK: - Protocol Methods
     
     func makeUIView(context: Context) -> MKMapView {
-
-        print("will make view: \(coordinateRegion.center)")
         let mapView = MKMapView()
         let mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
         let pointOfInterestFilter = MKPointOfInterestFilter(excluding: [.university])
@@ -42,13 +40,10 @@ struct MapView: UIViewRepresentable {
         }
 
         mapView.delegate = context.coordinator
-        
-        print("did make view: \(coordinateRegion.center)")
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        print("will update view: \(coordinateRegion.center)")
         mapView.setRegion(coordinateRegion, animated: true)
 //        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
@@ -66,10 +61,6 @@ struct MapView: UIViewRepresentable {
 //            let selectedAnnotation = mapView.selectedAnnotations[0]
 //            mapView.deselectAnnotation(selectedAnnotation, animated: true)
 //        }
-        
-        
-        
-        print("did update view: \(coordinateRegion.center)")
     }
     
     func makeCoordinator() -> Coordinator {

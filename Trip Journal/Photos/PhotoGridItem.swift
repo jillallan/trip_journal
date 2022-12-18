@@ -16,24 +16,23 @@ struct PhotoGridItem: View {
     
     var body: some View {
         VStack {
-            Image(uiImage: (inputImage ?? UIImage(named: "seamonster"))!)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: (geometry != nil) ? geometry?.size.width : .infinity, maxHeight: 300)
-                .cornerRadius(16)
-                .clipped(antialiased: true)
+            if let inputImage = inputImage {
+                Image(uiImage: inputImage)
+                    .resizable()
+                    .scaledToFill()
+            }
         }
         .onAppear {
-            photoLibraryService.imageCachingManager.requestImage(
+            PHImageManager.default().requestImage(
                 for: asset,
                 targetSize: CGSize(width: 600, height: 600),
-                contentMode: .aspectFill,
-                options: nil
-            ) { image, info in
-                if let image = image {
-                    inputImage = image
+                contentMode: .aspectFit,
+                options: nil) { image, info in
+                    print("photo info: \(String(describing: info))")
+                    if let image = image {
+                        inputImage = image
+                    }
                 }
-            }
         }
     }
 }

@@ -1,29 +1,26 @@
 //
-//  TripCard.swift
+//  StepCard2.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 16/12/2022.
 //
 
-// https://levelup.gitconnected.com/create-custom-view-components-in-swiftui-845b65e8ba94
-// https://talk.objc.io/episodes/S01E309-building-a-photo-grid-square-grid-cells?t=146
-
 import SwiftUI
 import Photos
 
-struct TripCard: View {
+struct StepCard: View {
     
     // MARK: - Properties
     
-    let trip: Trip
+    let step: Step
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
-                Text(trip.tripTitle)
+                Text(step.stepName)
                     .font(.largeTitle.bold())
-                Text(trip.tripStartDate.formatted(date: .abbreviated, time: .omitted))
+                Text(step.stepTimestamp.formatted(date: .abbreviated, time: .omitted))
                     .font(.subheadline)
             }
             Spacer()
@@ -35,10 +32,9 @@ struct TripCard: View {
         
         // MARK: - Grid Item aspect ratio
         
-        .aspectRatio(contentMode: .fill)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
         .clipped(antialiased: true)
-        .aspectRatio(1, contentMode: .fit)
+        .aspectRatio(1.6, contentMode: .fit)
         
         // MARK: - Grid item content appearance
         
@@ -50,13 +46,13 @@ struct TripCard: View {
         // MARK: - Tasks
         
         .onAppear {
-            let assetIdentifiers = trip.tripPhotosAssetIdentifiers.compactMap(\.assetIdentifier)
+            let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
             photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
     }
 }
 
-extension TripCard {
+extension StepCard {
     private var backgroundImage: some View {
         ZStack {
             if let asset = photoAssets.fetchResult.firstObject {
@@ -73,8 +69,8 @@ extension TripCard {
     }
 }
 
-struct TripCard_Previews: PreviewProvider {
+struct StepCard_Previews: PreviewProvider {
     static var previews: some View {
-        TripCard(trip: .preview)
+        StepCard(step: .preview)
     }
 }

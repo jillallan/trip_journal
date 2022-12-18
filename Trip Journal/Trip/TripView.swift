@@ -18,7 +18,6 @@ struct Trip2View: View {
     @State var tripRoute = [MKPolyline]()
     @State var region: MKCoordinateRegion
 
-    
     @State var featureAnnotation: MKMapFeatureAnnotation!
     
     @EnvironmentObject var dataController: DataController
@@ -63,15 +62,13 @@ struct Trip2View: View {
                     }
                     .frame(height: geo.size.height * 0.75)
                     
-                    let _ = Self._printChanges()
-                    let _ = print(region)
                     ScrollView(.horizontal) {
                         LazyHGrid(rows: [GridItem(.flexible(), spacing: 20)], spacing: 20) {
                             ForEach(steps) { step in
                                 NavigationLink {
                                     StepView(step: step)
                                 } label: {
-                                    StepCard(step: step, geometry: geo)
+                                    StepCard(step: step)
                                         .cornerRadius(12)
                                         .clipped(antialiased: true)
                                         
@@ -158,7 +155,7 @@ struct Trip2View: View {
     func getRegion(for step: Step) {
         let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let center = step.coordinate
-        print("getRegion fr step \(MKCoordinateRegion(center: center, span: span))")
+
 
 //        return MKCoordinateRegion(center: center, span: span)
         region = MKCoordinateRegion(center: center, span: span)

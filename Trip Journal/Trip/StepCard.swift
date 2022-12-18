@@ -8,27 +8,24 @@
 import SwiftUI
 import Photos
 
-struct StepCard: View {
+struct StepCard2: View {
     let step: Step
     let geometry: GeometryProxy
     
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
 
     var body: some View {
+
         ZStack(alignment: .bottomLeading) {
 
             if let asset = photoAssets.fetchResult.firstObject {
                 PhotoGridItem(asset: asset, geometry: geometry)
             }
-//            Text(step.stepName)
-//                .font(.title)
-//                .foregroundColor(.white)
-            
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text(step.stepName)
                         .font(.headline)
-                    Text(step.longitude.formatted())
+
                     HStack {
                         Text(step.stepTimestamp, style: .date)
                         Text(step.stepTimestamp, style: .time)
@@ -38,34 +35,8 @@ struct StepCard: View {
                 .foregroundColor(.white)
             }
             .padding(12)
-
-            
-//            HStack {
-//                VStack {
-//                    Spacer()
-//                    Text(step.stepName)
-//                        .font(.title)
-//                        .foregroundColor(.white)
-//                    Text(step.stepTimestamp, style: .date)
-//                        .font(.subheadline)
-//                        .foregroundColor(.white)
-//
-//                }
-//                Spacer()
-//            }
         }
-        
-//        HStack(alignment: .top) {
-//            VStack(alignment: .leading) {
-//                Text(step.stepName)
-//                    .font(.headline)
-//                    .foregroundColor(.accentColor)
-//                HStack {
-//                    Text(step.stepTimestamp, style: .date)
-//                    Text(step.stepTimestamp, style: .time)
-//                }
-//            }
-//        }
+
         .onAppear {
             let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
             photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)

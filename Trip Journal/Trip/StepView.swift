@@ -23,6 +23,7 @@ struct StepView: View {
 
     
     @State private var showingPhotoPicker = false
+    @Environment(\.dismiss) var dismiss
     
     @State private var selectedPhoto: PhotosPickerItem?
     
@@ -33,38 +34,60 @@ struct StepView: View {
     }
     
     var body: some View {
-        VStack {
-            Form {
-                TextField("Step Name", text: $name.onChange(updateStep))
-                DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
-                PhotosPicker("Add photo", selection: $selectedPhoto, photoLibrary: .shared())
-            }
-            ScrollView(.horizontal) {
-                LazyHGrid(rows: rows, spacing: 20) {
-                    ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
-                        NavigationLink {
-                            PhotoView(asset: asset)
-                        } label: {
-                            PhotoGridItem(asset: asset, geometry: nil)
+        NavigationStack {
+            VStack {
+                Form {
+                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
+                    Text("Latitude: ") +
+                    Text(step.latitude.formatted()) +
+                    Text(" ") +
+                    Text("Longitude: ") +
+                    Text(step.longitude.formatted())
+                    PhotosPicker("Add photo", selection: $selectedPhoto, photoLibrary: .shared())
+                }
+                
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: rows, spacing: 20) {
+                        ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
+                            NavigationLink {
+                                PhotoView(asset: asset)
+                            } label: {
+                                PhotoGridItem(asset: asset, geometry: nil)
+                            }
                         }
                     }
                 }
+
+                .padding()
             }
-            .padding()
-        }
-        
-        .onDisappear {
-            dataController.save()
-        }
-        .onAppear {
-            let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
-            photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-        }
-        .onChange(of: selectedPhoto) { newPhoto in
-            Task {
-                addPhoto(photo: newPhoto)
+//            .navigationTitle(step.stepName)
+            .navigationTitle($name)
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        delete(step)
+                        dismiss()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                            .labelsHidden()
+                    }
+
+                }
+            })
+            
+            .onDisappear {
+                dataController.save()
+            }
+            .onAppear {
                 let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
                 photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+            }
+            .onChange(of: selectedPhoto) { newPhoto in
+                Task {
+                    addPhoto(photo: newPhoto)
+                    let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                    photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+                }
             }
         }
     }
@@ -84,6 +107,13 @@ struct StepView: View {
             dataController.save()
         }
     }
+    
+    func delete(_ step: Step) {
+        step.trip?.objectWillChange.send()
+        dataController.delete(step)
+        dataController.save()
+    }
+
 }
 
 struct StepView_Previews: PreviewProvider {

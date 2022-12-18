@@ -20,14 +20,11 @@ struct TripsView: View {
     ) var trips: FetchedResults<Trip>
 
     @State var addTripViewIsPresented: Bool = false
-    @State var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 30, longitude: 31), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
     
     // MARK: - View
     
     var body: some View {
         NavigationStack {
-//            Map(coordinateRegion: $mapRegion)
-//                .frame(height: 200)
             ScrollView() {
                 LazyVGrid(columns: [GridItem(.flexible())]) {
                     ForEach(trips) { trip in
@@ -37,11 +34,9 @@ struct TripsView: View {
                             TripCard(trip: trip)
                         }
                     }
-                    .onDelete { indexSet in
-                        deleteTrips(at: indexSet)
-                    }
                 }
             }
+            .padding()
             .toolbar {
                 Button {
                     addTripViewIsPresented.toggle()
@@ -49,6 +44,9 @@ struct TripsView: View {
                     Label("Add", systemImage: "plus")
                 }
             }
+            
+            // MARK: - Navigation
+            
             .navigationTitle("Trips")
             .navigationBarTitleDisplayMode(.inline)
             
@@ -57,23 +55,6 @@ struct TripsView: View {
                 AddTripView()
             }
         }
-    }
-    
-    // MARK: - Update model
-    
-    func deleteTrips(at offsets: IndexSet) {
-        // TODO: - Do we need sort order
-        
-        for offset in offsets {
-            
-            let trip = trips[offset]
-            let steps = trip.tripSteps
-            for step in steps {
-                dataController.delete(step)
-            }
-            dataController.delete(trip)
-        }
-        dataController.save()
     }
 }
 

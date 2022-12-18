@@ -40,12 +40,9 @@ struct AddStepView: View {
     // MARK: - View
     
     var body: some View {
-        let _ = print("view: \(region.center)")
-        let _ = Self._printChanges()
         NavigationStack {
             VStack {
                 ZStack {
-                    let _ = Self._printChanges()
                     MapView(
                         coordinateRegion: region,
                         annotationItems: nil,
@@ -116,12 +113,10 @@ struct AddStepView: View {
     }
     
     func setRegion(for coordinate: CLLocationCoordinate2D) {
-        print("will set region \(region.center)")
         region = MKCoordinateRegion(
             center: coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         )
-        print("did set region \(region.center)")
     }
     
 //    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
