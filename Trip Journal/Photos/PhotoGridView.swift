@@ -20,24 +20,27 @@ struct PhotoGridView: View {
     @State var photosAssets = PHFetchResultCollection(fetchResult: .init())
 
     let columns = [
-        GridItem(spacing: 0),
-        GridItem(spacing: 0)
+        GridItem(spacing: 3),
+        GridItem(spacing: 3)
     ]
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
+                LazyVGrid(columns: columns, spacing: 3) {
                     ForEach(photosAssets, id: \.localIdentifier) { asset in
                         NavigationLink {
                             PhotoView(asset: asset)
                         } label: {
-                            PhotoGridItem(asset: asset, geometry: nil)
+                            JournalImage(asset: asset)
+                                .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
                         }
                     }
-                    .padding(10)
+                    
                 }
+//                .padding(3)
             }
+            .ignoresSafeArea(edges: .top)
             .onAppear {
                 let assetIdentifiers = photoAssetIdentifiers.compactMap(\.assetIdentifier)
                 let fetchOptions = PHFetchOptions()

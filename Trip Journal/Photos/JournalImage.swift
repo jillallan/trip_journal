@@ -8,10 +8,10 @@
 import SwiftUI
 import Photos
 
-struct PhotoGridItem: View {
+struct JournalImage: View {
+    
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
     let asset: PHAsset
-    let geometry: GeometryProxy!
     @State var inputImage: UIImage?
     
     var body: some View {

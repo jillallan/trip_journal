@@ -85,7 +85,7 @@ extension Step {
         dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
         
         let step1 = Step(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
-                         timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station")
+                         timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station, just setting off")
         step1.trip = trip
 //        step1.addToPhotoAssetIdentifiers(PhotoAssetIdentifier.preview)
         

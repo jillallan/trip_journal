@@ -19,14 +19,12 @@
 		781F74AD2924433000A0714A /* CalendarRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74AC2924433000A0714A /* CalendarRange.swift */; };
 		781F74B22924DF1800A0714A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74B12924DF1800A0714A /* DataController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
-		781FFB9A29198FAC00605DAE /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9929198FAC00605DAE /* TripView.swift */; };
 		781FFB9E2919912600605DAE /* AddStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9D2919912600605DAE /* AddStepView.swift */; };
 		785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */; };
 		785AA0CE2927D45700F598AE /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CD2927D45700F598AE /* TripsView.swift */; };
 		785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CF2927D9BC00F598AE /* AddTripView.swift */; };
 		785AA0D7292971D100F598AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0D6292971D100F598AE /* LocationManager.swift */; };
-		785B8B75294CCF1400C505A0 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785B8B74294CCF1400C505A0 /* TripCard.swift */; };
-		785B8B77294D0CE800C505A0 /* StepCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785B8B76294D0CE800C505A0 /* StepCard2.swift */; };
+		785B8B7D294F528A00C505A0 /* View-CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785B8B7C294F528A00C505A0 /* View-CustomModifiers.swift */; };
 		787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C029129AC700D1F199 /* Trip_JournalApp.swift */; };
 		787855C329129AC700D1F199 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855C229129AC700D1F199 /* ContentView.swift */; };
 		787855C529129AC800D1F199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 787855C429129AC800D1F199 /* Assets.xcassets */; };
@@ -36,7 +34,12 @@
 		787855E229130C6F00D1F199 /* TestTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E129130C6F00D1F199 /* TestTripView.swift */; };
 		787855E9291449D700D1F199 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E8291449D700D1F199 /* MapView.swift */; };
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
-		78CE47AF2938BEAC008CEDD6 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47AE2938BEAC008CEDD6 /* StepCard.swift */; };
+		78AD9610295055290010F4A7 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD960F295055290010F4A7 /* TripCard.swift */; };
+		78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */; };
+		78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD96152951011A0010F4A7 /* TripCardOverlay.swift */; };
+		78AD9618295103B90010F4A7 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9617295103B90010F4A7 /* StepCard.swift */; };
+		78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */; };
+		78AD961C2952FD820010F4A7 /* Location-CorwDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */; };
 		78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B22938BF60008CEDD6 /* StepView.swift */; };
 		78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */; };
 		78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */; };
@@ -58,10 +61,9 @@
 		78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89274293173710013E9FE /* SearchResultCellViewModel.swift */; };
 		78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
-		78E1D2CE293FE12700FD6AAF /* PhotoGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */; };
-		78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */; };
+		78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* JournalImage.swift */; };
 		78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* PhotoView.swift */; };
-		78E1D2F929452E3800FD6AAF /* Trip2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2F829452E3800FD6AAF /* Trip2View.swift */; };
+		78E1D2F929452E3800FD6AAF /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2F829452E3800FD6AAF /* TripView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,15 +97,13 @@
 		781F74AC2924433000A0714A /* CalendarRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRange.swift; sourceTree = "<group>"; };
 		781F74B12924DF1800A0714A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
-		781FFB9929198FAC00605DAE /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 		781FFB9D2919912600605DAE /* AddStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepView.swift; sourceTree = "<group>"; };
 		785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip-CoreDataHelper.swift"; sourceTree = "<group>"; };
 		785AA0CD2927D45700F598AE /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
 		785AA0CF2927D9BC00F598AE /* AddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripView.swift; sourceTree = "<group>"; };
 		785AA0D6292971D100F598AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		785AA0D82929776300F598AE /* Trip-Journal-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Trip-Journal-Info.plist"; sourceTree = SOURCE_ROOT; };
-		785B8B74294CCF1400C505A0 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
-		785B8B76294D0CE800C505A0 /* StepCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard2.swift; sourceTree = "<group>"; };
+		785B8B7C294F528A00C505A0 /* View-CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View-CustomModifiers.swift"; sourceTree = "<group>"; };
 		787855BD29129AC700D1F199 /* Trip Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trip Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		787855C029129AC700D1F199 /* Trip_JournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalApp.swift; sourceTree = "<group>"; };
 		787855C229129AC700D1F199 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,7 +116,12 @@
 		787855E129130C6F00D1F199 /* TestTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTripView.swift; sourceTree = "<group>"; };
 		787855E8291449D700D1F199 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
-		78CE47AE2938BEAC008CEDD6 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
+		78AD960F295055290010F4A7 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
+		78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnwrappedImage.swift; sourceTree = "<group>"; };
+		78AD96152951011A0010F4A7 /* TripCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardOverlay.swift; sourceTree = "<group>"; };
+		78AD9617295103B90010F4A7 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
+		78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCardOverlay.swift; sourceTree = "<group>"; };
+		78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location-CorwDataHelpers.swift"; sourceTree = "<group>"; };
 		78CE47B22938BF60008CEDD6 /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding-OnChange.swift"; sourceTree = "<group>"; };
 		78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -138,10 +143,9 @@
 		78D89274293173710013E9FE /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
 		78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewModel.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
-		78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridItem.swift; sourceTree = "<group>"; };
-		78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridFilteredView.swift; sourceTree = "<group>"; };
+		78E1D2CD293FE12700FD6AAF /* JournalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalImage.swift; sourceTree = "<group>"; };
 		78E1D2D1294135C700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
-		78E1D2F829452E3800FD6AAF /* Trip2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip2View.swift; sourceTree = "<group>"; };
+		78E1D2F829452E3800FD6AAF /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				785AA0CD2927D45700F598AE /* TripsView.swift */,
-				785B8B74294CCF1400C505A0 /* TripCard.swift */,
+				78AD960F295055290010F4A7 /* TripCard.swift */,
+				78AD96152951011A0010F4A7 /* TripCardOverlay.swift */,
 				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 			);
 			path = Trips;
@@ -287,11 +292,13 @@
 				781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */,
 				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
+				78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
 				78CE47BA2938EA6F008CEDD6 /* Photo-CoreDataHelpers.swift */,
 				78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */,
 				78D89243292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift */,
 				78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */,
+				785B8B7C294F528A00C505A0 /* View-CustomModifiers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,10 +314,9 @@
 		787855D729129E9E00D1F199 /* Trip */ = {
 			isa = PBXGroup;
 			children = (
-				781FFB9929198FAC00605DAE /* TripView.swift */,
-				78E1D2F829452E3800FD6AAF /* Trip2View.swift */,
-				78CE47AE2938BEAC008CEDD6 /* StepCard.swift */,
-				785B8B76294D0CE800C505A0 /* StepCard2.swift */,
+				78E1D2F829452E3800FD6AAF /* TripView.swift */,
+				78AD9617295103B90010F4A7 /* StepCard.swift */,
+				78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
 				78CE47B22938BF60008CEDD6 /* StepView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
@@ -380,8 +386,8 @@
 			isa = PBXGroup;
 			children = (
 				78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */,
-				78E1D2CF29412F0600FD6AAF /* PhotoGridFilteredView.swift */,
-				78E1D2CD293FE12700FD6AAF /* PhotoGridItem.swift */,
+				78E1D2CD293FE12700FD6AAF /* JournalImage.swift */,
+				78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */,
 				78E1D2D1294135C700FD6AAF /* PhotoView.swift */,
 			);
 			path = Photos;
@@ -528,20 +534,21 @@
 			files = (
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
 				78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */,
-				781FFB9A29198FAC00605DAE /* TripView.swift in Sources */,
 				78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */,
-				785B8B77294D0CE800C505A0 /* StepCard2.swift in Sources */,
 				78D89232292B96E80013E9FE /* PlacemarksListView.swift in Sources */,
 				78D892522930DF5D0013E9FE /* PlacemarksListViewModel.swift in Sources */,
 				78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */,
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
+				78AD961C2952FD820010F4A7 /* Location-CorwDataHelpers.swift in Sources */,
+				78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */,
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */,
 				78CE47DC293D37CB008CEDD6 /* PhotoLibraryService.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
+				78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */,
 				78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */,
 				78D89248292EBB640013E9FE /* AddressBuilder.swift in Sources */,
 				78CE47BB2938EA6F008CEDD6 /* Photo-CoreDataHelpers.swift in Sources */,
@@ -549,17 +556,18 @@
 				781F74A72922D89500A0714A /* StepAnnotationView.swift in Sources */,
 				781F74A929238A5C00A0714A /* TimelineView.swift in Sources */,
 				785AA0D7292971D100F598AE /* LocationManager.swift in Sources */,
-				78E1D2F929452E3800FD6AAF /* Trip2View.swift in Sources */,
+				78E1D2F929452E3800FD6AAF /* TripView.swift in Sources */,
 				78D89244292D65350013E9FE /* MKPointOfInterestCategory-Symbols.swift in Sources */,
+				78AD9610295055290010F4A7 /* TripCard.swift in Sources */,
 				781F74AB2923935800A0714A /* TimelineViewModel.swift in Sources */,
-				785B8B75294CCF1400C505A0 /* TripCard.swift in Sources */,
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
+				78AD9618295103B90010F4A7 /* StepCard.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
-				78E1D2CE293FE12700FD6AAF /* PhotoGridItem.swift in Sources */,
+				78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
+				785B8B7D294F528A00C505A0 /* View-CustomModifiers.swift in Sources */,
 				78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */,
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
-				78E1D2D029412F0600FD6AAF /* PhotoGridFilteredView.swift in Sources */,
 				78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */,
 				781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */,
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
@@ -567,7 +575,7 @@
 				78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */,
 				78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
-				78CE47AF2938BEAC008CEDD6 /* StepCard.swift in Sources */,
+				78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */,
 				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
 				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,

@@ -1,52 +1,33 @@
 //
-//  StepViewCell.swift
+//  StepCard2.swift
 //  Trip Journal
 //
-//  Created by Jill Allan on 01/12/2022.
+//  Created by Jill Allan on 19/12/2022.
 //
 
 import SwiftUI
 import Photos
 
-struct StepCard2: View {
+struct StepCard: View {
     let step: Step
-    let geometry: GeometryProxy
-    
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
-
-    var body: some View {
-
-        ZStack(alignment: .bottomLeading) {
-
-            if let asset = photoAssets.fetchResult.firstObject {
-                PhotoGridItem(asset: asset, geometry: geometry)
-            }
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text(step.stepName)
-                        .font(.headline)
-
-                    HStack {
-                        Text(step.stepTimestamp, style: .date)
-                        Text(step.stepTimestamp, style: .time)
-                    }
-                    .font(.subheadline)
-                }
-                .foregroundColor(.white)
-            }
-            .padding(12)
-        }
-
-        .onAppear {
-            let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
-            photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-        }
-    }
     
+    var body: some View {
+        UnwrappedImage(asset: photoAssets.fetchResult.firstObject, withGradient: true)
+            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 1)
+            .overlay {
+                StepCardOverlay(step: step)
+            }
+        
+            .onAppear {
+                let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+            }
+    }
 }
 
-//struct StepViewCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StepCardView(step: .preview)
-//    }
-//}
+struct StepCard2_Previews: PreviewProvider {
+    static var previews: some View {
+        StepCard(step: .preview)
+    }
+}

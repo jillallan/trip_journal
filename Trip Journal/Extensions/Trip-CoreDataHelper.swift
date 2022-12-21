@@ -153,7 +153,7 @@ extension Trip {
 
         let trip = Trip(
             context: managedObjectContext,
-            title: "France",
+            title: "Bedminster to Beijing, then Tibet",
             startDate: dateFormatter.date(from: startDate) ?? Date.now,
             endDate: dateFormatter.date(from: endDate) ?? Date.now
         )

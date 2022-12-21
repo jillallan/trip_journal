@@ -9,7 +9,7 @@ import PhotosUI
 import SwiftUI
 
 struct StepView: View {
-    let rows = [
+    let columns = [
         GridItem(.fixed(200))
     ]
     
@@ -35,33 +35,41 @@ struct StepView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Form {
-                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
-                    Text("Latitude: ") +
-                    Text(step.latitude.formatted()) +
-                    Text(" ") +
-                    Text("Longitude: ") +
-                    Text(step.longitude.formatted())
-                    PhotosPicker("Add photo", selection: $selectedPhoto, photoLibrary: .shared())
-                }
+            VStack(alignment: .leading) {
+
                 
-                ScrollView(.horizontal) {
-                    LazyHGrid(rows: rows, spacing: 20) {
+                
+                VStack(alignment: .leading) {
+                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
+                }
+                .padding()
+                
+                ScrollView() {
+                    LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
+                        
+                            
                         ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
                             NavigationLink {
                                 PhotoView(asset: asset)
                             } label: {
-                                PhotoGridItem(asset: asset, geometry: nil)
+                                JournalImage(asset: asset)
+                                    .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
                             }
                         }
+                        PhotosPicker("Add a photo", selection: $selectedPhoto, photoLibrary: .shared())
+                            .frame(maxWidth: .infinity, minHeight: 100)
+                            .background(.gray)
+                            .overlay {
+                                Rectangle()
+                                    .stroke(.red)
+                            }
                     }
                 }
 
                 .padding()
             }
 //            .navigationTitle(step.stepName)
-            .navigationTitle($name)
+            .navigationTitle($name.onChange(updateStep))
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
