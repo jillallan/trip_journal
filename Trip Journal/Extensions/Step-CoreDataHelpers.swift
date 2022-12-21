@@ -63,7 +63,6 @@ extension Step: MKAnnotation {
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
-    
 }
 
 // MARK: - Extension Xcode Preview

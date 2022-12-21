@@ -39,7 +39,7 @@
 		78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD96152951011A0010F4A7 /* TripCardOverlay.swift */; };
 		78AD9618295103B90010F4A7 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9617295103B90010F4A7 /* StepCard.swift */; };
 		78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */; };
-		78AD961C2952FD820010F4A7 /* Location-CorwDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */; };
+		78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */; };
 		78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B22938BF60008CEDD6 /* StepView.swift */; };
 		78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */; };
 		78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */; };
@@ -121,7 +121,7 @@
 		78AD96152951011A0010F4A7 /* TripCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardOverlay.swift; sourceTree = "<group>"; };
 		78AD9617295103B90010F4A7 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
 		78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCardOverlay.swift; sourceTree = "<group>"; };
-		78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location-CorwDataHelpers.swift"; sourceTree = "<group>"; };
+		78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 		78CE47B22938BF60008CEDD6 /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding-OnChange.swift"; sourceTree = "<group>"; };
 		78CE47B82938E1E6008CEDD6 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -292,7 +292,7 @@
 				781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */,
 				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
-				78AD961B2952FD820010F4A7 /* Location-CorwDataHelpers.swift */,
+				78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
 				78CE47BA2938EA6F008CEDD6 /* Photo-CoreDataHelpers.swift */,
 				78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */,
@@ -541,7 +541,7 @@
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
-				78AD961C2952FD820010F4A7 /* Location-CorwDataHelpers.swift in Sources */,
+				78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */,
 				78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */,
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,

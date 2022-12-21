@@ -68,7 +68,9 @@ struct AddStepView: View {
                                 SearchResultMapView(result: result)
                                 .toolbar {
                                     Button("Add") {
-                                        addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
+                                        addStep(for: result.placemark, name: result.name ?? "New Step")
+                                        
+//                                        addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
                                         dismiss()
                                         dismissSearch()
                                     }
@@ -110,6 +112,20 @@ struct AddStepView: View {
         )
         step.trip = trip
         dataController.save()
+    }
+    
+    func addStep(for placemark: CLPlacemark, name: String) {
+        if let stepLocation = placemark.location {
+            
+            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
+            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
+            
+            step.trip = trip
+            step.location = location
+            dataController.save()
+        } else {
+            print("Failed to add step")
+        }
     }
     
     func setRegion(for coordinate: CLLocationCoordinate2D) {

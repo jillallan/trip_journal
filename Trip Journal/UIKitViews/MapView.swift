@@ -33,6 +33,7 @@ struct MapView: UIViewRepresentable {
         mapView.region = coordinateRegion
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.preferredConfiguration = mapConfiguration
+        
         mapConfiguration.pointOfInterestFilter = pointOfInterestFilter
         
         if let annotationItems = annotationItems {
@@ -45,6 +46,7 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
         mapView.setRegion(coordinateRegion, animated: true)
+        mapView.showsUserLocation = true
 //        mapView.preferredConfiguration = mapViewConfiguration
         if let annotationItems = annotationItems {
             mapView.addAnnotations(annotationItems)
@@ -81,6 +83,10 @@ struct MapView: UIViewRepresentable {
         // MARK: - Annotations
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            if annotation.isKind(of: MKUserLocation.self) {
+                return nil
+            }
+            
             let featureIdentifier = "feature"
             if let featureAnnotation = annotation as? MKMapFeatureAnnotation? {
                 let featureAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: featureIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: featureAnnotation, reuseIdentifier: featureIdentifier)
@@ -105,7 +111,15 @@ struct MapView: UIViewRepresentable {
 
             if let onAnnotationSelection = parent.onAnnotationSelection {
                 onAnnotationSelection(featureAnnotation)
-                
+            }
+
+        }
+        
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            // https://holyswift.app/how-to-removesuppress-the-default-mapkit-user-location-callout-annotation/
+            if view.annotation is MKUserLocation {
+                mapView.deselectAnnotation(view.annotation, animated: false)
+                return
             }
         }
         

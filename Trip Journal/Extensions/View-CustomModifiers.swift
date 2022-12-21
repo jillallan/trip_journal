@@ -12,7 +12,7 @@ struct AddButton: ViewModifier {
     func body(content: Content) -> some View {
         content
             .labelStyle(.iconOnly)
-            .padding(10)
+            .padding(8)
             .foregroundColor(.white)
             .background(Color.accentColor)
             .clipped()

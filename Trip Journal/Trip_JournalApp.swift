@@ -18,7 +18,7 @@ struct Trip_JournalApp: App {
         // create access to the data controller
         // (not just the stateobject wrapper, so we can pass it in to environment object below
         let dataController = DataController()
-        let locationManager = LocationManager()
+        let locationManager = LocationManager(dataController: dataController)
         let photoLibraryService = PhotoLibraryService(dataController: dataController)
         _dataController = StateObject(wrappedValue: dataController)
         _locationManager = StateObject(wrappedValue: locationManager)

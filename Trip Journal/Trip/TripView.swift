@@ -21,26 +21,45 @@ struct TripView: View {
     @State var longitude = 0.0
     @State var latitude = 51.5
     @State var name: String
+    @State private var startDate: Date
+    @State private var endDate: Date
     
-    @State var coordinate = CLLocationCoordinate2D(latitude: 0.0, longitude: 51.5)
+    @State var coordinate = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
+    @State var span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
     @State var currentMapRegion: MKCoordinateRegion!
     
     @FetchRequest var steps: FetchedResults<Step>
+    @FetchRequest var locations: FetchedResults<Location>
     @State var tripRoute = [MKPolyline]()
     @State var featureAnnotation: MKMapFeatureAnnotation!
+    @State private var locationAnnotation: MKAnnotation!
     
     @State var displayedSteps: [Step] = []
     @State var addViewIsPresented: Bool = false
+    @State private var locationViewIsPresented: Bool = false
     @Environment(\.dismiss) var dismiss
+    
+    @State private var animationAmount = 1.0
     
     // MARK: - Init
     
     init(trip: Trip) {
         self.trip = trip
         _name = State(initialValue: trip.tripTitle)
+        _startDate = State(initialValue: trip.tripStartDate)
+        _endDate = State(initialValue: trip.tripEndDate)
         _steps = FetchRequest<Step>(
             sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
+        )
+        
+        let startPredicate = NSPredicate(format: "timestamp > %@", trip.tripStartDate as CVarArg)
+        let endPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
+        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [startPredicate, endPredicate])
+        
+        _locations = FetchRequest(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
+            predicate: compoundPredicate
         )
     }
     
@@ -48,21 +67,58 @@ struct TripView: View {
         NavigationStack {
             GeometryReader { geo in
                 VStack {
+                    
                     // MARK: - Map View
-                    MapView(
-                        coordinateRegion: MKCoordinateRegion(
-                            center: coordinate,
-                            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                        ),
-                        annotationItems: steps.map { $0 },
-                        routeOverlay: createRoute(from: steps.map(\.coordinate))
-                    )
+                    ZStack {
+
+                        MapView(
+                            coordinateRegion: MKCoordinateRegion(
+                                center: coordinate,
+                                span: span
+                            ),
+                            annotationItems: locations.map { $0 },
+                            routeOverlay: createRoute(from: locations.map(\.coordinate))
+                        )
+                    }
                     .frame(height: geo.size.height * 0.7)
+                    
+                    // MARK: - location list view
+//                    List {
+//                        ForEach(locations) { location in
+//                            Text("Lat: \(location.longitude) at: \(location.locationTimestamp)")
+//                        }
+//                    }
             
                     // MARK: - Step Scroll view
                     
                     ScrollView(.horizontal) {
+                        
                         LazyHGrid(rows: [GridItem()]) {
+                            VStack(alignment: .leading) {
+                                Text(trip.tripTitle)
+                                    .font(.headline.bold())
+                                    .layoutPriority(1)
+                                HStack {
+                                  
+                                    DatePicker("Start", selection: $startDate.onChange(updateTrip), displayedComponents: .date)
+                                        .labelsHidden()
+                                    DatePicker("End", selection: $endDate.onChange(updateTrip), displayedComponents: .date)
+                                        .labelsHidden()
+                                }
+                            }
+                            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
+                            .background(Color.accentColor)
+                            .onAppear {
+                                if steps.count < 1 {
+                                    if let currentLocation = locationManager.currentLocation?.coordinate {
+                                        coordinate = currentLocation
+                                    }
+                                } else {
+                                    coordinate = trip.region.center
+                                    span = trip.region.span
+                                }
+                            }
+                            
                             Button {
                                 addViewIsPresented.toggle()
                             } label: {
@@ -70,6 +126,16 @@ struct TripView: View {
                                     .addButtonStyle()
                             }
                             ForEach(steps) { step in
+                                Button {
+                                    // TODO: - pass step timestamp to add new step just after
+                                    // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
+                                    addViewIsPresented.toggle()
+                                } label: {
+                                    Label("Add", systemImage: "plus")
+                                        .addButtonStyle()
+                                }
+                                .offset(x: 30)
+                                
                                 NavigationLink {
                                     StepView(step: step)
                                 } label: {
@@ -82,16 +148,7 @@ struct TripView: View {
                                         }
                                 }
                                 
-                                Button {
-                                    // TODO: - pass step timestamp to add new step just after
-                                    // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
-                                    addViewIsPresented.toggle()
-                                } label: {
-                                    Label("Add", systemImage: "plus")
-                                        .addButtonStyle()
-                                }
-                                .offset(x: 30
-                                )
+                                
                             }
                         }
                     }
@@ -118,12 +175,22 @@ struct TripView: View {
             .sheet(isPresented: $addViewIsPresented) {
                 AddStepView(coordinate: coordinate, trip: trip)
             }
-            
+//            .onChange(of: locationAnnotation, perform: { _ in
+//                locationViewIsPresented = true
+//            })
             .onChange(of: displayedSteps) { newStepsArray in
                 if !newStepsArray.isEmpty {
                     coordinate = updateRegionCoordinates(with: newStepsArray)
                 }
             }
+            .onChange(of: locationManager.currentLocation) { newLocation in
+                if let currentLocation = newLocation?.coordinate {
+                    coordinate = currentLocation
+                }
+            }
+//            .onChange(of: locationAnnotation) { _ in
+//                locationViewIsPresented = true
+//            }
             .onDisappear {
                 dataController.save()
             }
@@ -211,6 +278,15 @@ struct TripView: View {
         // TODO: - Navigating back to tripView does not refresh view
         
         trip.title = name
+        trip.startDate = startDate
+        trip.endDate = endDate
+    }
+    
+    func delete(_ location: Location) {
+        if let step = location.step {
+            dataController.delete(step)
+        }
+        dataController.delete(location)
     }
     
     func deleteSteps(at offsets: IndexSet) {

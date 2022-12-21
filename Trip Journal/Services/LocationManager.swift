@@ -15,6 +15,7 @@ class LocationManager: NSObject, ObservableObject {
     
     @Published var fetchedPlacemarks = [CLPlacemark]()
     
+    var dataController: DataController
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var fetchedPlacemark: CLPlacemark?
@@ -23,9 +24,12 @@ class LocationManager: NSObject, ObservableObject {
     
     // MARK: - Init
     
-    override init() {
+    init(dataController: DataController) {
+        self.dataController = dataController
         super.init()
         locationManager.delegate = self
+        locationManager.distanceFilter = 50.0
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     }
     
     // MARK: - Methods
@@ -101,8 +105,18 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // TODO: -
-//        print("\(String(describing: locations.first?.coordinate))")
-        
+        if let location = locations.first {
+            addLocation(for: location)
+            print(location.coordinate)
+            print(location.timestamp)
+            
+            currentLocation = location
+        }
+    }
+    
+    func addLocation(for location: CLLocation) {
+        _ = Location(context: dataController.container.viewContext, cLlocation: location)
+        dataController.save()
     }
 }
 
@@ -110,6 +124,6 @@ extension LocationManager: CLLocationManagerDelegate {
 
 extension LocationManager {
     static var preview: LocationManager = {
-        LocationManager()
+        LocationManager(dataController: .preview)
     }()
 }

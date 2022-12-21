@@ -39,7 +39,9 @@ struct FeatureAnnotationCardView: View {
                         }
                         HStack {
                             Button("Add step") {
-                                addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New step")
+                                addStep(for: mapItem.placemark, name: mapItem.name ?? "New Step")
+                                
+//                                addStep(for: mapItem.placemark.coordinate, name: mapItem.name ?? "New step")
                                 stepAdded = true
                                 dismiss()
                             }
@@ -86,6 +88,20 @@ struct FeatureAnnotationCardView: View {
         )
         step.trip = trip
         dataController.save()
+    }
+    
+    func addStep(for placemark: CLPlacemark, name: String) {
+        if let stepLocation = placemark.location {
+            
+            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
+            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
+            
+            step.trip = trip
+            step.location = location
+            dataController.save()
+        } else {
+            print("Failed to add step")
+        }
     }
 }
 
