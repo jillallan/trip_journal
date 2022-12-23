@@ -41,10 +41,22 @@ extension Location {
     var locationTimestamp: Date {
         timestamp ?? Date.now
     }
+    
+    var locationId: UUID {
+        id ?? UUID()
+    }
+    
 }
 
 extension Location: MKAnnotation {
+    public var annotationElementId: UUID { locationId }
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+}
+
+extension MKAnnotation {
+    var annotationElementId: UUID {
+        UUID()
     }
 }

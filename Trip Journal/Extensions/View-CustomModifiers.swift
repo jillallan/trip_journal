@@ -14,7 +14,7 @@ struct AddButton: ViewModifier {
             .labelStyle(.iconOnly)
             .padding(8)
             .foregroundColor(.white)
-            .background(Color.accentColor)
+            .background(Color.green)
             .clipped()
             .clipShape(Circle())
     }

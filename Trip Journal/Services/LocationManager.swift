@@ -18,6 +18,7 @@ class LocationManager: NSObject, ObservableObject {
     var dataController: DataController
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var previosLocation: CLLocation?
     var fetchedPlacemark: CLPlacemark?
     
     lazy var geocoder = CLGeocoder()
@@ -29,7 +30,7 @@ class LocationManager: NSObject, ObservableObject {
         super.init()
         locationManager.delegate = self
         locationManager.distanceFilter = 50.0
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+//        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     }
     
     // MARK: - Methods
@@ -106,6 +107,8 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // TODO: -
         if let location = locations.first {
+            
+            
             addLocation(for: location)
             print(location.coordinate)
             print(location.timestamp)

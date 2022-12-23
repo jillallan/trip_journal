@@ -47,10 +47,9 @@ struct AddStepView: View {
                         coordinateRegion: region,
                         annotationItems: nil,
                         routeOverlay: nil,
-                        onRegionChange: nil
-                    ) { annotation in
-                        featureAnnotation = annotation
-                    }
+                        onRegionChange: nil, onFeatureAnnotationSelection:  { annotation in
+                            featureAnnotation = annotation as? MKMapFeatureAnnotation
+                        })
                     .toolbar(.visible, for: .navigationBar)
                     .navigationTitle("Add Step")
                     .navigationBarTitleDisplayMode(.inline)

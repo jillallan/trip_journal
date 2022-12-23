@@ -17,11 +17,8 @@ struct MapView: UIViewRepresentable {
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
-    var onAnnotationSelection: ((MKMapFeatureAnnotation) -> ())? {
-        didSet {
-            print("Did set: \(String(describing: onAnnotationSelection))")
-        }
-    }
+    var onFeatureAnnotationSelection: ((MKAnnotation) -> ())?
+    var onAnnotationSelection: ((UUID) -> ())?
     
     // MARK: - Protocol Methods
     
@@ -107,12 +104,17 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-            guard let featureAnnotation = annotation as? MKMapFeatureAnnotation else { return }
-
-            if let onAnnotationSelection = parent.onAnnotationSelection {
-                onAnnotationSelection(featureAnnotation)
+            
+            if let featureAnnotation = annotation as? MKMapFeatureAnnotation {
+                if let onFeatureAnnotationSelection = parent.onFeatureAnnotationSelection {
+                    onFeatureAnnotationSelection(featureAnnotation)
+                }
             }
 
+//            let id = annotation.annotationElementId
+            if let onAnnotationSelection = parent.onAnnotationSelection {
+                onAnnotationSelection(annotation.annotationElementId)
+            }
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
