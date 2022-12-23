@@ -79,7 +79,7 @@ struct MapView: UIViewRepresentable {
         
         // MARK: - Annotations
         
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        @MainActor func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             if annotation.isKind(of: MKUserLocation.self) {
                 return nil
             }
@@ -96,11 +96,49 @@ struct MapView: UIViewRepresentable {
             }
             
             let stepIdentifier = "Step"
-            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
-            stepAnnotationView.markerTintColor = UIColor.systemIndigo
-            stepAnnotationView.titleVisibility = .hidden
-            stepAnnotationView.glyphImage = UIImage(systemName: "figure.walk")
+            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
+            
+            if annotation.stepAdded {
+                if let stepAnnotation = renderAnnotationStep() {
+                    stepAnnotationView.image = stepAnnotation
+                }
+            } else {
+                if let circleAnnotation = renderAnnotationCircle() {
+                    stepAnnotationView.image = circleAnnotation
+                }
+            }
+            
+//            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
+//            stepAnnotationView.markerTintColor = UIColor.systemIndigo
+//            stepAnnotationView.titleVisibility = .hidden
+            
+            
+            
+//            stepAnnotationView.glyphImage = UIImage(systemName: "figure.walk")
+            
             return stepAnnotationView
+        }
+        
+        @MainActor func renderAnnotationCircle() -> UIImage? {
+            let renderer = ImageRenderer(content: CircleAnnotation())
+            // TODO: Pass displayScale environment variable in from swiftui view
+            // https://developer.apple.com/documentation/swiftui/environmentvalues/displayscale/
+            renderer.scale = 3.0
+            
+            guard let uiImage = renderer.uiImage else { return nil }
+            return uiImage
+         
+        }
+        
+        @MainActor func renderAnnotationStep() -> UIImage? {
+            let renderer = ImageRenderer(content: StepAnnotation())
+            // TODO: Pass displayScale environment variable in from swiftui view
+            // https://developer.apple.com/documentation/swiftui/environmentvalues/displayscale/
+            renderer.scale = 3.0
+            
+            guard let uiImage = renderer.uiImage else { return nil }
+            return uiImage
+         
         }
         
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {

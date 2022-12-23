@@ -76,8 +76,8 @@ struct TripView: View {
                                 center: coordinate,
                                 span: span
                             ),
-                            annotationItems: steps.map { $0 },
-                            routeOverlay: createRoute(from: steps.map(\.coordinate)), onAnnotationSelection:  { id in
+                            annotationItems: locations.map { $0 },
+                            routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { id in
                                 annotationElementId = id
 //                                locationViewIsPresented = true
                             })

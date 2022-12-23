@@ -34,6 +34,8 @@
 		787855E229130C6F00D1F199 /* TestTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E129130C6F00D1F199 /* TestTripView.swift */; };
 		787855E9291449D700D1F199 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787855E8291449D700D1F199 /* MapView.swift */; };
 		787B3FF029539FFF00B95DE6 /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3FEF29539FFF00B95DE6 /* EditLocationView.swift */; };
+		787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */; };
+		787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3FF52955D07000B95DE6 /* StepAnnotation.swift */; };
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
 		78AD9610295055290010F4A7 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD960F295055290010F4A7 /* TripCard.swift */; };
 		78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */; };
@@ -117,6 +119,8 @@
 		787855E129130C6F00D1F199 /* TestTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTripView.swift; sourceTree = "<group>"; };
 		787855E8291449D700D1F199 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		787B3FEF29539FFF00B95DE6 /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
+		787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnnotation.swift; sourceTree = "<group>"; };
+		787B3FF52955D07000B95DE6 /* StepAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAnnotation.swift; sourceTree = "<group>"; };
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 		78AD960F295055290010F4A7 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
 		78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnwrappedImage.swift; sourceTree = "<group>"; };
@@ -323,6 +327,8 @@
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
 				78CE47B22938BF60008CEDD6 /* StepView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
+				787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */,
+				787B3FF52955D07000B95DE6 /* StepAnnotation.swift */,
 				78D892532930E1310013E9FE /* Archive */,
 			);
 			path = Trip;
@@ -536,6 +542,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
+				787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */,
+				787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */,
 				787B3FF029539FFF00B95DE6 /* EditLocationView.swift in Sources */,
 				78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */,
 				78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */,
