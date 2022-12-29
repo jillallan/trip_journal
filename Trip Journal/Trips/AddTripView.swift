@@ -31,8 +31,8 @@ struct AddTripView: View {
     var body: some View {
         Form {
             TextField("Trip Title", text: $title)
-            DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-            DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+            DatePicker("Start Date", selection: $startDate)
+            DatePicker("End Date", selection: $endDate)
             Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
 //            PhotoPicker()
 //            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {

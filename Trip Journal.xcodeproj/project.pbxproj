@@ -20,6 +20,8 @@
 		781F74B22924DF1800A0714A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F74B12924DF1800A0714A /* DataController.swift */; };
 		781FFB792915567600605DAE /* TestFileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB782915567600605DAE /* TestFileManagerExtension.swift */; };
 		781FFB9E2919912600605DAE /* AddStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FFB9D2919912600605DAE /* AddStepView.swift */; };
+		78373262295E37BD006BD23F /* TripTitleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78373261295E37BD006BD23F /* TripTitleCard.swift */; };
+		78373264295E37DE006BD23F /* TripTitleCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78373263295E37DE006BD23F /* TripTitleCardOverlay.swift */; };
 		785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */; };
 		785AA0CE2927D45700F598AE /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CD2927D45700F598AE /* TripsView.swift */; };
 		785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AA0CF2927D9BC00F598AE /* AddTripView.swift */; };
@@ -37,6 +39,11 @@
 		787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */; };
 		787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3FF52955D07000B95DE6 /* StepAnnotation.swift */; };
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
+		789B15C1295B11B900031CC9 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C0295B11B900031CC9 /* DebugView.swift */; };
+		789B15C3295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */; };
+		789B15C5295CE20400031CC9 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C4295CE20400031CC9 /* LocationsView.swift */; };
+		789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */; };
+		789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C8295CF3AB00031CC9 /* VisitsView.swift */; };
 		78AD9610295055290010F4A7 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD960F295055290010F4A7 /* TripCard.swift */; };
 		78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */; };
 		78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD96152951011A0010F4A7 /* TripCardOverlay.swift */; };
@@ -101,6 +108,8 @@
 		781F74B12924DF1800A0714A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		781FFB782915567600605DAE /* TestFileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFileManagerExtension.swift; sourceTree = "<group>"; };
 		781FFB9D2919912600605DAE /* AddStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepView.swift; sourceTree = "<group>"; };
+		78373261295E37BD006BD23F /* TripTitleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTitleCard.swift; sourceTree = "<group>"; };
+		78373263295E37DE006BD23F /* TripTitleCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTitleCardOverlay.swift; sourceTree = "<group>"; };
 		785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip-CoreDataHelper.swift"; sourceTree = "<group>"; };
 		785AA0CD2927D45700F598AE /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
 		785AA0CF2927D9BC00F598AE /* AddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripView.swift; sourceTree = "<group>"; };
@@ -122,6 +131,11 @@
 		787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnnotation.swift; sourceTree = "<group>"; };
 		787B3FF52955D07000B95DE6 /* StepAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAnnotation.swift; sourceTree = "<group>"; };
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
+		789B15C0295B11B900031CC9 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
+		789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventLog-CoreDataHelpers.swift"; sourceTree = "<group>"; };
+		789B15C4295CE20400031CC9 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
+		789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit-CoreDataHelpers.swift"; sourceTree = "<group>"; };
+		789B15C8295CF3AB00031CC9 /* VisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsView.swift; sourceTree = "<group>"; };
 		78AD960F295055290010F4A7 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
 		78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnwrappedImage.swift; sourceTree = "<group>"; };
 		78AD96152951011A0010F4A7 /* TripCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardOverlay.swift; sourceTree = "<group>"; };
@@ -222,6 +236,8 @@
 		785A31A0293569380083C075 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
+				787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */,
+				787B3FF52955D07000B95DE6 /* StepAnnotation.swift */,
 				78D8923F292CC5A60013E9FE /* FeatureAnnotationCardView.swift */,
 			);
 			path = Annotations;
@@ -234,6 +250,9 @@
 				78AD960F295055290010F4A7 /* TripCard.swift */,
 				78AD96152951011A0010F4A7 /* TripCardOverlay.swift */,
 				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
+				789B15C0295B11B900031CC9 /* DebugView.swift */,
+				789B15C4295CE20400031CC9 /* LocationsView.swift */,
+				789B15C8295CF3AB00031CC9 /* VisitsView.swift */,
 			);
 			path = Trips;
 			sourceTree = "<group>";
@@ -299,6 +318,8 @@
 				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
 				78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */,
+				789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */,
+				789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
 				78CE47BA2938EA6F008CEDD6 /* Photo-CoreDataHelpers.swift */,
 				78D89239292BCE240013E9FE /* Array-RemoveDuplicates.swift */,
@@ -321,14 +342,14 @@
 			isa = PBXGroup;
 			children = (
 				78E1D2F829452E3800FD6AAF /* TripView.swift */,
+				78373261295E37BD006BD23F /* TripTitleCard.swift */,
+				78373263295E37DE006BD23F /* TripTitleCardOverlay.swift */,
 				787B3FEF29539FFF00B95DE6 /* EditLocationView.swift */,
 				78AD9617295103B90010F4A7 /* StepCard.swift */,
 				78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
 				78CE47B22938BF60008CEDD6 /* StepView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
-				787B3FF12955C1B800B95DE6 /* CircleAnnotation.swift */,
-				787B3FF52955D07000B95DE6 /* StepAnnotation.swift */,
 				78D892532930E1310013E9FE /* Archive */,
 			);
 			path = Trip;
@@ -542,6 +563,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
+				789B15C3295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift in Sources */,
+				789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */,
 				787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */,
 				787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */,
 				787B3FF029539FFF00B95DE6 /* EditLocationView.swift in Sources */,
@@ -553,11 +576,13 @@
 				787855D029129BCC00D1F199 /* FileManager-DocumentsDirectory.swift in Sources */,
 				78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
+				789B15C1295B11B900031CC9 /* DebugView.swift in Sources */,
 				78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */,
 				78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */,
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
 				78D89236292BC4B70013E9FE /* PlacemarkHelper.swift in Sources */,
+				78373264295E37DE006BD23F /* TripTitleCardOverlay.swift in Sources */,
 				78CE47DC293D37CB008CEDD6 /* PhotoLibraryService.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
 				78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */,
@@ -577,7 +602,9 @@
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
 				78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
+				789B15C5295CE20400031CC9 /* LocationsView.swift in Sources */,
 				785B8B7D294F528A00C505A0 /* View-CustomModifiers.swift in Sources */,
+				78373262295E37BD006BD23F /* TripTitleCard.swift in Sources */,
 				78CE47B32938BF60008CEDD6 /* StepView.swift in Sources */,
 				78D8923A292BCE240013E9FE /* Array-RemoveDuplicates.swift in Sources */,
 				78D89240292CC5A60013E9FE /* FeatureAnnotationCardView.swift in Sources */,
@@ -588,6 +615,7 @@
 				78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
 				78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */,
+				789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */,
 				781F74A129203F7E00A0714A /* AnnotationItem.swift in Sources */,
 				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,

@@ -13,10 +13,10 @@ struct EditLocationView: View {
     @Environment(\.dismiss) var dismiss
     @FetchRequest var locations: FetchedResults<Location>
     
-    init(id: UUID) {
+    init(location: Location) {
         _locations = FetchRequest(
             sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
-            predicate: NSPredicate(format: "id > %@", id as CVarArg)
+            predicate: NSPredicate(format: "id > %@", location.locationId as CVarArg)
         )
     }
     
@@ -29,9 +29,7 @@ struct EditLocationView: View {
             } label: {
                 Label("Delete", systemImage: "trash")
             }
-
         }
-        
     }
     
     func delete(_ location: Location) {
@@ -43,9 +41,9 @@ struct EditLocationView: View {
     }
     
 }
-
-struct LocationView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditLocationView(id: UUID())
-    }
-}
+//
+//struct LocationView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EditLocationView(id: UUID())
+//    }
+//}

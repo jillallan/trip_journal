@@ -17,8 +17,8 @@ struct MapView: UIViewRepresentable {
     let annotationItems: [MKAnnotation]?
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
-    var onFeatureAnnotationSelection: ((MKAnnotation) -> ())?
-    var onAnnotationSelection: ((UUID) -> ())?
+    var onAnnotationSelection: ((MKAnnotation) -> ())?
+//    var onAnnotationSelection: ((UUID) -> ())?
     
     // MARK: - Protocol Methods
     
@@ -33,11 +33,31 @@ struct MapView: UIViewRepresentable {
         
         mapConfiguration.pointOfInterestFilter = pointOfInterestFilter
         
+//        if let annotationItems = annotationItems {
+//            mapView.addAnnotations(annotationItems)
+//        }
+        
+        
+        if let routeOverlay = routeOverlay {
+            if !mapView.overlays.isEmpty {
+                mapView.removeOverlays(mapView.overlays)
+                
+            }
+            mapView.addOverlays(routeOverlay)
+        }
+        
         if let annotationItems = annotationItems {
+            print("annotation items: \(annotationItems.count)")
+//            print(annotationItems[0])
+//            print(annotationItems[28])
+            if !mapView.annotations.isEmpty {
+                mapView.removeAnnotations(mapView.annotations)
+            }
             mapView.addAnnotations(annotationItems)
         }
 
         mapView.delegate = context.coordinator
+        print("annotation items: \(String(describing: annotationItems?.count))")
         return mapView
     }
     
@@ -56,10 +76,13 @@ struct MapView: UIViewRepresentable {
             }
             mapView.addOverlays(routeOverlay)
         }
-//        if !mapView.selectedAnnotations.isEmpty {
-//            let selectedAnnotation = mapView.selectedAnnotations[0]
-//            mapView.deselectAnnotation(selectedAnnotation, animated: true)
-//        }
+        
+        if let annotationItems = annotationItems {
+            if !mapView.annotations.isEmpty {
+                mapView.removeAnnotations(mapView.annotations)
+            }
+            mapView.addAnnotations(annotationItems)
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -96,27 +119,39 @@ struct MapView: UIViewRepresentable {
             }
             
             let stepIdentifier = "Step"
-            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
-            
-            if annotation.stepAdded {
-                if let stepAnnotation = renderAnnotationStep() {
-                    stepAnnotationView.image = stepAnnotation
-                }
-            } else {
-                if let circleAnnotation = renderAnnotationCircle() {
-                    stepAnnotationView.image = circleAnnotation
+            if let stepAnnotation = annotation as? Step {
+                let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: stepAnnotation, reuseIdentifier: stepIdentifier)
+                
+                if let photoAnnotation = renderAnnotationStep() {
+                    stepAnnotationView.image = photoAnnotation
+                    return stepAnnotationView
                 }
             }
+            
+            let locationIdentifier = "location"
+            if let locationAnnotation = annotation as? Location {
+                let locationAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: locationIdentifier) ?? MKAnnotationView(annotation: locationAnnotation, reuseIdentifier: locationIdentifier)
+                
+                if locationAnnotation.step != nil {
+                    return nil
+                } else {
+                    if let circleAnnotation = renderAnnotationCircle() {
+                        locationAnnotationView.image = circleAnnotation
+                        return locationAnnotationView
+                    }
+                }
+            }
+            
+      
+            
             
 //            let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: stepIdentifier)
 //            stepAnnotationView.markerTintColor = UIColor.systemIndigo
 //            stepAnnotationView.titleVisibility = .hidden
-            
-            
-            
 //            stepAnnotationView.glyphImage = UIImage(systemName: "figure.walk")
             
-            return stepAnnotationView
+//            return stepAnnotationView
+            return nil
         }
         
         @MainActor func renderAnnotationCircle() -> UIImage? {
@@ -144,14 +179,16 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
             
             if let featureAnnotation = annotation as? MKMapFeatureAnnotation {
-                if let onFeatureAnnotationSelection = parent.onFeatureAnnotationSelection {
-                    onFeatureAnnotationSelection(featureAnnotation)
+                if let onAnnotationSelection = parent.onAnnotationSelection {
+                    onAnnotationSelection(featureAnnotation)
                 }
             }
-
-//            let id = annotation.annotationElementId
-            if let onAnnotationSelection = parent.onAnnotationSelection {
-                onAnnotationSelection(annotation.annotationElementId)
+            
+            if let locationAnnotation = annotation as? Location {
+//                print("\(String(describing: locationAnnotation.timestamp?.description))")
+                if let onAnnotationSelection = parent.onAnnotationSelection {
+                    onAnnotationSelection(locationAnnotation)
+                }
             }
         }
         
@@ -168,7 +205,7 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.strokeColor = UIColor.systemIndigo
+            renderer.strokeColor = UIColor.white
             renderer.lineWidth = 3.0
             return renderer
         }

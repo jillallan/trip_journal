@@ -20,9 +20,6 @@ struct TripView: View {
     
     @State var longitude = 0.0
     @State var latitude = 51.5
-    @State var name: String
-    @State private var startDate: Date
-    @State private var endDate: Date
     
     @State var coordinate = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
     @State var span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
@@ -32,7 +29,7 @@ struct TripView: View {
     @FetchRequest var locations: FetchedResults<Location>
     @State var tripRoute = [MKPolyline]()
     @State var featureAnnotation: MKMapFeatureAnnotation!
-    @State var annotationElementId: UUID!
+    @State var selectedAnnotation: Location!
     
     @State var displayedSteps: [Step] = []
     @State var addViewIsPresented: Bool = false
@@ -45,22 +42,20 @@ struct TripView: View {
     
     init(trip: Trip) {
         self.trip = trip
-        _name = State(initialValue: trip.tripTitle)
-        _startDate = State(initialValue: trip.tripStartDate)
-        _endDate = State(initialValue: trip.tripEndDate)
+        
+        let tripStartPredicate = NSPredicate(format: "timestamp > %@", trip.tripStartDate as CVarArg)
+        let tripEndPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
+        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [tripStartPredicate, tripEndPredicate])
+        
+        _locations = FetchRequest<Location>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
+            predicate: compoundPredicate
+        )
         _steps = FetchRequest<Step>(
             sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
         )
         
-        let startPredicate = NSPredicate(format: "timestamp > %@", trip.tripStartDate as CVarArg)
-        let endPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
-        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [startPredicate, endPredicate])
-        
-        _locations = FetchRequest(
-            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
-            predicate: compoundPredicate
-        )
     }
     
     var body: some View {
@@ -70,56 +65,116 @@ struct TripView: View {
                     
                     // MARK: - Map View
                     ZStack {
-
+                        
                         MapView(
                             coordinateRegion: MKCoordinateRegion(
                                 center: coordinate,
                                 span: span
                             ),
-                            annotationItems: locations.map { $0 },
-                            routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { id in
-                                annotationElementId = id
-//                                locationViewIsPresented = true
+                            annotationItems: locations.map { $0 } + steps.map { $0 },
+                            routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
+                                selectedAnnotation = annotation as? Location
+                                locationViewIsPresented = true
+                                
                             })
                     }
-                    .frame(height: geo.size.height * 0.45)
+                    .onAppear {
+                        print("steps count: \(steps.count)")
+                        print("locations count: \(locations.count)")
+                    }
+                    .frame(height: geo.size.height * 0.65)
+                    
+                    .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
+                        if let selectedAnnotation = selectedAnnotation {
+                            if let location = locations.first(where: { $0 == selectedAnnotation }) {
+                                Button("Delete Location") {
+                                    delete(location)
+                                }
+                                
+                                if (location.step != nil) {
+                                    Button("Delete Step") {
+                                        // TODO: -
+                                    }
+                                } else {
+                                    Button("Add Step ") {
+                                        // TODO: -
+                                    }
+                                }
+                            }
+                        }
+                    }, message: {
+                        if let selectedAnnotation = selectedAnnotation {
+                            // TODO: - location lookup
+                            Text("\(selectedAnnotation.locationTimestamp)")
+                        }
+                        
+                    })
+                 
+                    
+//                    .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
+//                        Button {
+//                            if let selectedAnnotation = selectedAnnotation {
+//                                print(selectedAnnotation.locationTimestamp)
+//                                if let location = locations.first(where: { $0 == selectedAnnotation }) {
+//                                    print(location.locationTimestamp)
+//                                    delete(location)
+//                                }
+//                            }
+//                        } label: {
+//                            Text("Delete")
+//                        }
+//
+//                    })
+                    
                     
                     // MARK: - location list view
-                    List {
-                        ForEach(locations) { location in
-                            Text("Lat: \(location.longitude) at: \(location.locationTimestamp)")
-                        }
-                    }
+//                    List {
+//                        ForEach(locations) { location in
+//                            Text("Lat: \(location.longitude) at: \(location.locationTimestamp)")
+//                        }
+//                    }
             
                     // MARK: - Step Scroll view
                     
                     ScrollView(.horizontal) {
                         
                         LazyHGrid(rows: [GridItem()], spacing: 1) {
-                            VStack(alignment: .leading) {
-                                Text(trip.tripTitle)
-                                    .font(.headline.bold())
-                                HStack {
-                                    DatePicker("Start", selection: $startDate.onChange(updateTrip), displayedComponents: .date)
-                                        .labelsHidden()
-                                    DatePicker("End", selection: $endDate.onChange(updateTrip), displayedComponents: .date)
-                                        .labelsHidden()
-                                        .foregroundColor(.white)
-                                        .background(Color.gray)
-                                }
-                            }
-                            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
-                            .background(Color.accentColor)
-                            .onAppear {
-                                if steps.count < 1 {
-                                    if let currentLocation = locationManager.currentLocation?.coordinate {
-                                        coordinate = currentLocation
+//                            VStack(alignment: .leading) {
+//                                Text(trip.tripTitle)
+//                                    .font(.headline.bold())
+//                                VStack {
+//                                    DatePicker("Start", selection: $startDate.onChange(updateTrip))
+//                                        .labelsHidden()
+//                                    DatePicker("End", selection: $endDate.onChange(updateTrip))
+//                                        .labelsHidden()
+//                                        .foregroundColor(.white)
+//                                        .background(Color.gray)
+//                                }
+                            //                            }
+                            //                            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
+                            //                            .background(Color.accentColor)
+                            TripTitleCard(trip: trip)
+                                .onAppear {
+                                    if locations.count < 1 {
+                                        if let currentLocation = locationManager.currentLocation?.coordinate {
+                                            coordinate = currentLocation
+                                        }
+                                    } else {
+                                        
+                                        coordinate = calculateTripCentre(
+                                            minLatitude: locations.map(\.coordinate.latitude).min() ?? 0.0,
+                                            maxLatitude: locations.map(\.coordinate.latitude).max() ?? 0.0,
+                                            minLongitude: locations.map(\.coordinate.longitude).min() ?? 0.0,
+                                            maxLongitude: locations.map(\.coordinate.longitude).max() ?? 0.0
+                                        )
+                                        span = calculateTripSpan(
+                                            minLatitude: locations.map(\.coordinate.latitude).min() ?? 0.0,
+                                            maxLatitude: locations.map(\.coordinate.latitude).max() ?? 0.0,
+                                            minLongitude: locations.map(\.coordinate.longitude).min() ?? 0.0,
+                                            maxLongitude: locations.map(\.coordinate.longitude).max() ?? 0.0
+                                        )
                                     }
-                                } else {
-                                    coordinate = trip.region.center
-                                    span = trip.region.span
                                 }
-                            }
                             
                             Rectangle().frame(width: 1).hidden()
                             
@@ -146,6 +201,7 @@ struct TripView: View {
                                         displayedSteps = add(step, to: displayedSteps)
                                     }
                             }
+                            
                             Button {
                                 addViewIsPresented.toggle()
                             } label: {
@@ -161,7 +217,7 @@ struct TripView: View {
             }
             
             // MARK: - Navigation
-            .navigationTitle($name.onChange(updateTrip))
+            .navigationTitle(trip.tripTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -178,9 +234,13 @@ struct TripView: View {
             .sheet(isPresented: $addViewIsPresented) {
                 AddStepView(coordinate: coordinate, trip: trip)
             }
-            .sheet(isPresented: $locationViewIsPresented) {
-                EditLocationView(id: annotationElementId)
-            }
+//            .sheet(isPresented: $locationViewIsPresented) {
+//                if let selectedAnnotation = selectedAnnotation {
+//                    EditLocationView(location: selectedAnnotation)
+//                }
+//            }
+            
+           
           
             .onChange(of: displayedSteps) { newStepsArray in
                 if !newStepsArray.isEmpty {
@@ -192,9 +252,9 @@ struct TripView: View {
                     coordinate = currentLocation
                 }
             }
-            .onChange(of: annotationElementId) { _ in
-                locationViewIsPresented = true
-            }
+//            .onChange(of: selectedAnnotation) { _ in
+//                locationViewIsPresented = true
+//            }
             .onDisappear {
                 dataController.save()
             }
@@ -202,6 +262,30 @@ struct TripView: View {
     }
     
     // MARK: - Update view
+    
+    private func calculateTripCentre(
+        minLatitude: Double,
+        maxLatitude: Double,
+        minLongitude: Double,
+        maxLongitude: Double
+    ) -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: (minLatitude + maxLatitude) / 2,
+            longitude: (minLongitude + maxLongitude) / 2
+        )
+    }
+    
+    private func calculateTripSpan(
+        minLatitude: Double,
+        maxLatitude: Double,
+        minLongitude: Double,
+        maxLongitude: Double
+    ) -> MKCoordinateSpan {
+        return MKCoordinateSpan(
+            latitudeDelta: (maxLatitude - minLatitude) * 1.2,
+            longitudeDelta: (maxLongitude - minLongitude) * 1.2
+        )
+    }
     
     func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {
         var route = [MKPolyline]()
@@ -264,13 +348,33 @@ struct TripView: View {
     
     // MARK: - Update Model
     
-    func updateTrip() {
-        // TODO: - Navigating back to tripView does not refresh view
-        
-        trip.title = name
-        trip.startDate = startDate
-        trip.endDate = endDate
+//    func addStep(for location: Location, name: String) {
+//        if let stepLocation = placemark.location {
+//            
+//            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
+//            
+//            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
+//            
+//            location.trip = trip
+//            location.step = step
+//            dataController.save()
+//        } else {
+//            print("Failed to add step")
+//        }
+//    }
+    
+    func updateTrip(with locations: [Location]) -> NSBatchUpdateRequest {
+        let batchUpdate = NSBatchUpdateRequest(entity: Location.entity())
+        return batchUpdate
     }
+    
+//    func updateTrip() {
+//        // TODO: - Navigating back to tripView does not refresh view
+//
+//        trip.title = name
+//        trip.startDate = startDate
+//        trip.endDate = endDate
+//    }
     
     func delete(_ location: Location) {
         if let step = location.step {
@@ -290,16 +394,16 @@ struct TripView: View {
     }
     
     func delete(_ trip: Trip) {
-        for step in trip.tripSteps {
-            dataController.delete(step)
-        }
+//        for step in trip.tripSteps {
+//            dataController.delete(step)
+//        }
         dataController.delete(trip)
         dataController.save()
     }
 }
 
-struct TripView_Previews: PreviewProvider {
-    static var previews: some View {
-        TripView(trip: .preview)
-    }
-}
+//struct TripView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TripView(trip: .preview)
+//    }
+//}

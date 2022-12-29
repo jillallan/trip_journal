@@ -9,6 +9,25 @@ import SwiftUI
 
 struct TripCardOverlay: View {
     let trip: Trip
+    @FetchRequest var steps: FetchedResults<Step>
+    @FetchRequest var locations: FetchedResults<Location>
+    
+    init(trip: Trip) {
+        self.trip = trip
+        _steps = FetchRequest<Step>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
+            predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
+        )
+        
+        let tripStartPredicate = NSPredicate(format: "timestamp > %@", trip.tripStartDate as CVarArg)
+        let tripEndPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
+        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [tripStartPredicate, tripEndPredicate])
+        
+        _locations = FetchRequest<Location>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
+            predicate: compoundPredicate
+        )
+    }
     
     var body: some View {
         VStack() {
@@ -22,8 +41,8 @@ struct TripCardOverlay: View {
             }
             Spacer()
             HStack {
-                metricsLabel(count: 10, systemImage: "figure.walk")
-                metricsLabel(count: 2360, systemImage: "airplane")
+                metricsLabel(count: steps.count, units: "steps", systemImage: "figure.walk")
+                metricsLabel(count: Int(locations.map(\.distance).reduce(0.0, +)) / 1000, units: "km", systemImage: "road.lanes")
             }
         }
         .padding()
@@ -31,8 +50,8 @@ struct TripCardOverlay: View {
     }
 }
 
-struct TripCardText_Previews: PreviewProvider {
-    static var previews: some View {
-        TripCardOverlay(trip: .preview)
-    }
-}
+//struct TripCardText_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TripCardOverlay(trip: .preview)
+//    }
+//}

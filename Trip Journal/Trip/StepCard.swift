@@ -14,7 +14,7 @@ struct StepCard: View {
     
     var body: some View {
         UnwrappedImage(asset: photoAssets.fetchResult.firstObject, withGradient: true)
-            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 1)
+            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
             .overlay {
                 StepCardOverlay(step: step)
             }
@@ -26,8 +26,8 @@ struct StepCard: View {
     }
 }
 
-struct StepCard2_Previews: PreviewProvider {
-    static var previews: some View {
-        StepCard(step: .preview)
-    }
-}
+//struct StepCard2_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StepCard(step: .preview)
+//    }
+//}

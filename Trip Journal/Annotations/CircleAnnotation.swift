@@ -10,8 +10,8 @@ import SwiftUI
 struct CircleAnnotation: View {
     var body: some View {
         Circle()
-            .fill(Color.purple)
-            .frame(width: 12, height: 12)
+            .fill(Color.white)
+            .frame(width: 10, height: 10)
     }
 }
 

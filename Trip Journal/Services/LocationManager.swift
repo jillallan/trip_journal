@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import CoreData
 
 class LocationManager: NSObject, ObservableObject {
     
@@ -18,7 +19,9 @@ class LocationManager: NSObject, ObservableObject {
     var dataController: DataController
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var previosLocation: CLLocation?
+    var previousLocation: CLLocation?
+    var currentVisit: CLVisit?
+    var previousVisit: CLVisit?
     var fetchedPlacemark: CLPlacemark?
     
     lazy var geocoder = CLGeocoder()
@@ -29,7 +32,9 @@ class LocationManager: NSObject, ObservableObject {
         self.dataController = dataController
         super.init()
         locationManager.delegate = self
-        locationManager.distanceFilter = 50.0
+        locationManager.distanceFilter = 20.0
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.showsBackgroundLocationIndicator = true
 //        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     }
     
@@ -38,7 +43,10 @@ class LocationManager: NSObject, ObservableObject {
     func startLocationServices() {
         if locationManager.authorizationStatus == .authorizedAlways ||
             locationManager.authorizationStatus == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
+//            locationManager.startUpdatingLocation()
+            locationManager.startMonitoringVisits()
+            locationManager.startMonitoringSignificantLocationChanges()
+            addLog(at: Date.now, detail: "Start location services")
         } else {
             locationManager.requestAlwaysAuthorization()
         }
@@ -90,7 +98,10 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if locationManager.authorizationStatus == .authorizedAlways ||
             locationManager.authorizationStatus == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
+//            locationManager.startUpdatingLocation()
+            locationManager.startMonitoringSignificantLocationChanges()
+            locationManager.startMonitoringVisits()
+            addLog(at: Date.now, detail: "Start location services after authorisation change")
         }
     }
     
@@ -104,23 +115,96 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        addLog(at: Date.now, detail: "Visit at Lat: \(visit.coordinate.latitude), Lon: \(visit.coordinate.longitude)")
+        
+        addVisit(for: visit)
+        
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // TODO: -
-        if let location = locations.first {
-            
-            
-            addLocation(for: location)
-            print(location.coordinate)
-            print(location.timestamp)
-            
-            currentLocation = location
+        if locations.count > 1 {
+            addLog(at: Date.now, detail: "Location Count: \(locations.count)")
+        }
+
+        for location in locations {
+            if let tempPreviousLocation = previousLocation,
+               let tempCurrentLocation = currentLocation {
+                let distance = location.distance(from: tempPreviousLocation)
+                let time = location.timestamp.timeIntervalSince1970 - tempPreviousLocation.timestamp.timeIntervalSince1970
+                let calculatedSpeed = distance / time
+                
+                addLocation(for: location, distance: distance, calculatedSpeed: calculatedSpeed)
+                previousLocation = tempCurrentLocation
+                currentLocation = location
+            } else {
+                if let tempCurrentLocation = currentLocation {
+                    previousLocation = tempCurrentLocation
+                    currentLocation = location
+                } else {
+                    currentLocation = location
+                }
+            }
         }
     }
     
-    func addLocation(for location: CLLocation) {
-        _ = Location(context: dataController.container.viewContext, cLlocation: location)
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        addLog(at: Date.now, detail: "Location Manager Did Resume Updates")
+        
+    }
+    
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        addLog(at: Date.now, detail: "Location Manager Did Pause Updates")
+        if let lastUpdatedRegion = currentLocation?.coordinate {
+            monitorRegionAtLocation(center: lastUpdatedRegion, identifier: "Last Location \(lastUpdatedRegion.latitude) \(lastUpdatedRegion.longitude)")
+            addLog(at: Date.now, detail: "start monitoring region: \(lastUpdatedRegion.latitude) \(lastUpdatedRegion.longitude)")
+        }
+        
+    }
+    
+    
+    func addLocation(for location: CLLocation, distance: Double, calculatedSpeed: Double) {
+        _ = Location(context: dataController.container.viewContext, cLlocation: location, distance: distance, calculatedSpeed: calculatedSpeed)
+
         dataController.save()
     }
+    
+    func addLog(at timestamp: Date, detail: String) {
+        _ = EventLog(context: dataController.container.viewContext, timestamp: timestamp, detail: detail)
+        
+        dataController.save()
+    }
+    
+    func addVisit(for visit: CLVisit) {
+        _ = Visit(context: dataController.container.viewContext, visit: visit)
+        
+        dataController.save()
+    }
+    
+    func monitorRegionAtLocation(center: CLLocationCoordinate2D, identifier: String ) {
+        // Make sure the devices supports region monitoring.
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            // Register the region.
+            let maxDistance = 50.0
+            let region = CLCircularRegion(center: center,
+                 radius: maxDistance, identifier: identifier)
+            region.notifyOnEntry = false
+            region.notifyOnExit = true
+       
+            locationManager.startMonitoring(for: region)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            let identifier = region.identifier
+            startLocationServices()
+            addLog(at: Date.now, detail: "Exit region and start location services \(identifier)")
+        }
+    }
+    
 }
 
 // MARK: - Xcode previews

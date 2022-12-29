@@ -47,7 +47,7 @@ struct AddStepView: View {
                         coordinateRegion: region,
                         annotationItems: nil,
                         routeOverlay: nil,
-                        onRegionChange: nil, onFeatureAnnotationSelection:  { annotation in
+                        onRegionChange: nil, onAnnotationSelection:  { annotation in
                             featureAnnotation = annotation as? MKMapFeatureAnnotation
                         })
                     .toolbar(.visible, for: .navigationBar)
@@ -67,9 +67,8 @@ struct AddStepView: View {
                                 SearchResultMapView(result: result)
                                 .toolbar {
                                     Button("Add") {
-                                        addStep(for: result.placemark, name: result.name ?? "New Step")
+                                        addStep(for: result.placemark, name: result.name ?? "New Step", trip: trip)
                                         
-//                                        addStep(for: result.placemark.coordinate, name: result.name ?? "New Step")
                                         dismiss()
                                         dismissSearch()
                                     }
@@ -102,25 +101,15 @@ struct AddStepView: View {
         }
     }
     
-    func addStep(for coordinate: CLLocationCoordinate2D, name: String) {
-        let step = Step(
-            context: dataController.container.viewContext,
-            coordinate: coordinate,
-            timestamp: Date.now,
-            name: name
-        )
-        step.trip = trip
-        dataController.save()
-    }
-    
-    func addStep(for placemark: CLPlacemark, name: String) {
+    func addStep(for placemark: CLPlacemark, name: String, trip: Trip) {
         if let stepLocation = placemark.location {
             
             let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
+            
             let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
             
-            step.trip = trip
             step.location = location
+            step.trip = trip
             dataController.save()
         } else {
             print("Failed to add step")
@@ -148,9 +137,9 @@ struct AddStepView: View {
 
 // MARK: - Xcode preview
 
-struct AddStepView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        AddStepView(coordinate: Step.preview.coordinate, trip: .preview)
-    }
-}
+//struct AddStepView_Previews: PreviewProvider {
+//    static var previews: some View {
+//
+//        AddStepView(coordinate: Step.preview.coordinate, trip: .preview)
+//    }
+//}

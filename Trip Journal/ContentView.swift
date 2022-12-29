@@ -21,7 +21,20 @@ struct ContentView: View {
                 .tabItem {
                     Label("Photos", systemImage: "photo.on.rectangle.angled")
                 }
+            DebugView()
+                .tabItem {
+                    Label("Log", systemImage: "ladybug")
+                }
+            LocationsView()
+                .tabItem {
+                    Label("Locations", systemImage: "map")
+                }
+            VisitsView()
+                .tabItem {
+                    Label("Visits", systemImage: "map")
+                }
         }
+        
     }
 }
 

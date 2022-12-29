@@ -1,25 +1,23 @@
 //
-//  TripCard2.swift
+//  TripTitleCard.swift
 //  Trip Journal
 //
-//  Created by Jill Allan on 19/12/2022.
+//  Created by Jill Allan on 29/12/2022.
 //
 
 import SwiftUI
 import Photos
 
-struct TripCard: View {
-    
-    // MARK: - Properties
-    
+struct TripTitleCard: View {
     let trip: Trip
+
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
         UnwrappedImage(asset: photoAssets.fetchResult.firstObject, withGradient: true)
-            .photoGridItemStyle(aspectRatio: 1, cornerRadius: 24)
+            .photoGridItemStyle(aspectRatio: 1.4, cornerRadius: 0)
             .overlay {
-                TripCardOverlay(trip: trip)
+                TripTitleCardOverlay(trip: trip)
             }
         
             .onAppear {
@@ -29,8 +27,8 @@ struct TripCard: View {
     }
 }
 
-//struct TripCard2_Previews: PreviewProvider {
+//struct TripTitleCard_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TripCard(trip: .preview)
+//        TripTitleCard()
 //    }
 //}

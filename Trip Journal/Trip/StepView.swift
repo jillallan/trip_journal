@@ -102,7 +102,7 @@ struct StepView: View {
     
     func updateStep() {
         // TODO: - Navigating back to tripView does not refresh view
-        step.trip?.objectWillChange.send()
+        step.location?.objectWillChange.send()
         step.name = name
         step.timestamp = timestamp
     }
@@ -118,14 +118,15 @@ struct StepView: View {
     
     func delete(_ step: Step) {
         step.trip?.objectWillChange.send()
+        step.location?.objectWillChange.send()
         dataController.delete(step)
         dataController.save()
     }
 
 }
 
-struct StepView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepView(step: .preview)
-    }
-}
+//struct StepView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StepView(step: .preview)
+//    }
+//}

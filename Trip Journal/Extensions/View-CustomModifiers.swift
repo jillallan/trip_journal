@@ -42,8 +42,8 @@ extension View {
         modifier(photoGridItemModifier(aspectRatio: aspectRatio, cornerRadius: cornerRadius))
     }
     
-    func metricsLabel(count: Int, systemImage: String) -> some View {
-        Label(count.formatted(), systemImage: systemImage)
+    func metricsLabel(count: Int, units: String, systemImage: String) -> some View {
+        Label(count.formatted() + " " + units, systemImage: systemImage)
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
             .font(.caption)

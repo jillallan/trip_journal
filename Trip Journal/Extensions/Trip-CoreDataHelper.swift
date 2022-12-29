@@ -37,50 +37,42 @@ extension Trip {
         steps?.allObjects as? [Step] ?? []
     }
     
-    var tripStepSorted: [Step] {
+    var tripStepsSorted: [Step] {
         tripSteps.sorted { first, second in
-//            if first.stepTimestamp < second.stepTimestamp {
-//                return true
-//            } else if first.stepTimestamp > second.stepTimestamp {
-//                return false
-//            }
             return first.stepTimestamp < second.stepTimestamp
-            
         }
-        
-
     }
     
     var tripPhotosAssetIdentifiers: [PhotoAssetIdentifier] {
         photoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
     }
     
-    var region: MKCoordinateRegion {
-        let coordinates = tripSteps.map(\.coordinate)
-        if let maxLatitude = coordinates.map(\.latitude).max(),
-           let minLatitude = coordinates.map(\.latitude).min(),
-           let maxLongitude = coordinates.map(\.longitude).max(),
-           let minLongitude = coordinates.map(\.longitude).min() {
-            let centre = calculateCentreCoordinate(
-                from: minLatitude,
-                maxLatitude: maxLatitude,
-                minLongitude: minLongitude,
-                maxLongitude: maxLongitude
-            )
-            let span = calculateCoordinateSpan(
-                from: minLatitude,
-                maxLatitude: maxLatitude,
-                minLongitude: minLongitude,
-                maxLongitude: maxLongitude
-            )
-            return MKCoordinateRegion(center: centre, span: span)
-        } else {
-            return MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0),
-                span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25)
-            )
-        }
-    }
+//    var region: MKCoordinateRegion {
+//        let coordinates = tripLocations.map(\.coordinate)
+//        if let maxLatitude = coordinates.map(\.latitude).max(),
+//           let minLatitude = coordinates.map(\.latitude).min(),
+//           let maxLongitude = coordinates.map(\.longitude).max(),
+//           let minLongitude = coordinates.map(\.longitude).min() {
+//            let centre = calculateCentreCoordinate(
+//                from: minLatitude,
+//                maxLatitude: maxLatitude,
+//                minLongitude: minLongitude,
+//                maxLongitude: maxLongitude
+//            )
+//            let span = calculateCoordinateSpan(
+//                from: minLatitude,
+//                maxLatitude: maxLatitude,
+//                minLongitude: minLongitude,
+//                maxLongitude: maxLongitude
+//            )
+//            return MKCoordinateRegion(center: centre, span: span)
+//        } else {
+//            return MKCoordinateRegion(
+//                center: CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0),
+//                span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25)
+//            )
+//        }
+//    }
     
     private func calculateCentreCoordinate(
         from minLatitude: Double,
