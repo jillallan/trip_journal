@@ -1,6 +1,9 @@
 # trip_journal
 #### Video Demo:  <URL HERE>
 #### Description: A swiftui app to record trips using locations and photos
+  
+This is a ios app to track a users trip, e.g. a holiday/vacation.  The app automtically logs a trip using ios location services.
+The user can then use the location automatically logged to add extra details, mainly photos, to create a step.  The user can also add a step manually by either searching for a location or selecting a location on the map.  As the user scrolls through the steps the map overview will change region to focus on the step.
 
 Your README.md file should be minimally multiple paragraphs in length, 
 and should explain what your project is, what each of the files you wrote for the project contains and does, 
@@ -68,10 +71,20 @@ FeatureAnnotationCardView: View to confirm step added by selecting a map annotat
 **UIKitViews**
 MapView: UIKit implemtnetion of mapkit, intergrated into swiftui.  Used to display a map, annotations of trip steps and a route overlay of the trip on the map
 
-
-
-
-
+Design choices
+  
+I choose SwiftUI as i found it more modern and pleasurable to use despite it being quite new and therefore not developed quite as much
+  
+I started off using the MVVM (Model view view model) pattern, but found it cumbersome to use with swiftUI, especially when using core data, as the built in @FetchRequest for use only in swiftUI views is much much more concise.  When using MVVM you cannot use @FetchRequest in a normal swift file.  I refactored the project to use the VM (View Model) design pattern after finding integrating MVVM and SwiftUI so cumbersome and after doing online research.
+  
+For tracking the user location I used significant location updates to save battery life, but also give enough detail.  The normal location service used too much battery and did not relaunch the app if it was terminated.  And the visit service only logged locations where the user had stayed for a significant amount of time, not locations the user travelled through.
+  
+Roadmap
+  
+Refactor the app to better adhere to SOLID principles
+Add tests
+Give more accurate routes by creating a MKRoute between steps
+Improve the UI and UX
 
 
 
