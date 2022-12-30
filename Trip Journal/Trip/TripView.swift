@@ -121,19 +121,8 @@ struct TripView: View {
                                             coordinate = currentLocation
                                         }
                                     } else {
-                                        
-                                        coordinate = calculateTripCentre(
-                                            minLatitude: locations.map(\.coordinate.latitude).min() ?? 0.0,
-                                            maxLatitude: locations.map(\.coordinate.latitude).max() ?? 0.0,
-                                            minLongitude: locations.map(\.coordinate.longitude).min() ?? 0.0,
-                                            maxLongitude: locations.map(\.coordinate.longitude).max() ?? 0.0
-                                        )
-                                        span = calculateTripSpan(
-                                            minLatitude: locations.map(\.coordinate.latitude).min() ?? 0.0,
-                                            maxLatitude: locations.map(\.coordinate.latitude).max() ?? 0.0,
-                                            minLongitude: locations.map(\.coordinate.longitude).min() ?? 0.0,
-                                            maxLongitude: locations.map(\.coordinate.longitude).max() ?? 0.0
-                                        )
+                                        coordinate = calculateTripRegion(from: locations).center
+                                        span = calculateTripRegion(from: locations).span
                                     }
                                 }
                             
@@ -223,28 +212,23 @@ struct TripView: View {
     
     // MARK: - Update view
     
-    private func calculateTripCentre(
-        minLatitude: Double,
-        maxLatitude: Double,
-        minLongitude: Double,
-        maxLongitude: Double
-    ) -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(
+    private func calculateTripRegion(from locations: FetchedResults<Location>) -> MKCoordinateRegion {
+        let minLatitude = locations.map(\.coordinate.latitude).min() ?? 0.0
+        let maxLatitude = locations.map(\.coordinate.latitude).max() ?? 0.0
+        let minLongitude = locations.map(\.coordinate.longitude).min() ?? 0.0
+        let maxLongitude = locations.map(\.coordinate.longitude).max() ?? 0.0
+
+        let center = CLLocationCoordinate2D(
             latitude: (minLatitude + maxLatitude) / 2,
             longitude: (minLongitude + maxLongitude) / 2
         )
-    }
-    
-    private func calculateTripSpan(
-        minLatitude: Double,
-        maxLatitude: Double,
-        minLongitude: Double,
-        maxLongitude: Double
-    ) -> MKCoordinateSpan {
-        return MKCoordinateSpan(
+        
+        let span = MKCoordinateSpan(
             latitudeDelta: (maxLatitude - minLatitude) * 1.2,
             longitudeDelta: (maxLongitude - minLongitude) * 1.2
         )
+    
+        return MKCoordinateRegion(center: center, span: span)
     }
     
     func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {
