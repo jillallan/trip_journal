@@ -22,7 +22,6 @@ struct TripMap: View {
     
     var body: some View {
         ZStack {
-            
             MapView(
                 coordinateRegion: MKCoordinateRegion(
                     center: coordinate,
