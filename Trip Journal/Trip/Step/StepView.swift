@@ -25,7 +25,7 @@ struct StepView: View {
     @State private var showingPhotoPicker = false
     @Environment(\.dismiss) var dismiss
     
-    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var selectedPhotos: [PhotosPickerItem] = []
     
     init(step: Step) {
         self.step = step
@@ -36,18 +36,8 @@ struct StepView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-
-                
-                
-                VStack(alignment: .leading) {
-                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
-                }
-                .padding()
-                
                 ScrollView() {
                     LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
-                        
-                            
                         ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
                             NavigationLink {
                                 PhotoView(asset: asset)
@@ -56,21 +46,24 @@ struct StepView: View {
                                     .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
                             }
                         }
-                        PhotosPicker("Add a photo", selection: $selectedPhoto, photoLibrary: .shared())
-                            .frame(maxWidth: .infinity, minHeight: 100)
-                            .background(.gray)
-                            .overlay {
-                                Rectangle()
-                                    .stroke(.red)
-                            }
+
+                        PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
+                            Label("Add photos", systemImage: "photo")
+                        }
+                        .padding()
                     }
                 }
-
-                .padding()
+                VStack(alignment: .leading) {
+                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
+                }
+                .padding(.horizontal)
             }
 //            .navigationTitle(step.stepName)
             .navigationTitle($name.onChange(updateStep))
-            .toolbar(content: {
+            .navigationBarTitleDisplayMode(.large)
+
+            
+            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         delete(step)
@@ -79,9 +72,9 @@ struct StepView: View {
                         Label("Delete", systemImage: "trash")
                             .labelsHidden()
                     }
-
                 }
-            })
+            }
+//            .toolbarBackground(.hidden, for: .navigationBar)
             
             .onDisappear {
                 dataController.save()
@@ -90,21 +83,38 @@ struct StepView: View {
                 let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
                 photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
             }
-            .onChange(of: selectedPhoto) { newPhoto in
-                Task {
-                    addPhoto(photo: newPhoto)
-                    let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
-                    photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+            
+            // TODO: - check this works with multi picker
+            .onChange(of: selectedPhotos) { photos in
+                for photo in photos {
+                    Task {
+                        addPhoto(photo: photo)
+                        let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                        photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+                    }
                 }
             }
         }
     }
     
     func updateStep() {
-        // TODO: - Navigating back to tripView does not refresh view
+        // TODO: - create new step location, delete old location if manually created
+        // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
+        
         step.location?.objectWillChange.send()
         step.name = name
         step.timestamp = timestamp
+    }
+    
+    func updateStepTimestamp() {
+        // TODO: - create new step location, delete old location if manually created
+        // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
+        
+        step.location?.objectWillChange.send()
+        step.timestamp = timestamp
+        if step.location?.distance == 0 {
+            // delete location
+        }
     }
     
     func addPhoto(photo: PhotosPickerItem?) {
@@ -119,6 +129,8 @@ struct StepView: View {
     func delete(_ step: Step) {
         step.trip?.objectWillChange.send()
         step.location?.objectWillChange.send()
+        // TODO: - Delete location if manually created
+        
         dataController.delete(step)
         dataController.save()
     }

@@ -71,7 +71,7 @@ struct TripView: View {
                                 center: coordinate,
                                 span: span
                             ),
-                            annotationItems: locations.map { $0 } + steps.map { $0 },
+                            annotationItems: locations.map { $0 },
                             routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
                                 selectedAnnotation = annotation as? Location
                                 locationViewIsPresented = true
@@ -87,17 +87,16 @@ struct TripView: View {
                     .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
                         if let selectedAnnotation = selectedAnnotation {
                             if let location = locations.first(where: { $0 == selectedAnnotation }) {
-                                Button("Delete Location") {
-                                    delete(location)
-                                }
-                                
-                                if (location.step != nil) {
+                                if let step = location.step {
                                     Button("Delete Step") {
-                                        // TODO: -
+                                        delete(step)
                                     }
                                 } else {
                                     Button("Add Step ") {
                                         // TODO: -
+                                    }
+                                    Button("Delete Location") {
+                                        delete(location)
                                     }
                                 }
                             }
@@ -105,54 +104,16 @@ struct TripView: View {
                     }, message: {
                         if let selectedAnnotation = selectedAnnotation {
                             // TODO: - location lookup
-                            Text("\(selectedAnnotation.locationTimestamp)")
+                            Text(selectedAnnotation.step?.stepName ?? String(describing: selectedAnnotation.locationTimestamp))
                         }
                         
                     })
-                 
-                    
-//                    .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
-//                        Button {
-//                            if let selectedAnnotation = selectedAnnotation {
-//                                print(selectedAnnotation.locationTimestamp)
-//                                if let location = locations.first(where: { $0 == selectedAnnotation }) {
-//                                    print(location.locationTimestamp)
-//                                    delete(location)
-//                                }
-//                            }
-//                        } label: {
-//                            Text("Delete")
-//                        }
-//
-//                    })
-                    
-                    
-                    // MARK: - location list view
-//                    List {
-//                        ForEach(locations) { location in
-//                            Text("Lat: \(location.longitude) at: \(location.locationTimestamp)")
-//                        }
-//                    }
             
                     // MARK: - Step Scroll view
                     
                     ScrollView(.horizontal) {
                         
                         LazyHGrid(rows: [GridItem()], spacing: 1) {
-//                            VStack(alignment: .leading) {
-//                                Text(trip.tripTitle)
-//                                    .font(.headline.bold())
-//                                VStack {
-//                                    DatePicker("Start", selection: $startDate.onChange(updateTrip))
-//                                        .labelsHidden()
-//                                    DatePicker("End", selection: $endDate.onChange(updateTrip))
-//                                        .labelsHidden()
-//                                        .foregroundColor(.white)
-//                                        .background(Color.gray)
-//                                }
-                            //                            }
-                            //                            .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
-                            //                            .background(Color.accentColor)
                             TripTitleCard(trip: trip)
                                 .onAppear {
                                     if locations.count < 1 {
@@ -180,8 +141,17 @@ struct TripView: View {
                             
                             
                             ForEach(steps) { step in
+                                
                                 ZStack {
-                                    NavigationLink { StepView(step: step) } label: { StepCard(step: step) }
+//                                    
+                                    NavigationLink {
+                                        StepView(step: step)
+                                    } label: {
+                                        StepCard(step: step)
+                                    }
+
+                                    
+                         
                                     
                                     Button {
                                         // TODO: - pass step timestamp to add new step just after
@@ -234,13 +204,6 @@ struct TripView: View {
             .sheet(isPresented: $addViewIsPresented) {
                 AddStepView(coordinate: coordinate, trip: trip)
             }
-//            .sheet(isPresented: $locationViewIsPresented) {
-//                if let selectedAnnotation = selectedAnnotation {
-//                    EditLocationView(location: selectedAnnotation)
-//                }
-//            }
-            
-           
           
             .onChange(of: displayedSteps) { newStepsArray in
                 if !newStepsArray.isEmpty {
@@ -252,9 +215,6 @@ struct TripView: View {
                     coordinate = currentLocation
                 }
             }
-//            .onChange(of: selectedAnnotation) { _ in
-//                locationViewIsPresented = true
-//            }
             .onDisappear {
                 dataController.save()
             }
@@ -377,27 +337,34 @@ struct TripView: View {
 //    }
     
     func delete(_ location: Location) {
-        if let step = location.step {
-            dataController.delete(step)
-        }
+//        location.step = nil
         dataController.delete(location)
         dataController.save()
     }
     
     func deleteSteps(at offsets: IndexSet) {
-        
         for offset in offsets {
             let step = steps[offset]
-            dataController.delete(step)
+            delete(step)
         }
         dataController.save()
     }
     
     func delete(_ trip: Trip) {
-//        for step in trip.tripSteps {
-//            dataController.delete(step)
-//        }
+        for step in trip.tripSteps {
+            delete(step)
+        }
         dataController.delete(trip)
+        dataController.save()
+    }
+    
+    func delete(_ step: Step) {
+        if let location = step.location {
+            if location.distance == 0 && location.horizontalAccuracy == 0 {
+                delete(location)
+            }
+            dataController.delete(step)
+        }
         dataController.save()
     }
 }

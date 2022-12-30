@@ -118,22 +118,25 @@ struct MapView: UIViewRepresentable {
                 return featureAnnotationView
             }
             
-            let stepIdentifier = "Step"
-            if let stepAnnotation = annotation as? Step {
-                let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: stepAnnotation, reuseIdentifier: stepIdentifier)
-                
-                if let photoAnnotation = renderAnnotationStep() {
-                    stepAnnotationView.image = photoAnnotation
-                    return stepAnnotationView
-                }
-            }
+//            let stepIdentifier = "Step"
+//            if let stepAnnotation = annotation as? Step {
+//                let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: stepAnnotation, reuseIdentifier: stepIdentifier)
+//
+//                if let photoAnnotation = renderAnnotationStep() {
+//                    stepAnnotationView.image = photoAnnotation
+//                    return stepAnnotationView
+//                }
+//            }
             
             let locationIdentifier = "location"
             if let locationAnnotation = annotation as? Location {
                 let locationAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: locationIdentifier) ?? MKAnnotationView(annotation: locationAnnotation, reuseIdentifier: locationIdentifier)
                 
                 if locationAnnotation.step != nil {
-                    return nil
+                    if let photoAnnotation = renderAnnotationStep() {
+                        locationAnnotationView.image = photoAnnotation
+                        return locationAnnotationView
+                    }
                 } else {
                     if let circleAnnotation = renderAnnotationCircle() {
                         locationAnnotationView.image = circleAnnotation
