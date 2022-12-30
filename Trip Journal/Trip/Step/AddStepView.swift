@@ -17,6 +17,7 @@ struct AddStepView: View {
     @State private var isFeatureAnnotationCardViewPresented: Bool = false
     @State private var featureAnnotation: MKMapFeatureAnnotation!
     @StateObject var searchQuery: SearchQuery
+    @State var date: Date
 
     @Environment(\.dismissSearch) private var dismissSearch
     @Environment(\.dismiss) var dismiss
@@ -27,14 +28,14 @@ struct AddStepView: View {
 
     // MARK: - Init
     
-    init(coordinate: CLLocationCoordinate2D, trip: Trip) {
+    init(coordinate: CLLocationCoordinate2D, trip: Trip, date: Date) {
         self.trip = trip
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: coordinate, span: span)
         _region = State(initialValue: region)
         let searchQuery = SearchQuery(region: region)
         _searchQuery = StateObject(wrappedValue: searchQuery)
-        
+        _date = State(initialValue: date)
     }
     
     // MARK: - View
@@ -64,15 +65,22 @@ struct AddStepView: View {
                     .searchable(text: $searchQuery.searchQuery) {
                         List(searchQuery.searchResults) { result in
                             NavigationLink {
-                                SearchResultMapView(result: result)
-                                .toolbar {
-                                    Button("Add") {
-                                        addStep(for: result.placemark, name: result.name ?? "New Step", trip: trip)
-                                        
-                                        dismiss()
-                                        dismissSearch()
-                                    }
+                                VStack {
+                                    SearchResultMapView(result: result)
+                                    DatePicker("Step Date", selection: $date)
+                                        .padding()
                                 }
+                                
+                                    .toolbar {
+                                        Button("Add") {
+                                            addStep(for: result.placemark, name: result.name ?? "New Step", trip: trip, date: date)
+                                            
+                                            dismiss()
+                                            dismissSearch()
+                                        }
+                                    }
+                                    .navigationBarTitle(result.name ?? "New Step")
+                                    .navigationBarTitleDisplayMode(.large)
                             } label: {
                                 SearchResultCellView(result: result)
                             }
@@ -93,7 +101,7 @@ struct AddStepView: View {
                     
                     .sheet(isPresented: $isFeatureAnnotationCardViewPresented) {
                         if let featureAnnotation = featureAnnotation {
-                            FeatureAnnotationCardView(stepAdded: $wasStepAdded, trip: trip, featureAnnotation: featureAnnotation)
+                            FeatureAnnotationCardView(stepAdded: $wasStepAdded, date: date, trip: trip, featureAnnotation: featureAnnotation)
                         }
                     }
                 }
@@ -101,12 +109,12 @@ struct AddStepView: View {
         }
     }
     
-    func addStep(for placemark: CLPlacemark, name: String, trip: Trip) {
+    func addStep(for placemark: CLPlacemark, name: String, trip: Trip, date: Date) {
         if let stepLocation = placemark.location {
             
             let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
             
-            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
+            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
             
             step.location = location
             step.trip = trip

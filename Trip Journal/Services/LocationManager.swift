@@ -52,6 +52,16 @@ class LocationManager: NSObject, ObservableObject {
         }
     }
     
+    func getCurrentLocation() {
+        if locationManager.authorizationStatus == .authorizedAlways ||
+            locationManager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestLocation()
+            addLog(at: Date.now, detail: "Start location services")
+        } else {
+            locationManager.requestAlwaysAuthorization()
+        }
+    }
+    
     // One lookup per user action
     // If the user is travelling wait till a significant distance has been travelled
     // Or significant amount of time e.g. a minute

@@ -69,8 +69,7 @@
 		78D892522930DF5D0013E9FE /* PlacemarksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D892512930DF5D0013E9FE /* PlacemarksListViewModel.swift */; };
 		78D8926C293113250013E9FE /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8926B293113250013E9FE /* BaseTestCase.swift */; };
 		78D8926E29311A0A0013E9FE /* TestAddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8926D29311A0A0013E9FE /* TestAddTripView.swift */; };
-		78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D89274293173710013E9FE /* SearchResultCellViewModel.swift */; };
-		78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */; };
+		78D9C38A295F82C7003E2D46 /* AddStepDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
 		78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* JournalImage.swift */; };
 		78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* PhotoView.swift */; };
@@ -162,8 +161,7 @@
 		78D892512930DF5D0013E9FE /* PlacemarksListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarksListViewModel.swift; sourceTree = "<group>"; };
 		78D8926B293113250013E9FE /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
 		78D8926D29311A0A0013E9FE /* TestAddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAddTripView.swift; sourceTree = "<group>"; };
-		78D89274293173710013E9FE /* SearchResultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellViewModel.swift; sourceTree = "<group>"; };
-		78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewModel.swift; sourceTree = "<group>"; };
+		78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepDetailView.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
 		78E1D2CD293FE12700FD6AAF /* JournalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalImage.swift; sourceTree = "<group>"; };
 		78E1D2D1294135C700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
@@ -230,6 +228,7 @@
 				78AD9617295103B90010F4A7 /* StepCard.swift */,
 				78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */,
 				781FFB9D2919912600605DAE /* AddStepView.swift */,
+				78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */,
 				78CE47B22938BF60008CEDD6 /* StepView.swift */,
 				781F74A62922D89500A0714A /* StepAnnotationView.swift */,
 			);
@@ -240,9 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				781F74A42922312C00A0714A /* SearchResultCellView.swift */,
-				78D89274293173710013E9FE /* SearchResultCellViewModel.swift */,
 				781F749C29203B5000A0714A /* SearchResultMapView.swift */,
-				78D8927629329E9D0013E9FE /* SearchResultMapViewModel.swift */,
 			);
 			path = SearchResult;
 			sourceTree = "<group>";
@@ -575,6 +572,7 @@
 			files = (
 				781F74B22924DF1800A0714A /* DataController.swift in Sources */,
 				789B15C3295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift in Sources */,
+				78D9C38A295F82C7003E2D46 /* AddStepDetailView.swift in Sources */,
 				789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */,
 				787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */,
 				787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */,
@@ -597,7 +595,6 @@
 				78CE47DC293D37CB008CEDD6 /* PhotoLibraryService.swift in Sources */,
 				787855D529129E8100D1F199 /* Step-CoreDataHelpers.swift in Sources */,
 				78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */,
-				78D8927729329E9D0013E9FE /* SearchResultMapViewModel.swift in Sources */,
 				78D89248292EBB640013E9FE /* AddressBuilder.swift in Sources */,
 				78CE47BB2938EA6F008CEDD6 /* Photo-CoreDataHelpers.swift in Sources */,
 				781F74A52922312C00A0714A /* SearchResultCellView.swift in Sources */,
@@ -624,7 +621,6 @@
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				78CE47B92938E1E6008CEDD6 /* PhotoPicker.swift in Sources */,
-				78D89275293173710013E9FE /* SearchResultCellViewModel.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
 				78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */,
 				789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */,

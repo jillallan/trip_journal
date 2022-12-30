@@ -13,6 +13,7 @@ struct FeatureAnnotationCardView: View {
     
     @EnvironmentObject var dataController: DataController
     @Binding var stepAdded: Bool
+    @State var date: Date
     
     enum LoadingState {
         case loading, loaded, failed
@@ -26,37 +27,54 @@ struct FeatureAnnotationCardView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        HStack {
-            Group {
-                switch loadingState {
-                case .loaded:
-                    if let mapItem = mapItem {
-                        Image(systemName: mapItem.pointOfInterestCategory?.symbolName ?? "mappin.and.ellipse")
+        
+        Group {
+            switch loadingState {
+            case .loaded:
+                if let mapItem = mapItem {
+                    NavigationStack {
                         VStack {
-                            Text(mapItem.name ?? "No name available")
-                                .font(.title)
-                            Text("\(mapItem.placemark.locality ?? "Unknown city")")
-                        }
-                        HStack {
+                            Spacer()
+                            DatePicker("Date", selection: $date)
+                                .padding()
                             Button("Add step") {
-                                addStep(for: mapItem.placemark, name: mapItem.name ?? "New Step", trip: trip)
+                                addStep(for: mapItem.placemark, name: mapItem.name ?? "New Step", trip: trip, date: date)
                                 
                                 stepAdded = true
                                 dismiss()
                             }
-                            Button("Cancel", role: .cancel) {
-                                dismiss()
-                            }
                         }
-                    } else {
-                        Text("Could not get details of map item, no internet??")
+                        
+                            .navigationTitle(mapItem.name ?? "No name available")
+                        
                     }
-                case .loading:
-                    Text("Loading…")
-                case .failed:
-                    Text("Could not get details of map item")
+                    .toolbar {
+                        Button("Cancel", role: .cancel) {
+                            dismiss()
+                        }
+                    }
+                
+                } else {
+                    Text("Could not get details of map item, no internet??")
                 }
+            case .loading:
+                NavigationStack {
+                    VStack {
+                        
+                    }
+                    .navigationTitle("Loading")
+                }
+                
+            case .failed:
+                NavigationStack {
+                    VStack {
+                        
+                    }
+                    .navigationTitle("Could not get details of map item")
+                }
+                
             }
+            
         }
         .task {
             mapItem = await getMapItem(with: featureAnnotation)
@@ -78,12 +96,12 @@ struct FeatureAnnotationCardView: View {
         }
     }
     
-    func addStep(for placemark: CLPlacemark, name: String, trip: Trip) {
+    func addStep(for placemark: CLPlacemark, name: String, trip: Trip, date: Date) {
         if let stepLocation = placemark.location {
             
             let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
             
-            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
+            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
             
             step.location = location
             step.trip = trip

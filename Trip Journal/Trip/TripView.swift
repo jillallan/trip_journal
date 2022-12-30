@@ -34,7 +34,13 @@ struct TripView: View {
     @State var displayedSteps: [Step] = []
     @State var addViewIsPresented: Bool = false
     @State private var locationViewIsPresented: Bool = false
+//    @State var isAddStepDetailViewPresented: Bool = false
     @Environment(\.dismiss) var dismiss
+    
+//    @State private var currentStep: Step!
+    @State private var previouStep: Step!
+    @State private var currentStep: Step? = nil
+    @State private var locationStep: Location? = nil
     
     @State private var animationAmount = 1.0
     
@@ -62,7 +68,7 @@ struct TripView: View {
         NavigationStack {
             GeometryReader { geo in
                 VStack {
-                    
+
                     // MARK: - Map View
                     ZStack {
                         
@@ -84,7 +90,7 @@ struct TripView: View {
                     }
                     .frame(height: geo.size.height * 0.65)
                     
-                    .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
+                    .confirmationDialog("Location", isPresented: $locationViewIsPresented) {
                         if let selectedAnnotation = selectedAnnotation {
                             if let location = locations.first(where: { $0 == selectedAnnotation }) {
                                 if let step = location.step {
@@ -93,7 +99,8 @@ struct TripView: View {
                                     }
                                 } else {
                                     Button("Add Step ") {
-                                        // TODO: -
+                                        locationStep = location
+                                        
                                     }
                                     Button("Delete Location") {
                                         delete(location)
@@ -101,13 +108,17 @@ struct TripView: View {
                                 }
                             }
                         }
-                    }, message: {
+                    } message: {
                         if let selectedAnnotation = selectedAnnotation {
+                            if let stepName = selectedAnnotation.step?.stepName {
+                                Text(stepName)
+                            } else {
+                                Text("\(selectedAnnotation.locationTimestamp)")
+                            }
                             // TODO: - location lookup
-                            Text(selectedAnnotation.step?.stepName ?? String(describing: selectedAnnotation.locationTimestamp))
+                   
                         }
-                        
-                    })
+                    }
             
                     // MARK: - Step Scroll view
                     
@@ -129,29 +140,45 @@ struct TripView: View {
                             Rectangle().frame(width: 1).hidden()
                             
                             
+                            
                             ForEach(steps) { step in
-                                
                                 ZStack {
-//                                    
                                     NavigationLink {
                                         StepView(step: step)
                                     } label: {
                                         StepCard(step: step)
                                     }
-
-                                    
-                         
-                                    
                                     Button {
-                                        // TODO: - pass step timestamp to add new step just after
+                                        
+                                        if let stepIndex = steps.firstIndex(of: step) {
+                                            print(stepIndex)
+                                            if stepIndex == 0 {
+                                                currentStep = steps[stepIndex]
+                                                
+                                            } else {
+                                                currentStep = steps[stepIndex - 1]
+                                            }
+                                        }
+                                    
+                                        // TODO: - show last or before and after steps on add step map
+                                        // TODO: - pass step timestamp to add new step just after and location to get map region
                                         // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
-                                        addViewIsPresented.toggle()
+//                                        addViewIsPresented.toggle()
                                     } label: {
                                         Label("Add", systemImage: "plus")
                                             .addButtonStyle()
                                     }
-                                    .offset(x: -175)
+                                    .offset(x: -(((geo.size.height * 0.3 * 1.6) + 3) / 2))
                                     
+                                    Button {
+                                        currentStep = step
+
+                                    } label: {
+                                        Label("Add", systemImage: "plus")
+                                            .addButtonStyle()
+                                    }
+                                    .offset(x: (((geo.size.height * 0.3 * 1.6) + 3) / 2))
+                             
                                 }
                                 Rectangle()
                                     .frame(width: 1)
@@ -160,17 +187,9 @@ struct TripView: View {
                                         displayedSteps = add(step, to: displayedSteps)
                                     }
                             }
-                            
-                            Button {
-                                addViewIsPresented.toggle()
-                            } label: {
-                                Label("Add", systemImage: "plus")
-                                    .addButtonStyle()
-                            }
-                            .offset(x: -15)
                         }
                     }
-//                    .padding()
+
                     .frame(height: geo.size.height * 0.3)
                 }
             }
@@ -190,10 +209,13 @@ struct TripView: View {
                 }
             }
             .toolbar(.hidden, for: .tabBar)
-            .sheet(isPresented: $addViewIsPresented) {
-                AddStepView(coordinate: coordinate, trip: trip)
+            
+            .sheet(item: $currentStep) { step in
+                AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
             }
-          
+            .sheet(item: $locationStep, content: { location in
+                AddStepDetailView(trip: trip, location: location, date: location.locationTimestamp)
+            })
             .onChange(of: displayedSteps) { newStepsArray in
                 if !newStepsArray.isEmpty {
                     coordinate = updateRegionCoordinates(with: newStepsArray)
@@ -211,6 +233,8 @@ struct TripView: View {
     }
     
     // MARK: - Update view
+    
+    
     
     private func calculateTripRegion(from locations: FetchedResults<Location>) -> MKCoordinateRegion {
         let minLatitude = locations.map(\.coordinate.latitude).min() ?? 0.0

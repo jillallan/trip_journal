@@ -11,6 +11,7 @@ import SwiftUI
 struct SearchResultMapView: View {
     let result: MKMapItem
     @State var region: MKCoordinateRegion
+
 //    let annotationItems: [AnnotationItem]
     
     init(result: MKMapItem) {
@@ -34,8 +35,10 @@ struct SearchResultMapView: View {
                 annotationItems: nil,
                 routeOverlay: nil
             )
-            Text("\(result)")
-                .padding()
+            // TODO: - Add better name coalesing
+//            Text("\(result.name ?? "No name")")
+      
+//                .padding()
         }
     }
 }
