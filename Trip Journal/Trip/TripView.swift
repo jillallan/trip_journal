@@ -29,11 +29,11 @@ struct TripView: View {
     @FetchRequest var locations: FetchedResults<Location>
     @State var tripRoute = [MKPolyline]()
     @State var featureAnnotation: MKMapFeatureAnnotation!
-    @State var selectedAnnotation: Location!
+    
     
     @State var displayedSteps: [Step] = []
     @State var addViewIsPresented: Bool = false
-    @State private var locationViewIsPresented: Bool = false
+    
     @Environment(\.dismiss) var dismiss
     
     @State private var animationAmount = 1.0
@@ -64,50 +64,7 @@ struct TripView: View {
                 VStack {
                     
                     // MARK: - Map View
-                    ZStack {
-                        
-                        MapView(
-                            coordinateRegion: MKCoordinateRegion(
-                                center: coordinate,
-                                span: span
-                            ),
-                            annotationItems: locations.map { $0 },
-                            routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
-                                selectedAnnotation = annotation as? Location
-                                locationViewIsPresented = true
-                                
-                            })
-                    }
-                    .onAppear {
-                        print("steps count: \(steps.count)")
-                        print("locations count: \(locations.count)")
-                    }
-                    .frame(height: geo.size.height * 0.65)
-                    
-                    .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
-                        if let selectedAnnotation = selectedAnnotation {
-                            if let location = locations.first(where: { $0 == selectedAnnotation }) {
-                                if let step = location.step {
-                                    Button("Delete Step") {
-                                        delete(step)
-                                    }
-                                } else {
-                                    Button("Add Step ") {
-                                        // TODO: -
-                                    }
-                                    Button("Delete Location") {
-                                        delete(location)
-                                    }
-                                }
-                            }
-                        }
-                    }, message: {
-                        if let selectedAnnotation = selectedAnnotation {
-                            // TODO: - location lookup
-                            Text(selectedAnnotation.step?.stepName ?? String(describing: selectedAnnotation.locationTimestamp))
-                        }
-                        
-                    })
+                    TripMap(coordinate: $coordinate, span: $span, locations: locations, steps: steps, geo: geo)
             
                     // MARK: - Step Scroll view
                     
@@ -247,24 +204,7 @@ struct TripView: View {
         )
     }
     
-    func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {
-        var route = [MKPolyline]()
-
-        if !coordinates.isEmpty {
-            var tripRouteStart = coordinates
-            var tripRouteEnd = coordinates
-            
-            tripRouteStart.removeLast()
-            tripRouteEnd.removeFirst()
-            
-            for (startCoordinate, endCoordinate) in zip(tripRouteStart, tripRouteEnd) {
-                let polyline = MKPolyline(coordinates: [startCoordinate, endCoordinate], count: 2)
-                route.append(polyline)
-                
-            }
-        }
-        return route
-    }
+    
     
     func remove(_ step: Step, from array: [Step]) -> [Step] {
         var newArray = array
@@ -336,11 +276,7 @@ struct TripView: View {
 //        trip.endDate = endDate
 //    }
     
-    func delete(_ location: Location) {
-//        location.step = nil
-        dataController.delete(location)
-        dataController.save()
-    }
+    
     
     func deleteSteps(at offsets: IndexSet) {
         for offset in offsets {
@@ -361,7 +297,7 @@ struct TripView: View {
     func delete(_ step: Step) {
         if let location = step.location {
             if location.distance == 0 && location.horizontalAccuracy == 0 {
-                delete(location)
+                dataController.delete(location)
             }
             dataController.delete(step)
         }
@@ -374,3 +310,4 @@ struct TripView: View {
 //        TripView(trip: .preview)
 //    }
 //}
+
