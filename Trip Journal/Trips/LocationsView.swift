@@ -39,7 +39,9 @@ struct LocationsView: View {
                             Text("Calc Speed")
                             Text(location.calculatedSpeed, format: .number)
                         }
-                        
+                        HStack {
+                            Text(location.step?.stepName ?? "No step")
+                        }
                     }
                     .font(.caption)
                 }

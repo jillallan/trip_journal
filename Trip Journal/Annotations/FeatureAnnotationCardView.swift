@@ -98,8 +98,7 @@ struct FeatureAnnotationCardView: View {
     
     func addStep(for placemark: CLPlacemark, name: String, trip: Trip, date: Date) {
         if let stepLocation = placemark.location {
-            
-            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
+            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation, timestamp: date)
             
             let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
             

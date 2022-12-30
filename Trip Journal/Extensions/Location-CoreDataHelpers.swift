@@ -47,6 +47,14 @@ extension Location {
     convenience init(
         context: NSManagedObjectContext,
         cLlocation: CLLocation,
+        timestamp: Date
+    ) {
+        self.init(context: context, latitude: cLlocation.coordinate.latitude, longitude: cLlocation.coordinate.longitude, altitude: cLlocation.altitude, horizontalAccuracy: cLlocation.horizontalAccuracy, verticalAccuracy: cLlocation.verticalAccuracy, distance: 0.0, speed: cLlocation.speed, calculatedSpeed: 0.0, timestamp: timestamp)
+    }
+    
+    convenience init(
+        context: NSManagedObjectContext,
+        cLlocation: CLLocation,
         distance: Double,
         calculatedSpeed: Double
     ) {

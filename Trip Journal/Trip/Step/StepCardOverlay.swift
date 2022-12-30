@@ -34,7 +34,7 @@ struct StepCardOverlay: View {
                 Text(step.stepName)
                     .font(.headline)
 //                    .multilineTextAlignment(.leading)
-                Text(step.stepTimestamp.formatted(date: .abbreviated, time: .omitted))
+                Text(step.stepTimestamp.formatted(date: .abbreviated, time: .shortened))
                     .font(.subheadline)
             }
             Spacer()
