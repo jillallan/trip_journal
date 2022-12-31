@@ -40,7 +40,8 @@ struct PhotoGridView: View {
                 }
 //                .padding(3)
             }
-            .ignoresSafeArea(edges: .top)
+            .navigationTitle("Photos")
+//            .ignoresSafeArea(edges: .top)
             .onAppear {
                 let assetIdentifiers = photoAssetIdentifiers.compactMap(\.assetIdentifier)
                 let fetchOptions = PHFetchOptions()

@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct AddStepDetailView: View {
     @EnvironmentObject var dataController: DataController
+    @State private var selectedPhotos: [PhotosPickerItem] = []
+    @State var photoAssetIdentifiers = PHFetchResultCollection(fetchResult: .init())
+    @State var selectedPhotosIdentifiers: [String] = []
     let trip: Trip
     let location: Location
     @State var date: Date
@@ -19,11 +23,15 @@ struct AddStepDetailView: View {
     var body: some View {
         NavigationStack {
             VStack {
+//                PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
+//                    Label("Add photos", systemImage: "photo")
+//                }
+//                .padding()
                 Spacer()
 //                DatePicker("Date", selection: $date)
 //                    .padding()
                 Button("Add step") {
-                    addStep(for: location, name: name, trip: trip, date: date)
+                    addStep(for: location, name: name, trip: trip, date: date, photoAssetIdentifiers: selectedPhotosIdentifiers)
                     dismiss()
                 }
             }
@@ -36,14 +44,34 @@ struct AddStepDetailView: View {
                 dismiss()
             }
         }
+        .onChange(of: selectedPhotos) { photos in
+            for photo in photos {
+                Task {
+                    if let photoItemIdentifier = photo.itemIdentifier {
+                        selectedPhotosIdentifiers.append(photoItemIdentifier)
+                    }
+                }
+            }
+            photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: selectedPhotosIdentifiers, options: nil)
+        }
     }
     
-    func addStep(for location: Location, name: String, trip: Trip, date: Date) {
+//    func addPhoto(photo: PhotosPickerItem?) {
+//        if let photoIdentifier = photo?.itemIdentifier {
+//            let newPhoto = PhotoAssetIdentifier(context: dataController.container.viewContext, assetIdentifier: photoIdentifier)
+//            step.addToPhotoAssetIdentifiers(newPhoto)
+//            step.trip?.addToPhotoAssetIdentifiers(newPhoto)
+//            dataController.save()
+//        }
+//    }
+    
+    func addStep(for location: Location, name: String, trip: Trip, date: Date, photoAssetIdentifiers: [String]) {
         
         let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
         
         step.location = location
         step.trip = trip
+        trip.photoAssetIdentifiers = Set(photoAssetIdentifiers) as NSSet
         dataController.save()
     }
 }

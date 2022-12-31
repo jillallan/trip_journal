@@ -144,7 +144,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 let distance = location.distance(from: tempPreviousLocation)
                 let time = location.timestamp.timeIntervalSince1970 - tempPreviousLocation.timestamp.timeIntervalSince1970
                 let calculatedSpeed = distance / time
-                
+                print(location)
                 addLocation(for: location, distance: distance, calculatedSpeed: calculatedSpeed)
                 previousLocation = tempCurrentLocation
                 currentLocation = location

@@ -16,7 +16,7 @@ struct AddTripView: View {
     
     @State var title: String = ""
     @State var startDate: Date = Date.now
-    @State var endDate: Date = Date.now
+    @State var endDate: Date = Date.now.addingTimeInterval(86400)
     @State var tripTrackingIsOn: Bool = false
     
     @State private var selectedItem: PhotosPickerItem? = nil
@@ -31,8 +31,8 @@ struct AddTripView: View {
     var body: some View {
         Form {
             TextField("Trip Title", text: $title)
-            DatePicker("Start Date", selection: $startDate)
-            DatePicker("End Date", selection: $endDate)
+            DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+            DatePicker("End Date", selection: $endDate, displayedComponents: .date)
             Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
 //            PhotoPicker()
 //            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {

@@ -79,7 +79,7 @@ class BaseTestCase: XCTestCase {
         trip3.steps = Set(trip3Steps) as NSSet
         
         dataController.save()
-        locationManager = LocationManager()
+//        locationManager = LocationManager()
     }
 
     override func tearDownWithError() throws {

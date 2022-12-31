@@ -22,7 +22,7 @@ struct TripView: View {
     @State var latitude = 51.5
     
     @State var coordinate = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
-    @State var span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+    @State var span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     @State var currentMapRegion: MKCoordinateRegion!
     
     @FetchRequest var steps: FetchedResults<Step>
@@ -41,6 +41,8 @@ struct TripView: View {
     @State private var previouStep: Step!
     @State private var currentStep: Step? = nil
     @State private var locationStep: Location? = nil
+    @State private var currentLocation: Location? = nil
+    
     
     @State private var animationAmount = 1.0
     
@@ -137,10 +139,17 @@ struct TripView: View {
                                     }
                                 }
                             
+                            if steps.isEmpty {
+                                Button {
+                                    addViewIsPresented.toggle()
+                                } label: {
+                                    Label("Add", systemImage: "plus")
+                                        .addButtonStyle()
+                                }
+                                .offset(x: -17)
+                            }
                             Rectangle().frame(width: 1).hidden()
-                            
-                            
-                            
+
                             ForEach(steps) { step in
                                 ZStack {
                                     NavigationLink {
@@ -149,21 +158,17 @@ struct TripView: View {
                                         StepCard(step: step)
                                     }
                                     Button {
-                                        
                                         if let stepIndex = steps.firstIndex(of: step) {
                                             print(stepIndex)
                                             if stepIndex == 0 {
                                                 currentStep = steps[stepIndex]
-                                                
                                             } else {
                                                 currentStep = steps[stepIndex - 1]
                                             }
                                         }
-                                    
                                         // TODO: - show last or before and after steps on add step map
                                         // TODO: - pass step timestamp to add new step just after and location to get map region
                                         // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
-//                                        addViewIsPresented.toggle()
                                     } label: {
                                         Label("Add", systemImage: "plus")
                                             .addButtonStyle()
@@ -188,6 +193,7 @@ struct TripView: View {
                                     }
                             }
                         }
+                        .padding(.trailing, 20)
                     }
 
                     .frame(height: geo.size.height * 0.3)
@@ -209,6 +215,10 @@ struct TripView: View {
                 }
             }
             .toolbar(.hidden, for: .tabBar)
+            
+            .sheet(isPresented: $addViewIsPresented, content: {
+                AddStepView(coordinate: coordinate, trip: trip, date: Date.now)
+            })
             
             .sheet(item: $currentStep) { step in
                 AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)

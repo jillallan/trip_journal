@@ -8,10 +8,14 @@
 import MapKit
 import SwiftUI
 import Contacts
+import PhotosUI
 
 struct FeatureAnnotationCardView: View {
     
     @EnvironmentObject var dataController: DataController
+    @State private var selectedPhotos: [PhotosPickerItem] = []
+    @State var photoAssetIdentifiers = PHFetchResultCollection(fetchResult: .init())
+    @State var selectedPhotosIdentifiers: [String] = []
     @Binding var stepAdded: Bool
     @State var date: Date
     
@@ -34,6 +38,10 @@ struct FeatureAnnotationCardView: View {
                 if let mapItem = mapItem {
                     NavigationStack {
                         VStack {
+//                            PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
+//                                Label("Add photos", systemImage: "photo")
+//                            }
+//                            .padding()
                             Spacer()
                             DatePicker("Date", selection: $date)
                                 .padding()
@@ -79,6 +87,16 @@ struct FeatureAnnotationCardView: View {
         .task {
             mapItem = await getMapItem(with: featureAnnotation)
             loadingState = .loaded
+        }
+        .onChange(of: selectedPhotos) { photos in
+            for photo in photos {
+                Task {
+                    if let photoItemIdentifier = photo.itemIdentifier {
+                        selectedPhotosIdentifiers.append(photoItemIdentifier)
+                    }
+                }
+            }
+            photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: selectedPhotosIdentifiers, options: nil)
         }
     }
     
