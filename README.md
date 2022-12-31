@@ -1,6 +1,6 @@
 # trip_journal
-#### Video Demo:  <URL HERE>
-#### Description: A swiftui app to record trips using locations and photos
+#### Video Demo:  https://youtu.be/iVdkLN10dy8
+#### Description:  A swiftui app to record trips using locations and photos
   
 This is a ios app to track a users trip, e.g. a holiday/vacation.  The app automtically logs a trip using ios location services.
 The user can then use the location automatically logged to add extra details, mainly photos, to create a step.  The user can also add a step manually by either searching for a location or selecting a location on the map.  As the user scrolls through the steps the map overview will change region to focus on the step.
@@ -82,17 +82,18 @@ I started off using the MVVM (Model view view model) pattern, but found it cumbe
   
 For tracking the user location I used significant location updates to save battery life, but also give enough detail.  The normal location service used too much battery and did not relaunch the app if it was terminated.  And the visit service only logged locations where the user had stayed for a significant amount of time, not locations the user travelled 
   
-## CI
+## TODO
 
-Refactor the app to better adhere to SOLID principles
-Add tests
-Give more accurate routes by creating a MKRoute between steps
-Improve the UI and UX
-photo suggestions for steps
-look up landmark information from Wikipedia 
-integrate with icloud
-face id
-widgets
-lock screen live activities for current place
-when adding step between existing steps lookup placemark for all added locations to choose from
+- Bug fixes
+- Refactor the app to better adhere to SOLID principles
+- Add tests
+- Improve the UI and UX
+
+- Give more accurate routes by creating a MKRoute between steps
+- Photo suggestions for steps
+- Look up landmark information from Wikipedia 
+- Integrate with icloud
+- Widgets
+- Lock screen live activities for current place
+- When adding step between existing steps lookup placemark for all added locations to choose from
 
