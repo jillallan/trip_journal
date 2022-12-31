@@ -92,5 +92,5 @@ integrate with icloud
 face id
 widgets
 lock screen live activities for current place
-
+when adding step between existing steps lookup placemark for all added locations to choose from
 
