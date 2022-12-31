@@ -19,6 +19,7 @@ Main.xcdatamodeld: Core Data Model
 Trip-Journal-Info: Configuration
 
 **Extensions**
+
 MKMapItem-Identifiable: Extension to conform to identifiable protocol for use in ForEach SwiftUI view
 CLPlacemark-Identifiable: Extension to conform to identifiable protocol for use in ForEach SwiftUI view
 Location-CoreDataHelpers: Extension to create convienience initializers and deal with optionals in the NSManagedObjectContext models
@@ -85,6 +86,11 @@ Refactor the app to better adhere to SOLID principles
 Add tests
 Give more accurate routes by creating a MKRoute between steps
 Improve the UI and UX
-
+photo suggestions for steps
+look up landmark information from Wikipedia 
+integrate with icloud
+face id
+widgets
+lock screen live activities for current place
 
 
