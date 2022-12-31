@@ -11,7 +11,7 @@ and if you debated certain design choices, explaining why you made them.
 Ensure you allocate sufficient time and energy to writing a README.md that documents your project thoroughly. 
 Be proud of it! If it is too short, the system will reject it.
 
-Files:
+## Files
 
 Trip_JournalApp: Entry point of the app
 ContentView: Visual entry point of the app
@@ -32,28 +32,33 @@ Binding-OnChange: Extension to create an onchange function to swiftui bindings
 View-CustomModifiers: Extension for custom view modifiers
 
 **Services**
+
 DataController: Creates a managed object context to save data to core data
 LocationManager: Manages location updates to track trips
 SearchQuery: Gets results for searchs of new steps to add
 PhotoLibraryService: Handles cahcing and fetching photo assets from the user photo library
 
 **Photos**
+
 PhotoGridView: View to show all photos from all trips
 JournalImage: Asychronasly loads as photo from a photoAsset
 UnwrappedImage: Unwraps an image from a swift optional or gets a background colour and applies a gradient
 
 **Trips**
+
 TripsView: Shows a grid scroll view of all trips
 TripCard: A card to show a photo in the trips view grid
 TripCardOverlay: Text overlay for the TripCard with name, date and meta data of the trip
 AddTripView: View to add a trip
 
 **Trip**
+
 TripView: Show a map with the route of the trip and a scrollview for all the key steps
 TripTitleCard: A card to show a photo at the start of the step view grid
 TripTitleCardOverlay: Text overlay for the TripTitleCard with name and date of the trip
 
 **Step**
+
 StepCard: A card to show a photo in the steps view grid
 TripCardOverlay: Text overlay for the StepCard with name, date and meta data of the step
 AddStepView: View to add a step
@@ -61,18 +66,21 @@ AddStepDetailView: View to confirm details of the step to add
 StepView: Shows a grid scroll view of all the photos in the step
 
 **SearchResult**
+
 SearchResultCellView: Cell in the list of search results, with details of a search result
 SearchResultMapView: Map showing the selected search result
 
 **Annotations**
+
 CircleAnnotation: Annotation for the location logged to the locationManager
 StepLocation: Annotation for added steps
 FeatureAnnotationCardView: View to confirm step added by selecting a map annotation
 
 **UIKitViews**
+
 MapView: UIKit implemtnetion of mapkit, intergrated into swiftui.  Used to display a map, annotations of trip steps and a route overlay of the trip on the map
 
-Design choices
+**Design choices**
   
 I choose SwiftUI as i found it more modern and pleasurable to use despite it being quite new and therefore not developed quite as much
   
@@ -80,7 +88,7 @@ I started off using the MVVM (Model view view model) pattern, but found it cumbe
   
 For tracking the user location I used significant location updates to save battery life, but also give enough detail.  The normal location service used too much battery and did not relaunch the app if it was terminated.  And the visit service only logged locations where the user had stayed for a significant amount of time, not locations the user travelled through.
   
-Roadmap
+**Roadmap**
   
 Refactor the app to better adhere to SOLID principles
 Add tests
