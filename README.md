@@ -1,4 +1,4 @@
-# trip_journal
+# Trip Journal
 #### Video Demo:  https://youtu.be/iVdkLN10dy8
 #### Description:  A swiftui app to record trips using locations and photos
   
