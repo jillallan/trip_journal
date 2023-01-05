@@ -47,9 +47,6 @@ struct MapView: UIViewRepresentable {
         }
         
         if let annotationItems = annotationItems {
-            print("annotation items: \(annotationItems.count)")
-//            print(annotationItems[0])
-//            print(annotationItems[28])
             if !mapView.annotations.isEmpty {
                 mapView.removeAnnotations(mapView.annotations)
             }
@@ -57,7 +54,6 @@ struct MapView: UIViewRepresentable {
         }
 
         mapView.delegate = context.coordinator
-        print("annotation items: \(String(describing: annotationItems?.count))")
         return mapView
     }
     
@@ -188,7 +184,6 @@ struct MapView: UIViewRepresentable {
             }
             
             if let locationAnnotation = annotation as? Location {
-//                print("\(String(describing: locationAnnotation.timestamp?.description))")
                 if let onAnnotationSelection = parent.onAnnotationSelection {
                     onAnnotationSelection(locationAnnotation)
                 }

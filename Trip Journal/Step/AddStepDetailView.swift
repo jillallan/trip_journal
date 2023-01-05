@@ -33,6 +33,7 @@ struct AddStepDetailView: View {
     @State var clLocation: CLLocation? = nil
     @State var date: Date
     @State var name: String
+    @State var onStepAddition: (() -> ())?
     
     // MARK: - Init
     
@@ -45,13 +46,14 @@ struct AddStepDetailView: View {
         _name = State(initialValue: name)
     }
     
-    init(trip: Trip, clLocation: CLLocation, date: Date, name: String) {
+    init(trip: Trip, clLocation: CLLocation, date: Date, name: String, onStepAddition: (() -> ())? = nil) {
         self.trip = trip
         _clLocation = State(initialValue: clLocation)
         let region = MKCoordinateRegion(center: clLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         _date = State(initialValue: date)
         _region = State(initialValue: region)
         _name = State(initialValue: name)
+        _onStepAddition = State(initialValue: onStepAddition)
     }
     
     var body: some View {
@@ -62,8 +64,6 @@ struct AddStepDetailView: View {
                 DatePicker("Date", selection: $date)
                     .padding(.horizontal)
                 ScrollView() {
-                    let _ = print("selectedPhotosIdentifiers \(String(describing: selectedPhotosIdentifiers.last))")
-                    let _ = print("photoAssets \(String(describing: photoAssets.last))")
                     LazyVGrid(columns: columns, spacing: 3) {
                         ForEach(photoAssets, id: \.localIdentifier) { asset in
                             NavigationLink {
@@ -96,6 +96,9 @@ struct AddStepDetailView: View {
                             // TODO: - Calculate distance and speed based on previous and next location
                        
                             addStep(for: clLocation, name: name, trip: trip, date: date, localIdentifiers: selectedPhotosIdentifiers)
+                        }
+                        if let onStepAddition = onStepAddition {
+                            onStepAddition()
                         }
                         
                         dismiss()

@@ -285,9 +285,9 @@
 			children = (
 				785AA0D82929776300F598AE /* Trip-Journal-Info.plist */,
 				787855C029129AC700D1F199 /* Trip_JournalApp.swift */,
-				787855D129129BD700D1F199 /* Extensions */,
 				787855C229129AC700D1F199 /* ContentView.swift */,
 				7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */,
+				787855D129129BD700D1F199 /* Extensions */,
 				78D892562930EB600013E9FE /* Helpers */,
 				781FFB752915552D00605DAE /* Services */,
 				78E1D2CC293FB03700FD6AAF /* Photos */,

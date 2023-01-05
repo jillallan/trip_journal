@@ -24,8 +24,6 @@ struct Trip_JournalApp: App {
         _locationManager = StateObject(wrappedValue: locationManager)
         _photoLibraryService = StateObject(wrappedValue: photoLibraryService)
         
-        print("app launched")
-        
         photoLibraryService.getPermissionIfNecessary { granted in
             photoLibraryService.cacheAllAssets2()
         }

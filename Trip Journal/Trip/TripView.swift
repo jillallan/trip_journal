@@ -106,7 +106,6 @@ struct TripView: View {
                                     Button {
                                         // TODO: - Look into layout priority
                                         if let stepIndex = steps.firstIndex(of: step) {
-                                            print(stepIndex)
                                             if stepIndex == 0 {
                                                 currentStep = steps[stepIndex]
                                             } else {
@@ -253,21 +252,6 @@ struct TripView: View {
     }
     
     // MARK: - Update Model
-    
-//    func addStep(for location: Location, name: String) {
-//        if let stepLocation = placemark.location {
-//            
-//            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation)
-//            
-//            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: location.locationTimestamp, name: name)
-//            
-//            location.trip = trip
-//            location.step = step
-//            dataController.save()
-//        } else {
-//            print("Failed to add step")
-//        }
-//    }
     
     func updateTrip(with locations: [Location]) -> NSBatchUpdateRequest {
         let batchUpdate = NSBatchUpdateRequest(entity: Location.entity())

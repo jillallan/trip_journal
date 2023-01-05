@@ -28,7 +28,6 @@ struct PhotoView: View {
                 targetSize: CGSize(width: 600, height: 600),
                 contentMode: .aspectFit,
                 options: nil) { image, info in
-//                    print("photo info: \(String(describing: info))")
                     if let image = image {
                         inputImage = image
                     }

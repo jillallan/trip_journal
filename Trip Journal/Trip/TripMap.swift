@@ -38,10 +38,6 @@ struct TripMap: View {
                     
                 })
         }
-        .onAppear {
-            print("steps count: \(steps.count)")
-            print("locations count: \(locations.count)")
-        }
         .frame(height: geo.size.height * 0.65)
         
         .confirmationDialog("Location", isPresented: $isLocationViewPresented, actions: {
@@ -69,14 +65,7 @@ struct TripMap: View {
             }
             
         })
-//        .sheet(isPresented: $isAddStepDetailViewPresented) {
-//
-//            if let date = selectedAnnotation.timestamp,
-//               let selectedAnnotation = selectedAnnotation {
-//                // TODO: - look up location details to pass name into view
-//                AddStepDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Step")
-//            }
-//        }
+
         .sheet(isPresented: $isAddStepDetailViewPresented) {
             selectedAnnotation = nil
         } content: {

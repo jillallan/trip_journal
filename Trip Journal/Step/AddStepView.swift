@@ -64,12 +64,11 @@ struct AddStepView: View {
                         }
                         .searchable(text: $searchQuery.searchQuery) {
                             List(searchQuery.searchResults) { result in
-                                NavigationLink(value: trip) {
-                                    SearchResultCellView(result: result)
-                                }
+                                
                                 NavigationLink {
-                                    AddStepDetailView(trip: trip, clLocation: CLLocation(latitude: result.placemark.coordinate.latitude, longitude: result.placemark.coordinate.longitude), date: date, name: result.name ?? "New Step")
-                                    
+                                    AddStepDetailView(trip: trip, clLocation: CLLocation(latitude: result.placemark.coordinate.latitude, longitude: result.placemark.coordinate.longitude), date: date, name: result.name ?? "New Step") {
+                                        dismiss()
+                                    }
                                 } label: {
                                     SearchResultCellView(result: result)
                                 }
@@ -81,7 +80,6 @@ struct AddStepView: View {
                                 dismiss()
                             }
                         }
-                    
                         .sheet(item: $featureAnnotation) {
                             featureAnnotation = nil
                             dismiss()
@@ -90,7 +88,7 @@ struct AddStepView: View {
                                 FeatureAnnotationCardView(date: date, trip: trip, featureAnnotation: annotation)
                             }
                         }
-
+                    
                 }
             }
         }
