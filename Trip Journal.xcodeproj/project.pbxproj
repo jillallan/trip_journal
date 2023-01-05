@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		781A3A05296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781A3A04296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift */; };
 		781F7481291E73D900A0714A /* Trip_JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7480291E73D900A0714A /* Trip_JournalUITests.swift */; };
 		781F7483291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */; };
 		781F749D29203B5000A0714A /* SearchResultMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F749C29203B5000A0714A /* SearchResultMapView.swift */; };
@@ -89,6 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		781A3A04296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapFeatureAnnotation-Identifiable.swift"; sourceTree = "<group>"; };
 		781F747E291E73D900A0714A /* Trip JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trip JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		781F7480291E73D900A0714A /* Trip_JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITests.swift; sourceTree = "<group>"; };
 		781F7482291E73D900A0714A /* Trip_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				781F74A229222BA800A0714A /* MKMapItem-Identifiable.swift */,
+				781A3A04296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift */,
 				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Step-CoreDataHelpers.swift */,
 				78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */,
@@ -553,6 +556,7 @@
 				789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */,
 				787B3FF22955C1B800B95DE6 /* CircleAnnotation.swift in Sources */,
 				787B3FF62955D07000B95DE6 /* StepAnnotation.swift in Sources */,
+				781A3A05296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift in Sources */,
 				78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */,
 				78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */,
 				78D89232292B96E80013E9FE /* PlacemarksListView.swift in Sources */,

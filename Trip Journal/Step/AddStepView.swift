@@ -11,25 +11,19 @@ import PhotosUI
 
 struct AddStepView: View {
     
-    // MARK: - Properties
+    // MARK: - View Properties
     
-    @EnvironmentObject var dataController: DataController
     @State var wasStepAdded: Bool = false
-    @State private var isFeatureAnnotationCardViewPresented: Bool = false
-    @State private var featureAnnotation: MKMapFeatureAnnotation!
+    @State var isAddStepViewPresented: Bool = true
+    @State private var featureAnnotation: MKMapFeatureAnnotation? = nil
     @StateObject var searchQuery: SearchQuery
-    @State var date: Date
-    
-    @State private var selectedPhotos: [PhotosPickerItem] = []
-    @State var photoAssetIdentifiers = PHFetchResultCollection(fetchResult: .init())
-    @State var selectedPhotosIdentifiers: [String] = []
-
     @Environment(\.dismissSearch) private var dismissSearch
     @Environment(\.dismiss) var dismiss
     
-    @State var region: MKCoordinateRegion
+    // MARK: - Step Properties
     let trip: Trip
-    
+    @State var date: Date
+    @State var region: MKCoordinateRegion
 
     // MARK: - Init
     
@@ -54,112 +48,64 @@ struct AddStepView: View {
                         coordinateRegion: region,
                         annotationItems: nil,
                         routeOverlay: nil,
-                        onRegionChange: nil, onAnnotationSelection:  { annotation in
+                        onRegionChange: nil) { annotation in
                             featureAnnotation = annotation as? MKMapFeatureAnnotation
-                        })
-                    .toolbar(.visible, for: .navigationBar)
-                    .navigationTitle("Add Step")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .ignoresSafeArea(edges: .bottom)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button("Cancel", role: .cancel) {
+                        }
+                        .toolbar(.visible, for: .navigationBar)
+                        .navigationTitle("Add Step")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .ignoresSafeArea(edges: .bottom)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button("Cancel", role: .cancel) {
+                                    dismiss()
+                                }
+                            }
+                        }
+                        .searchable(text: $searchQuery.searchQuery) {
+                            List(searchQuery.searchResults) { result in
+                                NavigationLink(value: trip) {
+                                    SearchResultCellView(result: result)
+                                }
+                                NavigationLink {
+                                    AddStepDetailView(trip: trip, clLocation: CLLocation(latitude: result.placemark.coordinate.latitude, longitude: result.placemark.coordinate.longitude), date: date, name: result.name ?? "New Step")
+                                    
+                                } label: {
+                                    SearchResultCellView(result: result)
+                                }
+                            }
+                            .frame(height: 400)
+                        }
+                        .onChange(of: wasStepAdded) { stepAdded in
+                            if stepAdded {
                                 dismiss()
                             }
                         }
-                    }
-                    .searchable(text: $searchQuery.searchQuery) {
-                        List(searchQuery.searchResults) { result in
-                            NavigationLink {
-                                VStack {
-                                    SearchResultMapView(result: result)
-//                                    PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
-//                                        Label("Add photos", systemImage: "photo")
-//                                    }
-//                                    .padding()
-                                    DatePicker("Step Date", selection: $date)
-                                        .padding()
-                                }
-                                
-                                    .toolbar {
-                                        Button("Add") {
-                                            addStep(for: result.placemark, name: result.name ?? "New Step", trip: trip, date: date)
-                                            
-                                            dismiss()
-                                            dismissSearch()
-                                        }
-                                    }
-                                    .navigationBarTitle(result.name ?? "New Step")
-                                    .navigationBarTitleDisplayMode(.large)
-                                    .onChange(of: selectedPhotos) { photos in
-                                        for photo in photos {
-                                            Task {
-                                                if let photoItemIdentifier = photo.itemIdentifier {
-                                                    selectedPhotosIdentifiers.append(photoItemIdentifier)
-                                                }
-                                            }
-                                        }
-                                        photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: selectedPhotosIdentifiers, options: nil)
-                                    }
-                            } label: {
-                                SearchResultCellView(result: result)
+                    
+                        .sheet(item: $featureAnnotation) {
+                            featureAnnotation = nil
+                            dismiss()
+                        } content: { annotation in
+                            if let annotation = annotation {
+                                FeatureAnnotationCardView(date: date, trip: trip, featureAnnotation: annotation)
                             }
                         }
-                        .frame(height: 400)
-                    }
-                    .onChange(of: featureAnnotation) { _ in
-                        isFeatureAnnotationCardViewPresented = true
-                    }
-                    .onChange(of: wasStepAdded) { stepAdded in
-                        if stepAdded {
-                            dismiss()
-                        }
-                    }
 
-                    // TODO: - On dismiss unselect annotation or do this in update view of MapView
-          
-                    
-                    .sheet(isPresented: $isFeatureAnnotationCardViewPresented) {
-                        if let featureAnnotation = featureAnnotation {
-                            FeatureAnnotationCardView(stepAdded: $wasStepAdded, date: date, trip: trip, featureAnnotation: featureAnnotation)
-                        }
-                    }
                 }
             }
         }
     }
     
-    func addStep(for placemark: CLPlacemark, name: String, trip: Trip, date: Date) {
-        if let stepLocation = placemark.location {
-            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation, timestamp: date)
-            
-            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
-            
-            step.location = location
-            step.trip = trip
-            dataController.save()
-        } else {
-            print("Failed to add step")
-        }
-    }
-    
-    func setRegion(for coordinate: CLLocationCoordinate2D) {
-        region = MKCoordinateRegion(
-            center: coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-        )
-    }
-    
-//    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
-//        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
-//
-//        do {
-//            let featureItem = try await featureRequest.mapItem
-//            return featureItem
-//        } catch {
-//            fatalError("Failed to get map item: \(error.localizedDescription)")
-//        }
-//    }
+    //    func getMapItem(with annotation: MKMapFeatureAnnotation) async -> MKMapItem {
+    //        let featureRequest = MKMapItemRequest(mapFeatureAnnotation: featureAnnotation)
+    //
+    //        do {
+    //            let featureItem = try await featureRequest.mapItem
+    //            return featureItem
+    //        } catch {
+    //            fatalError("Failed to get map item: \(error.localizedDescription)")
+    //        }
+    //    }
 }
 
 // MARK: - Xcode preview

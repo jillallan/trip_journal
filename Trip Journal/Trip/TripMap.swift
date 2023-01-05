@@ -14,11 +14,15 @@ struct TripMap: View {
     @Binding var span: MKCoordinateSpan
     let locations: FetchedResults<Location>
     let steps: FetchedResults<Step>
+    let trip: Trip
     let geo: GeometryProxy
     
-    @State var selectedAnnotation: Location!
+    @State var selectedAnnotation: Location? = nil
     
-    @State private var locationViewIsPresented: Bool = false
+    @State private var isLocationViewPresented: Bool = false
+    @State private var isAddStepDetailViewPresented: Bool = false
+    
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -30,7 +34,7 @@ struct TripMap: View {
                 annotationItems: locations.map { $0 },
                 routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
                     selectedAnnotation = annotation as? Location
-                    locationViewIsPresented = true
+                    isLocationViewPresented = true
                     
                 })
         }
@@ -40,16 +44,17 @@ struct TripMap: View {
         }
         .frame(height: geo.size.height * 0.65)
         
-        .confirmationDialog("Location", isPresented: $locationViewIsPresented, actions: {
-            if let selectedAnnotation = selectedAnnotation {
-                if let location = locations.first(where: { $0 == selectedAnnotation }) {
+        .confirmationDialog("Location", isPresented: $isLocationViewPresented, actions: {
+            if let selectedLocation = selectedAnnotation {
+                if let location = locations.first(where: { $0 == selectedLocation }) {
                     if let step = location.step {
                         Button("Delete Step") {
                             delete(step)
                         }
+
                     } else {
                         Button("Add Step ") {
-                            // TODO: -
+                            isAddStepDetailViewPresented = true
                         }
                         Button("Delete Location") {
                             delete(location)
@@ -64,6 +69,26 @@ struct TripMap: View {
             }
             
         })
+//        .sheet(isPresented: $isAddStepDetailViewPresented) {
+//
+//            if let date = selectedAnnotation.timestamp,
+//               let selectedAnnotation = selectedAnnotation {
+//                // TODO: - look up location details to pass name into view
+//                AddStepDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Step")
+//            }
+//        }
+        .sheet(isPresented: $isAddStepDetailViewPresented) {
+            selectedAnnotation = nil
+        } content: {
+            if let date = selectedAnnotation?.timestamp,
+               let selectedAnnotation = selectedAnnotation {
+                // TODO: - look up location details to pass name into view
+                AddStepDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Step")
+            }
+        }
+        
+       
+
     }
     
     func createRoute(from coordinates: [CLLocationCoordinate2D]) -> [MKPolyline] {

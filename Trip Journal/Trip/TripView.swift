@@ -36,14 +36,10 @@ struct TripView: View {
     
     @Environment(\.dismiss) var dismiss
     
-//    @State private var currentStep: Step!
     @State private var previouStep: Step!
     @State private var currentStep: Step? = nil
-    @State private var locationStep: Location? = nil
     @State private var currentLocation: Location? = nil
     
-    
-    @State private var animationAmount = 1.0
     
     // MARK: - Init
     
@@ -62,7 +58,6 @@ struct TripView: View {
             sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
         )
-        
     }
     
     var body: some View {
@@ -71,7 +66,7 @@ struct TripView: View {
                 VStack {
 
                     // MARK: - Map View
-                    TripMap(coordinate: $coordinate, span: $span, locations: locations, steps: steps, geo: geo)
+                    TripMap(coordinate: $coordinate, span: $span, locations: locations, steps: steps, trip: trip, geo: geo)
             
                     // MARK: - Step Scroll view
                     
@@ -109,6 +104,7 @@ struct TripView: View {
                                         StepCard(step: step)
                                     }
                                     Button {
+                                        // TODO: - Look into layout priority
                                         if let stepIndex = steps.firstIndex(of: step) {
                                             print(stepIndex)
                                             if stepIndex == 0 {
@@ -117,14 +113,13 @@ struct TripView: View {
                                                 currentStep = steps[stepIndex - 1]
                                             }
                                         }
-                                        // TODO: - show last or before and after steps on add step map
-                                        // TODO: - pass step timestamp to add new step just after and location to get map region
                                         // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
                                     } label: {
                                         Label("Add", systemImage: "plus")
                                             .addButtonStyle()
                                     }
                                     .offset(x: -(((geo.size.height * 0.3 * 1.6) + 3) / 2))
+//                                    .layoutPriority(1)
                                     
                                     Button {
                                         currentStep = step
@@ -134,6 +129,7 @@ struct TripView: View {
                                             .addButtonStyle()
                                     }
                                     .offset(x: (((geo.size.height * 0.3 * 1.6) + 3) / 2))
+//                                    .layoutPriority(1)
                              
                                 }
                                 Rectangle()
@@ -167,16 +163,14 @@ struct TripView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             
-            .sheet(isPresented: $addViewIsPresented, content: {
+            .sheet(isPresented: $addViewIsPresented) {
                 AddStepView(coordinate: coordinate, trip: trip, date: Date.now)
-            })
+            }
             
             .sheet(item: $currentStep) { step in
                 AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
             }
-            .sheet(item: $locationStep, content: { location in
-                AddStepDetailView(trip: trip, location: location, date: location.locationTimestamp)
-            })
+
             .onChange(of: displayedSteps) { newStepsArray in
                 if !newStepsArray.isEmpty {
                     coordinate = updateRegionCoordinates(with: newStepsArray)

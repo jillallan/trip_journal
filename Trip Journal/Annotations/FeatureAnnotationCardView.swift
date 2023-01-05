@@ -13,10 +13,7 @@ import PhotosUI
 struct FeatureAnnotationCardView: View {
     
     @EnvironmentObject var dataController: DataController
-    @State private var selectedPhotos: [PhotosPickerItem] = []
-    @State var photoAssetIdentifiers = PHFetchResultCollection(fetchResult: .init())
-    @State var selectedPhotosIdentifiers: [String] = []
-    @Binding var stepAdded: Bool
+//    @Binding var stepAdded: Bool
     @State var date: Date
     
     enum LoadingState {
@@ -35,32 +32,8 @@ struct FeatureAnnotationCardView: View {
         Group {
             switch loadingState {
             case .loaded:
-                if let mapItem = mapItem {
-                    NavigationStack {
-                        VStack {
-//                            PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
-//                                Label("Add photos", systemImage: "photo")
-//                            }
-//                            .padding()
-                            Spacer()
-                            DatePicker("Date", selection: $date)
-                                .padding()
-                            Button("Add step") {
-                                addStep(for: mapItem.placemark, name: mapItem.name ?? "New Step", trip: trip, date: date)
-                                
-                                stepAdded = true
-                                dismiss()
-                            }
-                        }
-                        
-                            .navigationTitle(mapItem.name ?? "No name available")
-                        
-                    }
-                    .toolbar {
-                        Button("Cancel", role: .cancel) {
-                            dismiss()
-                        }
-                    }
+                if let clLocation = mapItem?.placemark.location {
+                    AddStepDetailView(trip: trip, clLocation: clLocation, date: date, name: mapItem?.placemark.name ?? "New Step")
                 
                 } else {
                     Text("Could not get details of map item, no internet??")
@@ -80,23 +53,11 @@ struct FeatureAnnotationCardView: View {
                     }
                     .navigationTitle("Could not get details of map item")
                 }
-                
             }
-            
         }
         .task {
             mapItem = await getMapItem(with: featureAnnotation)
             loadingState = .loaded
-        }
-        .onChange(of: selectedPhotos) { photos in
-            for photo in photos {
-                Task {
-                    if let photoItemIdentifier = photo.itemIdentifier {
-                        selectedPhotosIdentifiers.append(photoItemIdentifier)
-                    }
-                }
-            }
-            photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: selectedPhotosIdentifiers, options: nil)
         }
     }
     
@@ -111,20 +72,6 @@ struct FeatureAnnotationCardView: View {
             }
         } else {
             return nil
-        }
-    }
-    
-    func addStep(for placemark: CLPlacemark, name: String, trip: Trip, date: Date) {
-        if let stepLocation = placemark.location {
-            let location = Location(context: dataController.container.viewContext, cLlocation: stepLocation, timestamp: date)
-            
-            let step = Step(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
-            
-            step.location = location
-            step.trip = trip
-            dataController.save()
-        } else {
-            print("Failed to add step")
         }
     }
 }
