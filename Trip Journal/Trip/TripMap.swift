@@ -13,7 +13,6 @@ struct TripMap: View {
     @Binding var coordinate: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
     let locations: FetchedResults<Location>
-    let steps: FetchedResults<Step>
     let trip: Trip
     let geo: GeometryProxy
     

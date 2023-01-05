@@ -34,64 +34,62 @@ struct StepView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        VStack(alignment: .leading) {
+            ScrollView() {
+                LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
+                    ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
+                        NavigationLink {
+                            PhotoView(asset: asset)
+                        } label: {
+                            JournalImage(asset: asset)
+                                .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
+                        }
+                    }
+                    
+                    PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
+                        Label("Add photos", systemImage: "photo")
+                    }
+                    .padding()
+                }
+            }
             VStack(alignment: .leading) {
-                ScrollView() {
-                    LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
-                        ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
-                            NavigationLink {
-                                PhotoView(asset: asset)
-                            } label: {
-                                JournalImage(asset: asset)
-                                    .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
-                            }
-                        }
-
-                        PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
-                            Label("Add photos", systemImage: "photo")
-                        }
-                        .padding()
-                    }
-                }
-                VStack(alignment: .leading) {
-                    DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
-                }
-                .padding(.horizontal)
+                DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
             }
-//            .navigationTitle(step.stepName)
-            .navigationTitle($name.onChange(updateStep))
-            .navigationBarTitleDisplayMode(.large)
-
-            
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        delete(step)
-                        dismiss()
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                            .labelsHidden()
-                    }
+            .padding(.horizontal)
+        }
+        //            .navigationTitle(step.stepName)
+        .navigationTitle($name.onChange(updateStep))
+        .navigationBarTitleDisplayMode(.large)
+        
+        
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    delete(step)
+                    dismiss()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                        .labelsHidden()
                 }
             }
-//            .toolbarBackground(.hidden, for: .navigationBar)
-            
-            .onDisappear {
-                dataController.save()
-            }
-            .onAppear {
-                let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
-                photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-            }
-            
-            // TODO: - check this works with multi picker
-            .onChange(of: selectedPhotos) { photos in
-                for photo in photos {
-                    Task {
-                        addPhoto(photo: photo)
-                        let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
-                        photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-                    }
+        }
+        //            .toolbarBackground(.hidden, for: .navigationBar)
+        
+        .onDisappear {
+            dataController.save()
+        }
+        .onAppear {
+            let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+            photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+        }
+        
+        // TODO: - check this works with multi picker
+        .onChange(of: selectedPhotos) { photos in
+            for photo in photos {
+                Task {
+                    addPhoto(photo: photo)
+                    let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                    photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
                 }
             }
         }

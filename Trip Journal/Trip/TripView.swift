@@ -12,31 +12,21 @@ import SwiftUI
 struct TripView: View {
     
     // MARK: - Properties
-
-    let trip: Trip
-    
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var locationManager: LocationManager
     
-    @State var longitude = 0.0
-    @State var latitude = 51.5
-    
-    @State var coordinate = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
-    @State var span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-    @State var currentMapRegion: MKCoordinateRegion!
-    
+    // MARK: - Trip Properties
+    let trip: Trip
     @FetchRequest var steps: FetchedResults<Step>
     @FetchRequest var locations: FetchedResults<Location>
-    @State var tripRoute = [MKPolyline]()
-    @State var featureAnnotation: MKMapFeatureAnnotation!
     
-    
-    @State var displayedSteps: [Step] = []
+    // MARK: - View Properties
+    @State var centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
+    @State var span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     @State var addViewIsPresented: Bool = false
-    
     @Environment(\.dismiss) var dismiss
     
-    @State private var previouStep: Step!
+    @State var displayedSteps: [Step] = []
     @State private var currentStep: Step? = nil
     @State private var currentLocation: Location? = nil
     
@@ -61,141 +51,123 @@ struct TripView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            GeometryReader { geo in
-                VStack {
-
-                    // MARK: - Map View
-                    TripMap(coordinate: $coordinate, span: $span, locations: locations, steps: steps, trip: trip, geo: geo)
-            
-                    // MARK: - Step Scroll view
-                    
-                    ScrollView(.horizontal) {
+        GeometryReader { geo in
+            VStack {
+                
+                // MARK: - Map View
+                TripMap(coordinate: $centre, span: $span, locations: locations, trip: trip, geo: geo)
+                
+                // MARK: - Step Scroll view
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: [GridItem()], spacing: 1) {
+                        TripTitleCard(trip: trip)
+                            .onAppear {
+                                centre = getMapCentre(locations: locations, locationManager: locationManager)
+                                span = getMapSpan(locations: locations, locationManager: locationManager)
+                            }
+                        Rectangle().frame(width: 1).hidden()
                         
-                        LazyHGrid(rows: [GridItem()], spacing: 1) {
-                            TripTitleCard(trip: trip)
-                                .onAppear {
-                                    if locations.count < 1 {
-                                        if let currentLocation = locationManager.currentLocation?.coordinate {
-                                            coordinate = currentLocation
-                                        }
-                                    } else {
-                                        coordinate = calculateTripRegion(from: locations).center
-                                        span = calculateTripRegion(from: locations).span
-                                    }
+                        ForEach(steps) { step in
+                            ZStack {
+//                                NavigationLink { StepView(step: step) } label: {
+//                                    StepCard(step: step)
+//                                }
+                                NavigationLink(value: step) {
+                                    StepCard(step: step)
                                 }
-                            
-                            if steps.isEmpty {
-                                Button {
-                                    addViewIsPresented.toggle()
-                                } label: {
-                                    Label("Add", systemImage: "plus")
-                                        .addButtonStyle()
+                                
+                                // TODO: - Add suggestions between two steps
+                                Button { currentStep = setCurrentStep(step: step, steps: steps) } label: {
+                                    Label("Add", systemImage: "plus").addButtonStyle()
                                 }
-                                .offset(x: -17)
+                                .offset(x: -(((geo.size.height * 0.3 * 1.6) + 3) / 2))
                             }
                             Rectangle().frame(width: 1).hidden()
-
-                            ForEach(steps) { step in
-                                ZStack {
-                                    NavigationLink {
-                                        StepView(step: step)
-                                    } label: {
-                                        StepCard(step: step)
-                                    }
-                                    Button {
-                                        // TODO: - Look into layout priority
-                                        if let stepIndex = steps.firstIndex(of: step) {
-                                            if stepIndex == 0 {
-                                                currentStep = steps[stepIndex]
-                                            } else {
-                                                currentStep = steps[stepIndex - 1]
-                                            }
-                                        }
-                                        // TODO: - Once location tracking is enabled add suggestions to add step view, based on timestamp and timestamp of next step
-                                    } label: {
-                                        Label("Add", systemImage: "plus")
-                                            .addButtonStyle()
-                                    }
-                                    .offset(x: -(((geo.size.height * 0.3 * 1.6) + 3) / 2))
-//                                    .layoutPriority(1)
-                                    
-                                    Button {
-                                        currentStep = step
-
-                                    } label: {
-                                        Label("Add", systemImage: "plus")
-                                            .addButtonStyle()
-                                    }
-                                    .offset(x: (((geo.size.height * 0.3 * 1.6) + 3) / 2))
-//                                    .layoutPriority(1)
-                             
+                                .onAppear {
+                                    displayedSteps = add(step, to: displayedSteps)
                                 }
-                                Rectangle()
-                                    .frame(width: 1)
-                                    .hidden()
-                                    .onAppear {
-                                        displayedSteps = add(step, to: displayedSteps)
-                                    }
-                            }
                         }
-                        .padding(.trailing, 20)
+                        
+                        Button {
+                            if let step = steps.last {
+                                currentStep = step
+                            } else {
+                                addViewIsPresented.toggle()
+                            }
+                        } label: {
+                            Label("Add", systemImage: "plus").addButtonStyle()
+                        }
+                        .offset(x: -17)
                     }
-
-                    .frame(height: geo.size.height * 0.3)
                 }
-            }
-            
-            // MARK: - Navigation
-            .navigationTitle(trip.tripTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        delete(trip)
-                        dismiss()
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-
-                }
-            }
-            .toolbar(.hidden, for: .tabBar)
-            
-            .sheet(isPresented: $addViewIsPresented) {
-                AddStepView(coordinate: coordinate, trip: trip, date: Date.now)
-            }
-            
-            .sheet(item: $currentStep) { step in
-                AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
-            }
-
-            .onChange(of: displayedSteps) { newStepsArray in
-                if !newStepsArray.isEmpty {
-                    coordinate = updateRegionCoordinates(with: newStepsArray)
-                }
-            }
-            .onChange(of: locationManager.currentLocation) { newLocation in
-                if let currentLocation = newLocation?.coordinate {
-                    coordinate = currentLocation
-                }
-            }
-            .onDisappear {
-                dataController.save()
+                .frame(height: geo.size.height * 0.3)
             }
         }
+        
+        // MARK: - Navigation
+        
+        .navigationTitle(trip.tripTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    delete(trip)
+                    dismiss()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+                
+            }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .sheet(isPresented: $addViewIsPresented) {
+            AddStepView(coordinate: centre, trip: trip, date: Date.now)
+        }
+        
+        .sheet(item: $currentStep) { step in
+            AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
+        }
+        .onChange(of: displayedSteps) { newStepsArray in
+            if !newStepsArray.isEmpty {
+                centre = updateRegionCoordinates(with: newStepsArray)
+            }
+        }
+        .onChange(of: locationManager.currentLocation) { newLocation in
+            if let currentCentre = newLocation?.coordinate {
+                centre = currentCentre
+            }
+        }
+        .navigationDestination(for: Step.self) { step in
+            StepView(step: step)
+        }
+        
     }
     
     // MARK: - Update view
     
+    func getMapCentre(locations: FetchedResults<Location>, locationManager: LocationManager) ->  CLLocationCoordinate2D {
+        if !locations.isEmpty {
+            return calculateTripRegion(from: locations).center
+        }
+        if let currentCentre = locationManager.currentLocation?.coordinate {
+            return currentCentre
+        }
+        return CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
+    }
     
+    func getMapSpan(locations: FetchedResults<Location>, locationManager: LocationManager) ->  MKCoordinateSpan {
+        if !locations.isEmpty {
+            return calculateTripRegion(from: locations).span
+        }
+        return MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    }
     
-    private func calculateTripRegion(from locations: FetchedResults<Location>) -> MKCoordinateRegion {
+    func calculateTripRegion(from locations: FetchedResults<Location>) -> MKCoordinateRegion {
         let minLatitude = locations.map(\.coordinate.latitude).min() ?? 0.0
         let maxLatitude = locations.map(\.coordinate.latitude).max() ?? 0.0
         let minLongitude = locations.map(\.coordinate.longitude).min() ?? 0.0
         let maxLongitude = locations.map(\.coordinate.longitude).max() ?? 0.0
-
+        
         let center = CLLocationCoordinate2D(
             latitude: (minLatitude + maxLatitude) / 2,
             longitude: (minLongitude + maxLongitude) / 2
@@ -205,23 +177,17 @@ struct TripView: View {
             latitudeDelta: (maxLatitude - minLatitude) * 1.2,
             longitudeDelta: (maxLongitude - minLongitude) * 1.2
         )
-    
+        
         return MKCoordinateRegion(center: center, span: span)
     }
     
-    
-    
-    func remove(_ step: Step, from array: [Step]) -> [Step] {
-        var newArray = array
-        if let firstStepTimestamp = array.first?.stepTimestamp {
-            if step.stepTimestamp == firstStepTimestamp {
-                newArray.remove(at: 0)
-            } else {
-                let lastIndex = newArray.index(before: newArray.endIndex)
-                newArray.remove(at: lastIndex)
+    func setCurrentStep(step: Step, steps: FetchedResults<Step>) -> Step {
+        if let stepIndex = steps.firstIndex(of: step) {
+            if stepIndex != 0 {
+                return steps[stepIndex - 1]
             }
         }
-        return newArray
+        return step
     }
     
     func add(_ step: Step, to array: [Step]) -> [Step] {
@@ -252,29 +218,6 @@ struct TripView: View {
     }
     
     // MARK: - Update Model
-    
-    func updateTrip(with locations: [Location]) -> NSBatchUpdateRequest {
-        let batchUpdate = NSBatchUpdateRequest(entity: Location.entity())
-        return batchUpdate
-    }
-    
-//    func updateTrip() {
-//        // TODO: - Navigating back to tripView does not refresh view
-//
-//        trip.title = name
-//        trip.startDate = startDate
-//        trip.endDate = endDate
-//    }
-    
-    
-    
-    func deleteSteps(at offsets: IndexSet) {
-        for offset in offsets {
-            let step = steps[offset]
-            delete(step)
-        }
-        dataController.save()
-    }
     
     func delete(_ trip: Trip) {
         for step in trip.tripSteps {
