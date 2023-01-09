@@ -8,7 +8,8 @@
 import SwiftUI
 import Photos
 
-struct PhotoView: View {
+struct Thumbnail: View {
+    
     let asset: PHAsset
     @State var inputImage: UIImage?
     
@@ -40,6 +41,6 @@ struct Photoiew_Previews: PreviewProvider {
     
     static var previews: some View {
         let asset = PHAsset()
-        PhotoView(asset: asset)
+        Thumbnail(asset: asset)
     }
 }

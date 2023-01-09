@@ -14,9 +14,8 @@ struct UnwrappedImage: View {
     
     var body: some View {
         ZStack {
-//            JournalImage(asset: asset)
             if let asset = asset {
-                JournalImage(asset: asset)
+                Photo(asset: asset)
             } else {
                 Color.accentColor
             }

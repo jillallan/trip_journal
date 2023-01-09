@@ -33,6 +33,7 @@ struct SearchResultMapView: View {
             MapView(
                 coordinateRegion: region,
                 annotationItems: nil,
+                annotationsDidChange: false,
                 routeOverlay: nil
             )
             // TODO: - Add better name coalesing

@@ -139,6 +139,7 @@ extension LocationManager: CLLocationManagerDelegate {
         }
 
         for location in locations {
+            print(location)
             if let tempPreviousLocation = previousLocation,
                let tempCurrentLocation = currentLocation {
                 let distance = location.distance(from: tempPreviousLocation)

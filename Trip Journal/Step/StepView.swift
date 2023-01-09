@@ -39,9 +39,9 @@ struct StepView: View {
                 LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
                     ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
                         NavigationLink {
-                            PhotoView(asset: asset)
+                            Thumbnail(asset: asset)
                         } label: {
-                            JournalImage(asset: asset)
+                            Photo(asset: asset)
                                 .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
                         }
                     }

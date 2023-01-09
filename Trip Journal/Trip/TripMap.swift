@@ -12,6 +12,7 @@ struct TripMap: View {
     @EnvironmentObject var dataController: DataController
     @Binding var coordinate: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
+    @State var annotationsDidChange: Bool = false
     let locations: FetchedResults<Location>
     let trip: Trip
     let geo: GeometryProxy
@@ -25,47 +26,47 @@ struct TripMap: View {
     
     var body: some View {
         ZStack {
+            let _ = print("fetchrequest count tripmap: \(locations.count)")
+            let _ = Self._printChanges()
             MapView(
                 coordinateRegion: MKCoordinateRegion(
                     center: coordinate,
                     span: span
                 ),
-                annotationItems: locations.map { $0 },
+                annotationItems: locations.map { $0 }, annotationsDidChange: annotationsDidChange,
                 routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
                     selectedAnnotation = annotation as? Location
                     isLocationViewPresented = true
-                    
                 })
         }
         .frame(height: geo.size.height * 0.65)
         
-        .confirmationDialog("Location", isPresented: $isLocationViewPresented, actions: {
+        .confirmationDialog("Location", isPresented: $isLocationViewPresented, titleVisibility: .visible) {
             if let selectedLocation = selectedAnnotation {
                 if let location = locations.first(where: { $0 == selectedLocation }) {
                     if let step = location.step {
                         Button("Delete Step") {
                             delete(step)
+                            annotationsDidChange = true
                         }
-
                     } else {
-                        Button("Add Step ") {
-                            isAddStepDetailViewPresented = true
-                        }
+                        Button("Add Step ") { isAddStepDetailViewPresented = true }
                         Button("Delete Location") {
                             delete(location)
+                            annotationsDidChange = true
                         }
                     }
                 }
             }
-        }, message: {
+        } message: {
             if let selectedAnnotation = selectedAnnotation {
                 // TODO: - location lookup
                 Text(selectedAnnotation.step?.stepName ?? String(describing: selectedAnnotation.locationTimestamp))
             }
-            
-        })
+        }
 
         .sheet(isPresented: $isAddStepDetailViewPresented) {
+            annotationsDidChange = true
             selectedAnnotation = nil
         } content: {
             if let date = selectedAnnotation?.timestamp,
@@ -75,7 +76,6 @@ struct TripMap: View {
             }
         }
         
-       
 
     }
     
@@ -103,12 +103,14 @@ struct TripMap: View {
             if location.distance == 0 && location.horizontalAccuracy == 0 {
                 delete(location)
             }
+
             dataController.delete(step)
         }
         dataController.save()
     }
     
     func delete(_ location: Location) {
+        
 //        location.step = nil
         dataController.delete(location)
         dataController.save()

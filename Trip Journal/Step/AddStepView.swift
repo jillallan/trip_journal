@@ -47,6 +47,7 @@ struct AddStepView: View {
                     MapView(
                         coordinateRegion: region,
                         annotationItems: nil,
+                        annotationsDidChange: false,
                         routeOverlay: nil,
                         onRegionChange: nil) { annotation in
                             featureAnnotation = annotation as? MKMapFeatureAnnotation

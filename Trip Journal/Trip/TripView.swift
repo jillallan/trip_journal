@@ -23,6 +23,7 @@ struct TripView: View {
     // MARK: - View Properties
     @State var centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
     @State var span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+//    @State var annotationsDidChange: Bool = false
     @State var addViewIsPresented: Bool = false
     @Environment(\.dismiss) var dismiss
     
@@ -53,6 +54,8 @@ struct TripView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
+                let _ = print("fetchrequest count: \(locations.count)")
+                let _ = Self._printChanges()
                 
                 // MARK: - Map View
                 TripMap(coordinate: $centre, span: $span, locations: locations, trip: trip, geo: geo)
@@ -121,10 +124,12 @@ struct TripView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .sheet(isPresented: $addViewIsPresented) {
+            // TODO: - center on new step ondismiss of AddStepView if new step added
             AddStepView(coordinate: centre, trip: trip, date: Date.now)
         }
         
         .sheet(item: $currentStep) { step in
+            // TODO: - center on new step ondismiss of AddStepView if new step added
             AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
         }
         .onChange(of: displayedSteps) { newStepsArray in
@@ -140,6 +145,7 @@ struct TripView: View {
         .navigationDestination(for: Step.self) { step in
             StepView(step: step)
         }
+        
         
     }
     

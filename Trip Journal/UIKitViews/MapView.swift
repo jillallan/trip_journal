@@ -5,6 +5,7 @@
 //  Created by Jill Allan on 03/11/2022.
 //
 
+import CoreData
 import Foundation
 import MapKit
 import SwiftUI
@@ -13,12 +14,14 @@ struct MapView: UIViewRepresentable {
     
     // MARK: - Properties
     
+//    let managedObjectContext: NSMa
     var coordinateRegion: MKCoordinateRegion
-    let annotationItems: [MKAnnotation]?
+    var annotationItems: [MKAnnotation]?
+    var annotationsDidChange: Bool
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
     var onAnnotationSelection: ((MKAnnotation) -> ())?
-//    var onAnnotationSelection: ((UUID) -> ())?
+    // TODO: - Add on location count change closure
     
     // MARK: - Protocol Methods
     
@@ -32,52 +35,61 @@ struct MapView: UIViewRepresentable {
         mapView.preferredConfiguration = mapConfiguration
         
         mapConfiguration.pointOfInterestFilter = pointOfInterestFilter
-        
-//        if let annotationItems = annotationItems {
-//            mapView.addAnnotations(annotationItems)
-//        }
-        
-        
-        if let routeOverlay = routeOverlay {
-            if !mapView.overlays.isEmpty {
-                mapView.removeOverlays(mapView.overlays)
-                
-            }
-            mapView.addOverlays(routeOverlay)
-        }
+
         
         if let annotationItems = annotationItems {
+            
             if !mapView.annotations.isEmpty {
                 mapView.removeAnnotations(mapView.annotations)
             }
             mapView.addAnnotations(annotationItems)
         }
-
+        
+        
+        if let routeOverlay = routeOverlay {
+            if !mapView.overlays.isEmpty {
+                mapView.removeOverlays(mapView.overlays)
+            }
+            mapView.addOverlays(routeOverlay)
+        }
         mapView.delegate = context.coordinator
         return mapView
     }
+    
+    
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
         mapView.setRegion(coordinateRegion, animated: true)
         mapView.showsUserLocation = true
 //        mapView.preferredConfiguration = mapViewConfiguration
+        
+        print("Environment values \(context.environment)")
+        
         if let annotationItems = annotationItems {
+            print("annotation items count: \(annotationItems.count)")
+            print("Annotation items changed \(annotationsDidChange)")
+            if annotationsDidChange {
+                if !mapView.annotations.isEmpty {
+                    mapView.removeAnnotations(mapView.annotations)
+                }
+                mapView.addAnnotations(annotationItems)
+            }
+            
+            
+            // TODO: - only remove and add annotations if location count change
+            // TODO: - remove and add if step or location changes - force view update
             mapView.addAnnotations(annotationItems)
         }
         
         if let routeOverlay = routeOverlay {
-            if !mapView.overlays.isEmpty {
-                mapView.removeOverlays(mapView.overlays)
-                
+            // TODO: - remove and add if step or location changes - force view update
+            if annotationsDidChange {
+                if !mapView.overlays.isEmpty {
+                    mapView.removeOverlays(mapView.overlays)
+                }
+                mapView.addOverlays(routeOverlay)
             }
             mapView.addOverlays(routeOverlay)
-        }
-        
-        if let annotationItems = annotationItems {
-            if !mapView.annotations.isEmpty {
-                mapView.removeAnnotations(mapView.annotations)
-            }
-            mapView.addAnnotations(annotationItems)
         }
     }
     
@@ -96,10 +108,12 @@ struct MapView: UIViewRepresentable {
         
         // MARK: - Delegate Methods
         
+        
         // MARK: - Annotations
         
         @MainActor func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             if annotation.isKind(of: MKUserLocation.self) {
+                // TODO: - Add custom annotation
                 return nil
             }
             
@@ -113,21 +127,21 @@ struct MapView: UIViewRepresentable {
                 
                 return featureAnnotationView
             }
-            
-//            let stepIdentifier = "Step"
-//            if let stepAnnotation = annotation as? Step {
-//                let stepAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: stepIdentifier) ?? MKAnnotationView(annotation: stepAnnotation, reuseIdentifier: stepIdentifier)
-//
-//                if let photoAnnotation = renderAnnotationStep() {
-//                    stepAnnotationView.image = photoAnnotation
-//                    return stepAnnotationView
-//                }
-//            }
+
             
             let locationIdentifier = "location"
             if let locationAnnotation = annotation as? Location {
-                let locationAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: locationIdentifier) ?? MKAnnotationView(annotation: locationAnnotation, reuseIdentifier: locationIdentifier)
+//                let locationAnnotationView = mapView.dequeueReusableAnnotationView(
+//                    withIdentifier: locationIdentifier
+//                ) as? MKMarkerAnnotationView ?? MKMarkerAnnotationView(
+//                    annotation: annotation,
+//                    reuseIdentifier: locationIdentifier
+//                )
+//                return locationAnnotationView
                 
+                
+                let locationAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: locationIdentifier) ?? MKAnnotationView(annotation: locationAnnotation, reuseIdentifier: locationIdentifier)
+
                 if locationAnnotation.step != nil {
                     if let photoAnnotation = renderAnnotationStep() {
                         locationAnnotationView.image = photoAnnotation

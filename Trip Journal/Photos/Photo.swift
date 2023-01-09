@@ -8,7 +8,7 @@
 import SwiftUI
 import Photos
 
-struct JournalImage: View {
+struct Photo: View {
     
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
     let asset: PHAsset
@@ -40,6 +40,6 @@ struct PhotoView_Previews: PreviewProvider {
     static var previews: some View {
 
         let asset = PHAsset()
-        PhotoView(asset: asset)
+        Thumbnail(asset: asset)
     }
 }

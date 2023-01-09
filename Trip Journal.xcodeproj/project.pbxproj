@@ -67,8 +67,8 @@
 		78D8926E29311A0A0013E9FE /* TestAddTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8926D29311A0A0013E9FE /* TestAddTripView.swift */; };
 		78D9C38A295F82C7003E2D46 /* AddStepDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
-		78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* JournalImage.swift */; };
-		78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* PhotoView.swift */; };
+		78E1D2CE293FE12700FD6AAF /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* Photo.swift */; };
+		78E1D2D2294135C700FD6AAF /* Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* Thumbnail.swift */; };
 		78E1D2F929452E3800FD6AAF /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2F829452E3800FD6AAF /* TripView.swift */; };
 /* End PBXBuildFile section */
 
@@ -155,8 +155,8 @@
 		78D8926D29311A0A0013E9FE /* TestAddTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAddTripView.swift; sourceTree = "<group>"; };
 		78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepDetailView.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
-		78E1D2CD293FE12700FD6AAF /* JournalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalImage.swift; sourceTree = "<group>"; };
-		78E1D2D1294135C700FD6AAF /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		78E1D2CD293FE12700FD6AAF /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		78E1D2D1294135C700FD6AAF /* Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnail.swift; sourceTree = "<group>"; };
 		78E1D2F829452E3800FD6AAF /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,9 +404,9 @@
 			isa = PBXGroup;
 			children = (
 				78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */,
-				78E1D2CD293FE12700FD6AAF /* JournalImage.swift */,
+				78E1D2CD293FE12700FD6AAF /* Photo.swift */,
+				78E1D2D1294135C700FD6AAF /* Thumbnail.swift */,
 				78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */,
-				78E1D2D1294135C700FD6AAF /* PhotoView.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -562,7 +562,7 @@
 				78D89232292B96E80013E9FE /* PlacemarksListView.swift in Sources */,
 				78D892522930DF5D0013E9FE /* PlacemarksListViewModel.swift in Sources */,
 				78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */,
-				78E1D2D2294135C700FD6AAF /* PhotoView.swift in Sources */,
+				78E1D2D2294135C700FD6AAF /* Thumbnail.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				789B15C1295B11B900031CC9 /* DebugView.swift in Sources */,
 				78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */,
@@ -588,7 +588,7 @@
 				785AA0D02927D9BC00F598AE /* AddTripView.swift in Sources */,
 				78AD9618295103B90010F4A7 /* StepCard.swift in Sources */,
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
-				78E1D2CE293FE12700FD6AAF /* JournalImage.swift in Sources */,
+				78E1D2CE293FE12700FD6AAF /* Photo.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
 				789B15C5295CE20400031CC9 /* LocationsView.swift in Sources */,
 				785B8B7D294F528A00C505A0 /* View-CustomModifiers.swift in Sources */,
