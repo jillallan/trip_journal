@@ -9,24 +9,6 @@ import SwiftUI
 
 struct StepCardOverlay: View {
     let step: Step
-//    @FetchRequest var steps: FetchedResults<Step>
-//    @FetchRequest var PhotoAssetIdentifier: FetchedResults<PhotoAssetIdentifier>
-    
-//    init(trip: Trip) {
-//        self.trip = trip
-//        _steps = FetchRequest<Step>(
-//            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
-//            predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
-//        )
-        
-//        let tripStartPredicate = NSPredicate(format: "timestamp > %@", trip.tripStartDate as CVarArg)
-//        let tripEndPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
-//        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [tripStartPredicate, tripEndPredicate])
-//
-//        _locations = FetchRequest<Location>(
-//            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
-//            predicate: compoundPredicate
-//        )
     
     var body: some View {
         VStack() {

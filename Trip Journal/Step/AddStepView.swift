@@ -89,7 +89,6 @@ struct AddStepView: View {
                                 FeatureAnnotationCardView(date: date, trip: trip, featureAnnotation: annotation)
                             }
                         }
-                    
                 }
             }
         }

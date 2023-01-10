@@ -34,17 +34,7 @@ struct AddTripView: View {
             DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
             DatePicker("End Date", selection: $endDate, displayedComponents: .date)
             Toggle("Enable Trip Tracking", isOn: $tripTrackingIsOn)
-//            PhotoPicker()
-//            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-//                Text("Select a photo")
-//            }
-//            .onChange(of: selectedItem) { newValue in
-//                Task {
-//                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
-//                        selectedImageData = data
-//                    }
-//                }
-//            }
+
             Button {
                 addTrip(
                     title: title,

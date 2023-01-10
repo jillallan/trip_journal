@@ -43,7 +43,7 @@
 		789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */; };
 		789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C8295CF3AB00031CC9 /* VisitsView.swift */; };
 		78AD9610295055290010F4A7 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD960F295055290010F4A7 /* TripCard.swift */; };
-		78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */; };
+		78AD9612295056CA0010F4A7 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9611295056CA0010F4A7 /* Card.swift */; };
 		78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD96152951011A0010F4A7 /* TripCardOverlay.swift */; };
 		78AD9618295103B90010F4A7 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9617295103B90010F4A7 /* StepCard.swift */; };
 		78AD961A295103FD0010F4A7 /* StepCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */; };
@@ -68,7 +68,6 @@
 		78D9C38A295F82C7003E2D46 /* AddStepDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */; };
 		78E1D2CB293FB02F00FD6AAF /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */; };
 		78E1D2CE293FE12700FD6AAF /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2CD293FE12700FD6AAF /* Photo.swift */; };
-		78E1D2D2294135C700FD6AAF /* Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2D1294135C700FD6AAF /* Thumbnail.swift */; };
 		78E1D2F929452E3800FD6AAF /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E1D2F829452E3800FD6AAF /* TripView.swift */; };
 /* End PBXBuildFile section */
 
@@ -131,7 +130,7 @@
 		789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 		789B15C8295CF3AB00031CC9 /* VisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsView.swift; sourceTree = "<group>"; };
 		78AD960F295055290010F4A7 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
-		78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnwrappedImage.swift; sourceTree = "<group>"; };
+		78AD9611295056CA0010F4A7 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		78AD96152951011A0010F4A7 /* TripCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardOverlay.swift; sourceTree = "<group>"; };
 		78AD9617295103B90010F4A7 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
 		78AD9619295103FD0010F4A7 /* StepCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCardOverlay.swift; sourceTree = "<group>"; };
@@ -156,7 +155,6 @@
 		78D9C389295F82C7003E2D46 /* AddStepDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStepDetailView.swift; sourceTree = "<group>"; };
 		78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGridView.swift; sourceTree = "<group>"; };
 		78E1D2CD293FE12700FD6AAF /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		78E1D2D1294135C700FD6AAF /* Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnail.swift; sourceTree = "<group>"; };
 		78E1D2F829452E3800FD6AAF /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,9 +250,9 @@
 				785AA0CD2927D45700F598AE /* TripsView.swift */,
 				78AD960F295055290010F4A7 /* TripCard.swift */,
 				78AD96152951011A0010F4A7 /* TripCardOverlay.swift */,
+				789B15C4295CE20400031CC9 /* LocationsView.swift */,
 				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 				789B15C0295B11B900031CC9 /* DebugView.swift */,
-				789B15C4295CE20400031CC9 /* LocationsView.swift */,
 				789B15C8295CF3AB00031CC9 /* VisitsView.swift */,
 			);
 			path = Trips;
@@ -405,8 +403,7 @@
 			children = (
 				78E1D2CA293FB02F00FD6AAF /* PhotoGridView.swift */,
 				78E1D2CD293FE12700FD6AAF /* Photo.swift */,
-				78E1D2D1294135C700FD6AAF /* Thumbnail.swift */,
-				78AD9611295056CA0010F4A7 /* UnwrappedImage.swift */,
+				78AD9611295056CA0010F4A7 /* Card.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -562,7 +559,6 @@
 				78D89232292B96E80013E9FE /* PlacemarksListView.swift in Sources */,
 				78D892522930DF5D0013E9FE /* PlacemarksListViewModel.swift in Sources */,
 				78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */,
-				78E1D2D2294135C700FD6AAF /* Thumbnail.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				789B15C1295B11B900031CC9 /* DebugView.swift in Sources */,
 				78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */,
@@ -600,7 +596,7 @@
 				781F74AD2924433000A0714A /* CalendarRange.swift in Sources */,
 				787855C129129AC700D1F199 /* Trip_JournalApp.swift in Sources */,
 				781FFB9E2919912600605DAE /* AddStepView.swift in Sources */,
-				78AD9612295056CA0010F4A7 /* UnwrappedImage.swift in Sources */,
+				78AD9612295056CA0010F4A7 /* Card.swift in Sources */,
 				789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */,
 				7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */,
 				781F74A329222BA800A0714A /* MKMapItem-Identifiable.swift in Sources */,

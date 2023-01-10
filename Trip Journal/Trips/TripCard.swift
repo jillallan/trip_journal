@@ -16,7 +16,7 @@ struct TripCard: View {
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
-        UnwrappedImage(asset: photoAssets.fetchResult.firstObject, withGradient: true)
+        Card(asset: photoAssets.fetchResult.firstObject)
             .photoGridItemStyle(aspectRatio: 1, cornerRadius: 24)
             .overlay {
                 TripCardOverlay(trip: trip)

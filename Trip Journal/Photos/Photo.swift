@@ -38,8 +38,10 @@ struct Photo: View {
 
 struct PhotoView_Previews: PreviewProvider {
     static var previews: some View {
-
         let asset = PHAsset()
-        Thumbnail(asset: asset)
+        let uiImage = UIImage(named: "seamonster")
+        Photo(asset: asset, inputImage: uiImage)
+
+        
     }
 }

@@ -38,14 +38,11 @@ struct StepView: View {
             ScrollView() {
                 LazyVGrid(columns: [GridItem(.flexible())], spacing: 3) {
                     ForEach(photoAssetIdentifiers, id: \.localIdentifier) { asset in
-                        NavigationLink {
-                            Thumbnail(asset: asset)
-                        } label: {
+                        NavigationLink(value: asset) {
                             Photo(asset: asset)
                                 .photoGridItemStyle(aspectRatio: 1, cornerRadius: 0)
                         }
                     }
-                    
                     PhotosPicker(selection: $selectedPhotos, photoLibrary: .shared()) {
                         Label("Add photos", systemImage: "photo")
                     }
@@ -57,7 +54,13 @@ struct StepView: View {
             }
             .padding(.horizontal)
         }
+        
+        // MARK: - Navigation
+        
         //            .navigationTitle(step.stepName)
+        .navigationDestination(for: PHAsset.self) { asset in
+            Photo(asset: asset)
+        }
         .navigationTitle($name.onChange(updateStep))
         .navigationBarTitleDisplayMode(.large)
         

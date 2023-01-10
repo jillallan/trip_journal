@@ -23,7 +23,6 @@ struct TripView: View {
     // MARK: - View Properties
     @State var centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
     @State var span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-//    @State var annotationsDidChange: Bool = false
     @State var addViewIsPresented: Bool = false
     @Environment(\.dismiss) var dismiss
     
@@ -72,9 +71,6 @@ struct TripView: View {
                         
                         ForEach(steps) { step in
                             ZStack {
-//                                NavigationLink { StepView(step: step) } label: {
-//                                    StepCard(step: step)
-//                                }
                                 NavigationLink(value: step) {
                                     StepCard(step: step)
                                 }

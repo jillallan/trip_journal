@@ -13,7 +13,7 @@ struct StepCard: View {
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
-        UnwrappedImage(asset: photoAssets.fetchResult.firstObject, withGradient: true)
+        Card(asset: photoAssets.fetchResult.firstObject)
             .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
             .overlay {
                 StepCardOverlay(step: step)
