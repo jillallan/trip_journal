@@ -1,5 +1,5 @@
 //
-//  StepCard2.swift
+//  EntryCard.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 19/12/2022.
@@ -8,26 +8,26 @@
 import SwiftUI
 import Photos
 
-struct StepCard: View {
-    let step: Step
+struct EntryCard: View {
+    let entry: Entry
     @State var photoAssets = PHFetchResultCollection(fetchResult: .init())
     
     var body: some View {
         Card(asset: photoAssets.fetchResult.firstObject)
             .photoGridItemStyle(aspectRatio: 1.6, cornerRadius: 0)
             .overlay {
-                StepCardOverlay(step: step)
+                EntryCardOverlay(entry: entry)
             }
         
             .onAppear {
-                let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                let assetIdentifiers = entry.entryPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
                 photoAssets.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
             }
     }
 }
 
-//struct StepCard2_Previews: PreviewProvider {
+//struct EntryCard_Previews: PreviewProvider {
 //    static var previews: some View {
-//        StepCard(step: .preview)
+//        EntryCard(entry: .preview)
 //    }
 //}

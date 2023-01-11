@@ -1,5 +1,5 @@
 //
-//  Step.swift
+//  Entry.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 02/11/2022.
@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 import MapKit
 
-extension Step {
+extension Entry {
     
     // MARK: - Init
     
@@ -43,23 +43,23 @@ extension Step {
         MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     }
     
-    var stepTimestamp: Date {
+    var entryTimestamp: Date {
         timestamp ?? Date.now
     }
     
-    var stepName: String {
-        name ?? "New Step"
+    var entryName: String {
+        name ?? "New Entry"
     }
     
-    var stepPhotoAssetIdentifiers: [PhotoAssetIdentifier] {
+    var entryPhotoAssetIdentifiers: [PhotoAssetIdentifier] {
         photoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
     }
 }
 
 // MARK: - Extension MKAnnotation
 
-extension Step: MKAnnotation {
-    public var title: String? { stepName }
+extension Entry: MKAnnotation {
+    public var title: String? { entryName }
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
@@ -67,43 +67,42 @@ extension Step: MKAnnotation {
 
 // MARK: - Extension Xcode Preview
 
-extension Step {
+extension Entry {
     
-    static var preview: Step {
+    static var preview: Entry {
         previews[0]
     }
     
-    static var previews: [Step] = {
+    static var previews: [Entry] = {
         let dataController = DataController.preview
         let moc = dataController.container.viewContext
-        return createSampleSteps(managedObjectContext: moc, trip: Trip.preview)
+        return createSampleEntries(managedObjectContext: moc, trip: Trip.preview)
     }()
     
-    static func createSampleSteps(managedObjectContext: NSManagedObjectContext, trip: Trip) -> [Step] {
+    static func createSampleEntries(managedObjectContext: NSManagedObjectContext, trip: Trip) -> [Entry] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
         
-        let step1 = Step(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
+        let entry1 = Entry(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
                          timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station, just setting off")
-        step1.trip = trip
-//        step1.addToPhotoAssetIdentifiers(PhotoAssetIdentifier.preview)
+        entry1.trip = trip
         
-        let step2 = Step(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
+        let entry2 = Entry(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
                          timestamp: dateFormatter.date(from: "28/11/2022 11:00:00") ?? Date.now, name: "St Pancras")
-        step2.trip = trip
+        entry2.trip = trip
         
-        let step3 = Step(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
+        let entry3 = Entry(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
                          timestamp: dateFormatter.date(from: "29/11/2022 10:00:00") ?? Date.now, name: "Atomium")
-        step3.trip = trip
+        entry3.trip = trip
         
-        let step4 = Step(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
+        let entry4 = Entry(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
                          timestamp: dateFormatter.date(from: "29/11/2022 18:00:00") ?? Date.now, name: "Cologne")
-        step4.trip = trip
+        entry4.trip = trip
         
-        let step5 = Step(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
+        let entry5 = Entry(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
                          timestamp: dateFormatter.date(from: "01/08/2022 11:00:00") ?? Date.now, name: "Moscow")
-        step5.trip = trip
-        return [step1, step2, step3, step4, step5]
+        entry5.trip = trip
+        return [entry1, entry2, entry3, entry4, entry5]
     }
 }
 

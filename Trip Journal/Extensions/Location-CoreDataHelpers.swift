@@ -72,14 +72,7 @@ extension Location {
 }
 
 extension Location: MKAnnotation {
-    public var stepAdded: Bool { step != nil }
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
-}
-
-extension MKAnnotation {
-    var stepAdded: Bool {
-        Bool()
     }
 }

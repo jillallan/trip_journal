@@ -20,7 +20,7 @@ struct TripMap: View {
     @State var selectedAnnotation: Location? = nil
     
     @State private var isLocationViewPresented: Bool = false
-    @State private var isAddStepDetailViewPresented: Bool = false
+    @State private var isAddEntryDetailViewPresented: Bool = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -44,13 +44,13 @@ struct TripMap: View {
         .confirmationDialog("Location", isPresented: $isLocationViewPresented, titleVisibility: .visible) {
             if let selectedLocation = selectedAnnotation {
                 if let location = locations.first(where: { $0 == selectedLocation }) {
-                    if let step = location.step {
-                        Button("Delete Step") {
-                            delete(step)
+                    if let entry = location.entry {
+                        Button("Delete Entry") {
+                            delete(entry)
                             annotationsDidChange = true
                         }
                     } else {
-                        Button("Add Step ") { isAddStepDetailViewPresented = true }
+                        Button("Add Entry") { isAddEntryDetailViewPresented = true }
                         Button("Delete Location") {
                             delete(location)
                             annotationsDidChange = true
@@ -61,18 +61,18 @@ struct TripMap: View {
         } message: {
             if let selectedAnnotation = selectedAnnotation {
                 // TODO: - location lookup
-                Text(selectedAnnotation.step?.stepName ?? String(describing: selectedAnnotation.locationTimestamp))
+                Text(selectedAnnotation.entry?.entryName ?? String(describing: selectedAnnotation.locationTimestamp))
             }
         }
 
-        .sheet(isPresented: $isAddStepDetailViewPresented) {
+        .sheet(isPresented: $isAddEntryDetailViewPresented) {
             annotationsDidChange = true
             selectedAnnotation = nil
         } content: {
             if let date = selectedAnnotation?.timestamp,
                let selectedAnnotation = selectedAnnotation {
                 // TODO: - look up location details to pass name into view
-                AddStepDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Step")
+                AddEntryDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Entry")
             }
         }
         
@@ -98,20 +98,20 @@ struct TripMap: View {
         return route
     }
     
-    func delete(_ step: Step) {
-        if let location = step.location {
+    func delete(_ entry: Entry) {
+        if let location = entry.location {
             if location.distance == 0 && location.horizontalAccuracy == 0 {
                 delete(location)
             }
 
-            dataController.delete(step)
+            dataController.delete(entry)
         }
         dataController.save()
     }
     
     func delete(_ location: Location) {
         
-//        location.step = nil
+//        location.entry = nil
         dataController.delete(location)
         dataController.save()
     }

@@ -40,7 +40,7 @@ struct LocationsView: View {
                             Text(location.calculatedSpeed, format: .number)
                         }
                         HStack {
-                            Text(location.step?.stepName ?? "No step")
+                            Text(location.entry?.entryName ?? "No entry")
                         }
                     }
                     .font(.caption)

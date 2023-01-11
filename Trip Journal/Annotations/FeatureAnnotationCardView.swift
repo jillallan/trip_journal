@@ -13,7 +13,6 @@ import PhotosUI
 struct FeatureAnnotationCardView: View {
     
     @EnvironmentObject var dataController: DataController
-//    @Binding var stepAdded: Bool
     @State var date: Date
     
     enum LoadingState {
@@ -33,7 +32,7 @@ struct FeatureAnnotationCardView: View {
             switch loadingState {
             case .loaded:
                 if let clLocation = mapItem?.placemark.location {
-                    AddStepDetailView(trip: trip, clLocation: clLocation, date: date, name: mapItem?.placemark.name ?? "New Step")
+                    AddEntryDetailView(trip: trip, clLocation: clLocation, date: date, name: mapItem?.placemark.name ?? "New Entry")
                 
                 } else {
                     Text("Could not get details of map item, no internet??")

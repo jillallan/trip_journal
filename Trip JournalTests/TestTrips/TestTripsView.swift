@@ -50,7 +50,7 @@ final class TestTripsView: BaseTestCase {
 //        XCTAssertEqual(trips.count, 2)
     }
     
-    @MainActor func testDeleteTripsReducesStepsDataModelByNumberOfSteps() {
+    @MainActor func testDeleteTripsReducesEntriesDataModelByNumberOfEntries() {
 //        let indexSet = IndexSet(integer: 0)
 //        let trip = viewModel.fetchTrips()[0]
 //        
@@ -58,9 +58,9 @@ final class TestTripsView: BaseTestCase {
 //        
 //        viewModel.deleteTrips(at: indexSet)
 //        
-//        let steps = tripViewModel.fetchSteps()
+//        let entries = tripViewModel.fetchEntries()
 //        
-//        XCTAssertEqual(steps.count, 0)
+//        XCTAssertEqual(entries.count, 0)
     }
 
     override func testPerformanceExample() throws {

@@ -31,7 +31,7 @@ final class TestAddTripView: BaseTestCase {
         try super.tearDownWithError()
     }
     
-    @MainActor func testAddStepIcreasesTripsDataModelByOne() throws {
+    @MainActor func testAddEntryIcreasesTripsDataModelByOne() throws {
 //        let request: NSFetchRequest<Trip> = Trip.fetchRequest()
 //        let initialTripCount = try managedObjectContext.count(for: request)
 //

@@ -1,5 +1,5 @@
 //
-//  AddStepPlacemarksView.swift
+//  AddEntryPlacemarksView.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 21/11/2022.
@@ -55,8 +55,8 @@ struct PlacemarksListView: View {
     }
 }
 
-//struct AddStepPlacemarksView_Previews: PreviewProvider {
+//struct AddEntryPlacemarksView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        PlacemarksListView(viewModel: .preview, placemarkName: .constant("New Step"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
+//        PlacemarksListView(viewModel: .preview, placemarkName: .constant("New Entry"), coordinates: CLLocationCoordinate2D(latitude: 51.5, longitude: 0))
 //    }
 //}

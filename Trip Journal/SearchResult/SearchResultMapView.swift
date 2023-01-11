@@ -46,6 +46,6 @@ struct SearchResultMapView: View {
 
 //struct SearchResultMapView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SearchResultMapView(searchResult: MKMapItem(placemark: MKPlacemark(coordinate: Step.preview.coordinate)))
+//        SearchResultMapView(searchResult: MKMapItem(placemark: MKPlacemark(coordinate: Entry.preview.coordinate)))
 //    }
 //}

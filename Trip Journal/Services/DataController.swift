@@ -69,10 +69,6 @@ extension DataController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
         
-//        let trip = Trip.createSampleTrip(managedObjectContext: viewContext)
-//        let steps = Step.createSampleSteps(managedObjectContext: viewContext, trip: trip)
-//        trip.steps = Set(steps) as NSSet
-        
         try viewContext.save()
     }
 }

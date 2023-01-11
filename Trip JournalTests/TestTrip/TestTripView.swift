@@ -12,7 +12,7 @@ import CoreData
 
 final class TestTripView: BaseTestCase {
     var coordinate: CLLocationCoordinate2D!
-    var stepName: String!
+    var entryName: String!
     var mapRegionCoordinate: CLLocationCoordinate2D!
     
     
@@ -23,7 +23,7 @@ final class TestTripView: BaseTestCase {
         dateFormatter.dateFormat = "dd/MM/yy"
         
         coordinate = CLLocationCoordinate2D(latitude: 51, longitude: 5)
-        stepName = "New Step"
+        entryName = "New Entry"
     }
 
     override func tearDownWithError() throws {
@@ -31,40 +31,40 @@ final class TestTripView: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    @MainActor func testDeleteStepsReducesStepsDataModelByOne() throws {
+    @MainActor func testDeleteEntriesReducesEntriesDataModelByOne() throws {
 //        let indexSet = IndexSet(integer: 0)
-//        viewModel.deleteSteps(at: indexSet)
+//        viewModel.deleteEntries(at: indexSet)
 //
-//        let steps = viewModel.fetchSteps()
+//        let entries = viewModel.fetchEntries()
 //
-//        XCTAssertEqual(steps.count, 2)
+//        XCTAssertEqual(entries.count, 2)
     }
     
-    @MainActor func testFetchStepsFetchesAllStepsForTrip() {
-//        let steps = viewModel.fetchSteps()
+    @MainActor func testFetchEntriesFetchesAllEntriesForTrip() {
+//        let entries = viewModel.fetchEntries()
 //
-//        XCTAssertEqual(steps.count, 3)
+//        XCTAssertEqual(entries.count, 3)
     }
     
     @MainActor func testFetchTripsFetchesTripsInDescendingOrder() {
-//        let steps = viewModel.fetchSteps()
+//        let entries = viewModel.fetchEntries()
 //
-//        if let step1StartDateTimeInterval = steps[0].timestamp?.timeIntervalSinceNow,
-//           let step2StartDateTimeInterval = steps[1].timestamp?.timeIntervalSinceNow,
-//           let step3StartDateTimeInterval = steps[2].timestamp?.timeIntervalSinceNow {
+//        if let entry1StartDateTimeInterval = entries[0].timestamp?.timeIntervalSinceNow,
+//           let entry2StartDateTimeInterval = entries[1].timestamp?.timeIntervalSinceNow,
+//           let entry3StartDateTimeInterval = entries[2].timestamp?.timeIntervalSinceNow {
 //
-//            XCTAssertGreaterThan(step3StartDateTimeInterval, step1StartDateTimeInterval)
-//            XCTAssertGreaterThan(step3StartDateTimeInterval, step2StartDateTimeInterval)
-//            XCTAssertGreaterThan(step2StartDateTimeInterval, step1StartDateTimeInterval)
+//            XCTAssertGreaterThan(entry3StartDateTimeInterval, entry1StartDateTimeInterval)
+//            XCTAssertGreaterThan(entry3StartDateTimeInterval, entry2StartDateTimeInterval)
+//            XCTAssertGreaterThan(entry2StartDateTimeInterval, entry1StartDateTimeInterval)
 //        }
     }
     
-    @MainActor func testGetRegionForLastStepSetsCoordinateToLastStepCoordinate() {
-//        let lastStep = viewModel.steps.last
+    @MainActor func testGetRegionForLastEntrySetsCoordinateToLastEntryCoordinate() {
+//        let lastEntry = viewModel.entries.last
 //
-//        let region = viewModel.getRegionForLastStep()
+//        let region = viewModel.getRegionForLastEntry()
 //
-//        XCTAssertEqual(lastStep?.coordinate, region.center)
+//        XCTAssertEqual(lastEntry?.coordinate, region.center)
     }
 
     override func testPerformanceExample() throws {

@@ -17,7 +17,7 @@ struct TripView: View {
     
     // MARK: - Trip Properties
     let trip: Trip
-    @FetchRequest var steps: FetchedResults<Step>
+    @FetchRequest var entries: FetchedResults<Entry>
     @FetchRequest var locations: FetchedResults<Location>
     
     // MARK: - View Properties
@@ -26,8 +26,8 @@ struct TripView: View {
     @State var addViewIsPresented: Bool = false
     @Environment(\.dismiss) var dismiss
     
-    @State var displayedSteps: [Step] = []
-    @State private var currentStep: Step? = nil
+//    @State var displayedEntries: [Entry] = []
+    @State private var currentEntry: Entry? = nil
     @State private var currentLocation: Location? = nil
     
     
@@ -44,8 +44,8 @@ struct TripView: View {
             sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
             predicate: compoundPredicate
         )
-        _steps = FetchRequest<Step>(
-            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
+        _entries = FetchRequest<Entry>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Entry.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
         )
     }
@@ -53,43 +53,39 @@ struct TripView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                let _ = print("fetchrequest count: \(locations.count)")
-                let _ = Self._printChanges()
                 
                 // MARK: - Map View
                 TripMap(coordinate: $centre, span: $span, locations: locations, trip: trip, geo: geo)
                 
-                // MARK: - Step Scroll view
+                // MARK: - Entry Scroll view
                 ScrollView(.horizontal) {
-                    LazyHGrid(rows: [GridItem()], spacing: 1) {
+                    LazyHGrid(rows: [GridItem()], spacing: 3) {
                         TripTitleCard(trip: trip)
                             .onAppear {
                                 centre = getMapCentre(locations: locations, locationManager: locationManager)
                                 span = getMapSpan(locations: locations, locationManager: locationManager)
                             }
-                        Rectangle().frame(width: 1).hidden()
                         
-                        ForEach(steps) { step in
+                        ForEach(entries) { entry in
                             ZStack {
-                                NavigationLink(value: step) {
-                                    StepCard(step: step)
+                                NavigationLink(value: entry) {
+                                    EntryCard(entry: entry)
+                                        .onAppear {
+                                            centre = updateRegionCoordinates(with: entry)
+                                        }
                                 }
                                 
-                                // TODO: - Add suggestions between two steps
-                                Button { currentStep = setCurrentStep(step: step, steps: steps) } label: {
+                                // TODO: - Add suggestions between two entries
+                                Button { currentEntry = setCurrentEntry(entry: entry, entries: entries) } label: {
                                     Label("Add", systemImage: "plus").addButtonStyle()
                                 }
                                 .offset(x: -(((geo.size.height * 0.3 * 1.6) + 3) / 2))
                             }
-                            Rectangle().frame(width: 1).hidden()
-                                .onAppear {
-                                    displayedSteps = add(step, to: displayedSteps)
-                                }
                         }
                         
                         Button {
-                            if let step = steps.last {
-                                currentStep = step
+                            if let entry = entries.last {
+                                currentEntry = entry
                             } else {
                                 addViewIsPresented.toggle()
                             }
@@ -104,7 +100,9 @@ struct TripView: View {
         }
         
         // MARK: - Navigation
-        
+        .navigationDestination(for: Entry.self) { entry in
+            EntryView(entry: entry)
+        }
         .navigationTitle(trip.tripTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -120,28 +118,21 @@ struct TripView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .sheet(isPresented: $addViewIsPresented) {
-            // TODO: - center on new step ondismiss of AddStepView if new step added
-            AddStepView(coordinate: centre, trip: trip, date: Date.now)
+            // TODO: - center on new entry ondismiss of AddEntryView if new entry added
+            AddEntryView(coordinate: centre, trip: trip, date: Date.now)
         }
         
-        .sheet(item: $currentStep) { step in
-            // TODO: - center on new step ondismiss of AddStepView if new step added
-            AddStepView(coordinate: step.coordinate, trip: trip, date: step.stepTimestamp)
+        .sheet(item: $currentEntry) { entry in
+            // TODO: - center on new entry ondismiss of AddEntryView if new entry added
+            AddEntryView(coordinate: entry.coordinate, trip: trip, date: entry.entryTimestamp)
         }
-        .onChange(of: displayedSteps) { newStepsArray in
-            if !newStepsArray.isEmpty {
-                centre = updateRegionCoordinates(with: newStepsArray)
-            }
-        }
+
+        // MARK: - Update View
         .onChange(of: locationManager.currentLocation) { newLocation in
             if let currentCentre = newLocation?.coordinate {
                 centre = currentCentre
             }
         }
-        .navigationDestination(for: Step.self) { step in
-            StepView(step: step)
-        }
-        
         
     }
     
@@ -183,58 +174,38 @@ struct TripView: View {
         return MKCoordinateRegion(center: center, span: span)
     }
     
-    func setCurrentStep(step: Step, steps: FetchedResults<Step>) -> Step {
-        if let stepIndex = steps.firstIndex(of: step) {
-            if stepIndex != 0 {
-                return steps[stepIndex - 1]
+    func setCurrentEntry(entry: Entry, entries: FetchedResults<Entry>) -> Entry {
+        if let entryIndex = entries.firstIndex(of: entry) {
+            if entryIndex != 0 {
+                return entries[entryIndex - 1]
             }
         }
-        return step
+        return entry
     }
     
-    func add(_ step: Step, to array: [Step]) -> [Step] {
-        var newArray = array
-        
-        if newArray.isEmpty {
-            newArray.append(step)
-        } else {
-            if let lastStepTimestamp = newArray.last?.stepTimestamp {
-                
-                if step.stepTimestamp > lastStepTimestamp {
-                    newArray.append(step)
-                    newArray.remove(at: 0)
-                } else {
-                    newArray.insert(step, at: 0)
-                    newArray.removeLast()
-                }
-            }
-        }
-        return newArray
-    }
-    
-    func updateRegionCoordinates(with steps: [Step]) -> CLLocationCoordinate2D {
+    func updateRegionCoordinates(with entry: Entry) -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
-            latitude: steps[0].latitude,
-            longitude: steps[0].longitude
+            latitude: entry.latitude,
+            longitude: entry.longitude
         )
     }
     
     // MARK: - Update Model
     
     func delete(_ trip: Trip) {
-        for step in trip.tripSteps {
-            delete(step)
+        for entry in trip.tripEntries {
+            delete(entry)
         }
         dataController.delete(trip)
         dataController.save()
     }
     
-    func delete(_ step: Step) {
-        if let location = step.location {
+    func delete(_ entry: Entry) {
+        if let location = entry.location {
             if location.distance == 0 && location.horizontalAccuracy == 0 {
                 dataController.delete(location)
             }
-            dataController.delete(step)
+            dataController.delete(entry)
         }
         dataController.save()
     }

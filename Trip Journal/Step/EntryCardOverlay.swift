@@ -1,5 +1,5 @@
 //
-//  StepCardOverlay.swift
+//  EntryCardOverlay.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 19/12/2022.
@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-struct StepCardOverlay: View {
-    let step: Step
+struct EntryCardOverlay: View {
+    let entry: Entry
     
     var body: some View {
         VStack() {
             VStack() {
-                Text(step.stepName)
+                Text(entry.entryName)
                     .font(.headline)
 //                    .multilineTextAlignment(.leading)
-                Text(step.stepTimestamp.formatted(date: .abbreviated, time: .shortened))
+                Text(entry.entryTimestamp.formatted(date: .abbreviated, time: .shortened))
                     .font(.subheadline)
             }
             Spacer()
             HStack {
-                metricsLabel(count: step.stepPhotoAssetIdentifiers.count, units: "photos", systemImage: "photo.on.rectangle.angled")
+                metricsLabel(count: entry.entryPhotoAssetIdentifiers.count, units: "photos", systemImage: "photo.on.rectangle.angled")
             }
         }
         .padding()
@@ -29,8 +29,8 @@ struct StepCardOverlay: View {
     }
 }
 
-//struct StepCardOverlay_Previews: PreviewProvider {
+//struct EntryCardOverlay_Previews: PreviewProvider {
 //    static var previews: some View {
-//        StepCardOverlay(step: .preview)
+//        EntryCardOverlay(entry: .preview)
 //    }
 //}

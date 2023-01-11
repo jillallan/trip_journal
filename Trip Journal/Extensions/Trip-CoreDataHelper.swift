@@ -33,15 +33,15 @@ extension Trip {
         endDate ?? Date.now
     }
     
-    var tripSteps: [Step] {
-        steps?.allObjects as? [Step] ?? []
+    var tripEntries: [Entry] {
+        entries?.allObjects as? [Entry] ?? []
     }
     
-    var tripStepsSorted: [Step] {
-        tripSteps.sorted { first, second in
-            return first.stepTimestamp < second.stepTimestamp
-        }
-    }
+//    var tripEntriesSorted: [Entry] {
+//        tripEntries.sorted { first, second in
+//            return first.entryTimestamp < second.entryTimestamp
+//        }
+//    }
     
     var tripPhotosAssetIdentifiers: [PhotoAssetIdentifier] {
         photoAssetIdentifiers?.allObjects as? [PhotoAssetIdentifier] ?? []
@@ -56,9 +56,9 @@ extension Trip {
         let viewContext = dataController.container.viewContext
         
         let trip = createSampleTrip(managedObjectContext: viewContext)
-        let steps = Step.createSampleSteps(managedObjectContext: viewContext, trip: trip)
+        let entries = Entry.createSampleEntries(managedObjectContext: viewContext, trip: trip)
         
-        trip.steps = Set(steps) as NSSet
+        trip.entries = Set(entries) as NSSet
         
         return trip
     }()

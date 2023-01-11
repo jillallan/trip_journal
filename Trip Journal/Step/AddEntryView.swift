@@ -1,5 +1,5 @@
 //
-//  TripViewMapAddStep.swift
+//  TripViewMapAddEntry.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 07/11/2022.
@@ -9,18 +9,18 @@ import MapKit
 import SwiftUI
 import PhotosUI
 
-struct AddStepView: View {
+struct AddEntryView: View {
     
     // MARK: - View Properties
     
-    @State var wasStepAdded: Bool = false
-    @State var isAddStepViewPresented: Bool = true
+    @State var wasEntryAdded: Bool = false
+    @State var isAddEntryViewPresented: Bool = true
     @State private var featureAnnotation: MKMapFeatureAnnotation? = nil
     @StateObject var searchQuery: SearchQuery
     @Environment(\.dismissSearch) private var dismissSearch
     @Environment(\.dismiss) var dismiss
     
-    // MARK: - Step Properties
+    // MARK: - Entry Properties
     let trip: Trip
     @State var date: Date
     @State var region: MKCoordinateRegion
@@ -53,7 +53,7 @@ struct AddStepView: View {
                             featureAnnotation = annotation as? MKMapFeatureAnnotation
                         }
                         .toolbar(.visible, for: .navigationBar)
-                        .navigationTitle("Add Step")
+                        .navigationTitle("Add Entry")
                         .navigationBarTitleDisplayMode(.inline)
                         .ignoresSafeArea(edges: .bottom)
                         .toolbar {
@@ -67,7 +67,7 @@ struct AddStepView: View {
                             List(searchQuery.searchResults) { result in
                                 
                                 NavigationLink {
-                                    AddStepDetailView(trip: trip, clLocation: CLLocation(latitude: result.placemark.coordinate.latitude, longitude: result.placemark.coordinate.longitude), date: date, name: result.name ?? "New Step") {
+                                    AddEntryDetailView(trip: trip, clLocation: CLLocation(latitude: result.placemark.coordinate.latitude, longitude: result.placemark.coordinate.longitude), date: date, name: result.name ?? "New Entry") {
                                         dismiss()
                                     }
                                 } label: {
@@ -76,8 +76,8 @@ struct AddStepView: View {
                             }
                             .frame(height: 400)
                         }
-                        .onChange(of: wasStepAdded) { stepAdded in
-                            if stepAdded {
+                        .onChange(of: wasEntryAdded) { entryAdded in
+                            if entryAdded {
                                 dismiss()
                             }
                         }
@@ -108,9 +108,9 @@ struct AddStepView: View {
 
 // MARK: - Xcode preview
 
-//struct AddStepView_Previews: PreviewProvider {
+//struct AddEntryView_Previews: PreviewProvider {
 //    static var previews: some View {
 //
-//        AddStepView(coordinate: Step.preview.coordinate, trip: .preview)
+//        AddEntryView(coordinate: Entry.preview.coordinate, trip: .preview)
 //    }
 //}

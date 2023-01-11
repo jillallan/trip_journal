@@ -1,5 +1,5 @@
 //
-//  StepView.swift
+//  EntryView.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 01/12/2022.
@@ -8,7 +8,7 @@
 import PhotosUI
 import SwiftUI
 
-struct StepView: View {
+struct EntryView: View {
     let columns = [
         GridItem(.fixed(200))
     ]
@@ -16,7 +16,7 @@ struct StepView: View {
     @EnvironmentObject var dataController: DataController
     @EnvironmentObject var photoAssetManager: PhotoLibraryService
     @State var photoAssetIdentifiers = PHFetchResultCollection(fetchResult: .init())
-    @ObservedObject var step: Step
+    @ObservedObject var entry: Entry
     
     @State private var name: String
     @State private var timestamp: Date
@@ -27,10 +27,10 @@ struct StepView: View {
     
     @State private var selectedPhotos: [PhotosPickerItem] = []
     
-    init(step: Step) {
-        self.step = step
-        _name = State(initialValue: step.stepName)
-        _timestamp = State(initialValue: step.stepTimestamp)
+    init(entry: Entry) {
+        self.entry = entry
+        _name = State(initialValue: entry.entryName)
+        _timestamp = State(initialValue: entry.entryTimestamp)
     }
     
     var body: some View {
@@ -50,25 +50,23 @@ struct StepView: View {
                 }
             }
             VStack(alignment: .leading) {
-                DatePicker("Step Date", selection: $timestamp.onChange(updateStep))
+                DatePicker("Entry Date", selection: $timestamp.onChange(updateEntry))
             }
             .padding(.horizontal)
         }
         
         // MARK: - Navigation
-        
-        //            .navigationTitle(step.stepName)
         .navigationDestination(for: PHAsset.self) { asset in
             Photo(asset: asset)
         }
-        .navigationTitle($name.onChange(updateStep))
+        .navigationTitle($name.onChange(updateEntry))
         .navigationBarTitleDisplayMode(.large)
         
         
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    delete(step)
+                    delete(entry)
                     dismiss()
                 } label: {
                     Label("Delete", systemImage: "trash")
@@ -82,7 +80,7 @@ struct StepView: View {
             dataController.save()
         }
         .onAppear {
-            let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+            let assetIdentifiers = entry.entryPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
             photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
         }
         
@@ -91,29 +89,29 @@ struct StepView: View {
             for photo in photos {
                 Task {
                     addPhoto(photo: photo)
-                    let assetIdentifiers = step.stepPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
+                    let assetIdentifiers = entry.entryPhotoAssetIdentifiers.compactMap(\.assetIdentifier)
                     photoAssetIdentifiers.fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
                 }
             }
         }
     }
     
-    func updateStep() {
-        // TODO: - create new step location, delete old location if manually created
+    func updateEntry() {
+        // TODO: - create new entry location, delete old location if manually created
         // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
         
-        step.location?.objectWillChange.send()
-        step.name = name
-        step.timestamp = timestamp
+        entry.location?.objectWillChange.send()
+        entry.name = name
+        entry.timestamp = timestamp
     }
     
-    func updateStepTimestamp() {
-        // TODO: - create new step location, delete old location if manually created
+    func updateEntryTimestamp() {
+        // TODO: - create new entry location, delete old location if manually created
         // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
         
-        step.location?.objectWillChange.send()
-        step.timestamp = timestamp
-        if step.location?.distance == 0 {
+        entry.location?.objectWillChange.send()
+        entry.timestamp = timestamp
+        if entry.location?.distance == 0 {
             // delete location
         }
     }
@@ -121,25 +119,25 @@ struct StepView: View {
     func addPhoto(photo: PhotosPickerItem?) {
         if let photoIdentifier = photo?.itemIdentifier {
             let newPhoto = PhotoAssetIdentifier(context: dataController.container.viewContext, assetIdentifier: photoIdentifier)
-            step.addToPhotoAssetIdentifiers(newPhoto)
-            step.trip?.addToPhotoAssetIdentifiers(newPhoto)
+            entry.addToPhotoAssetIdentifiers(newPhoto)
+            entry.trip?.addToPhotoAssetIdentifiers(newPhoto)
             dataController.save()
         }
     }
     
-    func delete(_ step: Step) {
-        step.trip?.objectWillChange.send()
-        step.location?.objectWillChange.send()
+    func delete(_ entry: Entry) {
+        entry.trip?.objectWillChange.send()
+        entry.location?.objectWillChange.send()
         // TODO: - Delete location if manually created
         
-        dataController.delete(step)
+        dataController.delete(entry)
         dataController.save()
     }
 
 }
 
-//struct StepView_Previews: PreviewProvider {
+//struct EntryView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        StepView(step: .preview)
+//        EntryView(entry: .preview)
 //    }
 //}

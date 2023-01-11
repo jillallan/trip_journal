@@ -52,31 +52,31 @@ class BaseTestCase: XCTestCase {
         trip2 = Trip(context: dataController.container.viewContext, title: title2, startDate: startDate2, endDate: endDate2)
         trip3 = Trip(context: dataController.container.viewContext, title: title3, startDate: startDate3, endDate: endDate3)
         
-        let step1 = Step(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
+        let entry1 = Entry(context: managedObjectContext, latitude: 51.441, longitude: -2.593,
                          timestamp: dateFormatter.date(from: "28/11/2022 09:00:00") ?? Date.now, name: "Bedminster Station")
-        step1.trip = trip1
-        let step2 = Step(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
+        entry1.trip = trip1
+        let entry2 = Entry(context: managedObjectContext, latitude: 51.531, longitude: -0.126,
                          timestamp: dateFormatter.date(from: "28/11/2022 11:00:00") ?? Date.now, name: "St Pancras")
-        step2.trip = trip1
-        let step3 = Step(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
+        entry2.trip = trip1
+        let entry3 = Entry(context: managedObjectContext, latitude: 50.895, longitude: 4.342,
                          timestamp: dateFormatter.date(from: "29/11/2022 10:00:00") ?? Date.now, name: "Atomium")
-        step3.trip = trip2
-        let step4 = Step(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
+        entry3.trip = trip2
+        let entry4 = Entry(context: managedObjectContext, latitude: 50.954, longitude: 6.959,
                          timestamp: dateFormatter.date(from: "29/11/2022 18:00:00") ?? Date.now, name: "Cologne")
-        step4.trip = trip3
-        let step5 = Step(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
+        entry4.trip = trip3
+        let entry5 = Entry(context: managedObjectContext, latitude: 55.749, longitude: 37.567,
                          timestamp: dateFormatter.date(from: "01/08/2022 11:00:00") ?? Date.now, name: "Moscow")
-        step5.trip = trip3
-        let step6 = Step(context: managedObjectContext, latitude: 55.850, longitude: 37.500,
+        entry5.trip = trip3
+        let entry6 = Entry(context: managedObjectContext, latitude: 55.850, longitude: 37.500,
                          timestamp: dateFormatter.date(from: "27/07/2022 11:30:00") ?? Date.now, name: "Moscow")
-        step5.trip = trip3
+        entry5.trip = trip3
         
-        let trip1Steps = [step1, step2, step6]
-        trip1.steps = Set(trip1Steps) as NSSet
-        let trip2Steps = [step3]
-        trip2.steps = Set(trip2Steps) as NSSet
-        let trip3Steps = [step4, step5]
-        trip3.steps = Set(trip3Steps) as NSSet
+        let trip1Entries = [entry1, entry2, entry6]
+        trip1.entries = Set(trip1Entries) as NSSet
+        let trip2Entries = [entry3]
+        trip2.entries = Set(trip2Entries) as NSSet
+        let trip3Entries = [entry4, entry5]
+        trip3.entries = Set(trip3Entries) as NSSet
         
         dataController.save()
 //        locationManager = LocationManager()

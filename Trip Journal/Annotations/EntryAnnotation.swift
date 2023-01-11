@@ -1,5 +1,5 @@
 //
-//  StepAnnotation.swift
+//  EntryAnnotation.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 23/12/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Photos
 
-struct StepAnnotation: View {
+struct EntryAnnotation: View {
 //    let photoAssetIdentifiers: [PhotoAssetIdentifier]
 //    @State var photosAssets = PHFetchResultCollection(fetchResult: .init())
     
@@ -46,8 +46,8 @@ struct StepAnnotation: View {
     }
 }
 
-//struct StepAnnotation_Previews: PreviewProvider {
+//struct EntryAnnotation_Previews: PreviewProvider {
 //    static var previews: some View {
-//        StepAnnotation()
+//        EntryAnnotation()
 //    }
 //}

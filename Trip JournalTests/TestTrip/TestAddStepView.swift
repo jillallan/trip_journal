@@ -1,5 +1,5 @@
 //
-//  TestAddStep.swift
+//  TestAddEntry.swift
 //  Trip JournalTests
 //
 //  Created by Jill Allan on 23/11/2022.
@@ -11,7 +11,7 @@ import MapKit
 import XCTest
 @testable import Trip_Journal
 
-final class TestAddStepView: BaseTestCase {
+final class TestAddEntryView: BaseTestCase {
     var region: MKCoordinateRegion!
 
     @MainActor override func setUpWithError() throws {
@@ -27,15 +27,15 @@ final class TestAddStepView: BaseTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    @MainActor func testAddStepIcreasesStepsDataModelByOne() throws {
-//        let request: NSFetchRequest<Step> = Step.fetchRequest()
-//        let initialStepCount = try managedObjectContext.count(for: request)
+    @MainActor func testAddEntryIcreasesEntriesDataModelByOne() throws {
+//        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let initialEntryCount = try managedObjectContext.count(for: request)
 //        let coordinate = CLLocationCoordinate2D(latitude: 51.6, longitude: 0.5)
 //
-//        viewModel.addStep(for: coordinate, name: "Test Step")
+//        viewModel.addEntry(for: coordinate, name: "Test Entry")
 //
-//        let stepCount = try managedObjectContext.count(for: request)
-//        XCTAssertEqual(stepCount, initialStepCount + 1)
+//        let entryCount = try managedObjectContext.count(for: request)
+//        XCTAssertEqual(entryCount, initialEntryCount + 1)
     }
 
     override func testPerformanceExample() throws {

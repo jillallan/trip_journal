@@ -9,13 +9,13 @@ import SwiftUI
 
 struct TripCardOverlay: View {
     let trip: Trip
-    @FetchRequest var steps: FetchedResults<Step>
+    @FetchRequest var entries: FetchedResults<Entry>
     @FetchRequest var locations: FetchedResults<Location>
     
     init(trip: Trip) {
         self.trip = trip
-        _steps = FetchRequest<Step>(
-            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
+        _entries = FetchRequest<Entry>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Entry.timestamp, ascending: true)],
             predicate: NSPredicate(format: "trip.title = %@", trip.tripTitle)
         )
         
@@ -41,7 +41,7 @@ struct TripCardOverlay: View {
             }
             Spacer()
             HStack {
-                metricsLabel(count: steps.count, units: "steps", systemImage: "figure.walk")
+                metricsLabel(count: entries.count, units: "entries", systemImage: "figure.walk")
                 metricsLabel(count: Int(locations.map(\.distance).reduce(0.0, +)) / 1000, units: "km", systemImage: "road.lanes")
             }
         }

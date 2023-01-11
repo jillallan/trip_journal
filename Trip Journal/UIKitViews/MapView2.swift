@@ -1,5 +1,5 @@
 //
-//  MapViewUIView.swift
+//  MapView2.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 03/11/2022.
@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import SwiftUI
 
-struct MapView: UIViewRepresentable {
+struct MapView2: UIViewRepresentable {
     
     // MARK: - Properties
     
@@ -20,7 +20,9 @@ struct MapView: UIViewRepresentable {
     var annotationsDidChange: Bool
     let routeOverlay: [MKPolyline]?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
-    var onAnnotationSelection: ((MKAnnotation) -> ())?
+    
+    @Binding var selectedAnnotation: MKAnnotation?
+//    var onAnnotationSelection: ((MKAnnotation) -> ())?
     // TODO: - Add on location count change closure
     
     // MARK: - Protocol Methods
@@ -94,16 +96,18 @@ struct MapView: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
+        Coordinator(parent: self, selectedAnnotation: $selectedAnnotation)
     }
     
     typealias UIViewType = MKMapView
 
     class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: MapView
+        var parent: MapView2
+        @Binding var selectedAnnotation: MKAnnotation?
         
-        init(parent: MapView) {
+        init(parent: MapView2, selectedAnnotation: Binding<MKAnnotation?>) {
             self.parent = parent
+            _selectedAnnotation = selectedAnnotation
         }
         
         // MARK: - Delegate Methods
@@ -171,17 +175,13 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-            
+        
             if let featureAnnotation = annotation as? MKMapFeatureAnnotation {
-                if let onAnnotationSelection = parent.onAnnotationSelection {
-                    onAnnotationSelection(featureAnnotation)
-                }
+                selectedAnnotation = featureAnnotation
             }
             
             if let locationAnnotation = annotation as? Location {
-                if let onAnnotationSelection = parent.onAnnotationSelection {
-                    onAnnotationSelection(locationAnnotation)
-                }
+                selectedAnnotation = locationAnnotation
             }
         }
         
