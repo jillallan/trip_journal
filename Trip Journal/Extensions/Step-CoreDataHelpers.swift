@@ -1,5 +1,5 @@
 //
-//  Location.swift
+//  Step.swift
 //  Trip Journal
 //
 //  Created by Jill Allan on 21/12/2022.
@@ -10,7 +10,7 @@ import CoreData
 import CoreLocation
 import MapKit
 
-extension Location {
+extension Step {
     
     convenience init(
         context: NSManagedObjectContext,
@@ -61,17 +61,17 @@ extension Location {
         self.init(context: context, latitude: cLlocation.coordinate.latitude, longitude: cLlocation.coordinate.longitude, altitude: cLlocation.altitude, horizontalAccuracy: cLlocation.horizontalAccuracy, verticalAccuracy: cLlocation.verticalAccuracy, distance: distance, speed: cLlocation.speed, calculatedSpeed: calculatedSpeed, timestamp: cLlocation.timestamp)
     }
     
-    var locationTimestamp: Date {
+    var stepTimestamp: Date {
         timestamp ?? Date.now
     }
     
-    var locationId: UUID {
+    var stepId: UUID {
         id ?? UUID()
     }
     
 }
 
-extension Location: MKAnnotation {
+extension Step: MKAnnotation {
     public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }

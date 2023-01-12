@@ -13,13 +13,13 @@ struct TripMap: View {
     @Binding var coordinate: CLLocationCoordinate2D
     @Binding var span: MKCoordinateSpan
     @State var annotationsDidChange: Bool = false
-    let locations: FetchedResults<Location>
+    let steps: FetchedResults<Step>
     let trip: Trip
     let geo: GeometryProxy
     
-    @State var selectedAnnotation: Location? = nil
+    @State var selectedAnnotation: Step? = nil
     
-    @State private var isLocationViewPresented: Bool = false
+    @State private var isStepViewPresented: Bool = false
     @State private var isAddEntryDetailViewPresented: Bool = false
     
     @Environment(\.dismiss) var dismiss
@@ -27,7 +27,7 @@ struct TripMap: View {
     var body: some View {
         let annotationBinding = Binding(
             get: { self.selectedAnnotation as (any MKAnnotation)? },
-            set: { self.selectedAnnotation = $0 as? Location }
+            set: { self.selectedAnnotation = $0 as? Step }
         )
         
         
@@ -37,9 +37,9 @@ struct TripMap: View {
                 centre: $coordinate,
                 span: $span,
 //                coordinateRegion: MKCoordinateRegion(center: coordinate, span: span),
-                annotationItems: locations.map { $0 },
+                annotationItems: steps.map { $0 },
                 annotationsDidChange: annotationsDidChange,
-                routeOverlay: createRoute(from: locations.map(\.coordinate)),
+                routeOverlay: createRoute(from: steps.map(\.coordinate)),
                 selectedAnnotation: annotationBinding)
             
 //            MapView(
@@ -47,18 +47,18 @@ struct TripMap: View {
 //                    center: coordinate,
 //                    span: span
 //                ),
-//                annotationItems: locations.map { $0 }, annotationsDidChange: annotationsDidChange,
-//                routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
+//                annotationItems: steps.map { $0 }, annotationsDidChange: annotationsDidChange,
+//                routeOverlay: createRoute(from: steps.map(\.coordinate)), onAnnotationSelection:  { annotation in
 //                    selectedAnnotation = annotation as? Location
 //                    isLocationViewPresented = true
 //                })
         }
         .frame(height: geo.size.height * 0.65)
         
-        .confirmationDialog("Location", isPresented: $isLocationViewPresented, titleVisibility: .visible) {
+        .confirmationDialog("Location", isPresented: $isStepViewPresented, titleVisibility: .visible) {
             if let selectedLocation = selectedAnnotation {
-                if let location = locations.first(where: { $0 == selectedLocation }) {
-                    if let entry = location.entry {
+                if let step = steps.first(where: { $0 == selectedLocation }) {
+                    if let entry = step.entry {
                         Button("Delete Entry") {
                             delete(entry)
                             annotationsDidChange = true
@@ -66,7 +66,7 @@ struct TripMap: View {
                     } else {
                         Button("Add Entry") { isAddEntryDetailViewPresented = true }
                         Button("Delete Location") {
-                            delete(location)
+                            delete(step)
                             annotationsDidChange = true
                         }
                     }
@@ -75,7 +75,7 @@ struct TripMap: View {
         } message: {
             if let selectedAnnotation = selectedAnnotation {
                 // TODO: - location lookup
-                Text(selectedAnnotation.entry?.entryName ?? String(describing: selectedAnnotation.locationTimestamp))
+                Text(selectedAnnotation.entry?.entryName ?? String(describing: selectedAnnotation.stepTimestamp))
             }
         }
 
@@ -86,12 +86,12 @@ struct TripMap: View {
             if let date = selectedAnnotation?.timestamp,
                let selectedAnnotation = selectedAnnotation {
                 // TODO: - look up location details to pass name into view
-                AddEntryDetailView(trip: trip, location: selectedAnnotation, date: date, name: "New Entry")
+                AddEntryDetailView(trip: trip, step: selectedAnnotation, date: date, name: "New Entry")
             }
         }
         
         .onChange(of: selectedAnnotation) { newValue in
-            isLocationViewPresented = true
+            isStepViewPresented = true
         }
 
     }
@@ -116,9 +116,9 @@ struct TripMap: View {
     }
     
     func delete(_ entry: Entry) {
-        if let location = entry.location {
-            if location.distance == 0 && location.horizontalAccuracy == 0 {
-                delete(location)
+        if let step = entry.step {
+            if step.distance == 0 && step.horizontalAccuracy == 0 {
+                delete(step)
             }
 
             dataController.delete(entry)
@@ -126,10 +126,10 @@ struct TripMap: View {
         dataController.save()
     }
     
-    func delete(_ location: Location) {
+    func delete(_ step: Step) {
         
-//        location.entry = nil
-        dataController.delete(location)
+//        step.entry = nil
+        dataController.delete(step)
         dataController.save()
     }
 }

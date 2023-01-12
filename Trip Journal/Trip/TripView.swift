@@ -18,7 +18,7 @@ struct TripView: View {
     // MARK: - Trip Properties
     let trip: Trip
     @FetchRequest var entries: FetchedResults<Entry>
-    @FetchRequest var locations: FetchedResults<Location>
+    @FetchRequest var steps: FetchedResults<Step>
     
     // MARK: - View Properties
     @State var centre = CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
@@ -28,7 +28,7 @@ struct TripView: View {
     
 //    @State var displayedEntries: [Entry] = []
     @State private var currentEntry: Entry? = nil
-    @State private var currentLocation: Location? = nil
+    @State private var currentLocation: Step? = nil
     
     
     // MARK: - Init
@@ -40,8 +40,8 @@ struct TripView: View {
         let tripEndPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
         let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [tripStartPredicate, tripEndPredicate])
         
-        _locations = FetchRequest<Location>(
-            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
+        _steps = FetchRequest<Step>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: compoundPredicate
         )
         _entries = FetchRequest<Entry>(
@@ -55,15 +55,15 @@ struct TripView: View {
             VStack {
                 
                 // MARK: - Map View
-                TripMap(coordinate: $centre, span: $span, locations: locations, trip: trip, geo: geo)
+                TripMap(coordinate: $centre, span: $span, steps: steps, trip: trip, geo: geo)
                 
                 // MARK: - Entry Scroll view
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [GridItem()], spacing: 3) {
                         TripTitleCard(trip: trip)
                             .onAppear {
-                                centre = getMapCentre(locations: locations, locationManager: locationManager)
-                                span = getMapSpan(locations: locations, locationManager: locationManager)
+                                centre = getMapCentre(steps: steps, locationManager: locationManager)
+                                span = getMapSpan(steps: steps, locationManager: locationManager)
                             }
                         
                         ForEach(entries) { entry in
@@ -138,9 +138,9 @@ struct TripView: View {
     
     // MARK: - Update view
     
-    func getMapCentre(locations: FetchedResults<Location>, locationManager: LocationManager) ->  CLLocationCoordinate2D {
-        if !locations.isEmpty {
-            return calculateTripRegion(from: locations).center
+    func getMapCentre(steps: FetchedResults<Step>, locationManager: LocationManager) ->  CLLocationCoordinate2D {
+        if !steps.isEmpty {
+            return calculateTripRegion(from: steps).center
         }
         if let currentCentre = locationManager.currentLocation?.coordinate {
             return currentCentre
@@ -148,18 +148,18 @@ struct TripView: View {
         return CLLocationCoordinate2D(latitude: 51.5, longitude: 0.0)
     }
     
-    func getMapSpan(locations: FetchedResults<Location>, locationManager: LocationManager) ->  MKCoordinateSpan {
-        if !locations.isEmpty {
-            return calculateTripRegion(from: locations).span
+    func getMapSpan(steps: FetchedResults<Step>, locationManager: LocationManager) ->  MKCoordinateSpan {
+        if !steps.isEmpty {
+            return calculateTripRegion(from: steps).span
         }
         return MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     }
     
-    func calculateTripRegion(from locations: FetchedResults<Location>) -> MKCoordinateRegion {
-        let minLatitude = locations.map(\.coordinate.latitude).min() ?? 0.0
-        let maxLatitude = locations.map(\.coordinate.latitude).max() ?? 0.0
-        let minLongitude = locations.map(\.coordinate.longitude).min() ?? 0.0
-        let maxLongitude = locations.map(\.coordinate.longitude).max() ?? 0.0
+    func calculateTripRegion(from steps: FetchedResults<Step>) -> MKCoordinateRegion {
+        let minLatitude = steps.map(\.coordinate.latitude).min() ?? 0.0
+        let maxLatitude = steps.map(\.coordinate.latitude).max() ?? 0.0
+        let minLongitude = steps.map(\.coordinate.longitude).min() ?? 0.0
+        let maxLongitude = steps.map(\.coordinate.longitude).max() ?? 0.0
         
         let center = CLLocationCoordinate2D(
             latitude: (minLatitude + maxLatitude) / 2,
@@ -201,9 +201,9 @@ struct TripView: View {
     }
     
     func delete(_ entry: Entry) {
-        if let location = entry.location {
-            if location.distance == 0 && location.horizontalAccuracy == 0 {
-                dataController.delete(location)
+        if let step = entry.step {
+            if step.distance == 0 && step.horizontalAccuracy == 0 {
+                dataController.delete(step)
             }
             dataController.delete(entry)
         }

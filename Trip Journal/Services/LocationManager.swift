@@ -146,7 +146,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 let time = location.timestamp.timeIntervalSince1970 - tempPreviousLocation.timestamp.timeIntervalSince1970
                 let calculatedSpeed = distance / time
                 print(location)
-                addLocation(for: location, distance: distance, calculatedSpeed: calculatedSpeed)
+                addStep(for: location, distance: distance, calculatedSpeed: calculatedSpeed)
                 previousLocation = tempCurrentLocation
                 currentLocation = location
             } else {
@@ -175,8 +175,8 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     
-    func addLocation(for location: CLLocation, distance: Double, calculatedSpeed: Double) {
-        _ = Location(context: dataController.container.viewContext, cLlocation: location, distance: distance, calculatedSpeed: calculatedSpeed)
+    func addStep(for location: CLLocation, distance: Double, calculatedSpeed: Double) {
+        _ = Step(context: dataController.container.viewContext, cLlocation: location, distance: distance, calculatedSpeed: calculatedSpeed)
 
         dataController.save()
     }

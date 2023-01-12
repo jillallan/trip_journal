@@ -43,7 +43,7 @@ extension Visit {
         departureTimestamp ?? Date.now
     }
     
-    var locationId: UUID {
+    var stepId: UUID {
         id ?? UUID()
     }
 }

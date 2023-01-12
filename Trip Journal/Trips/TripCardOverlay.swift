@@ -10,7 +10,7 @@ import SwiftUI
 struct TripCardOverlay: View {
     let trip: Trip
     @FetchRequest var entries: FetchedResults<Entry>
-    @FetchRequest var locations: FetchedResults<Location>
+    @FetchRequest var steps: FetchedResults<Step>
     
     init(trip: Trip) {
         self.trip = trip
@@ -23,8 +23,8 @@ struct TripCardOverlay: View {
         let tripEndPredicate = NSPredicate(format: "timestamp < %@", trip.tripEndDate as CVarArg)
         let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [tripStartPredicate, tripEndPredicate])
         
-        _locations = FetchRequest<Location>(
-            sortDescriptors: [NSSortDescriptor(keyPath: \Location.timestamp, ascending: true)],
+        _steps = FetchRequest<Step>(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Step.timestamp, ascending: true)],
             predicate: compoundPredicate
         )
     }
@@ -42,7 +42,7 @@ struct TripCardOverlay: View {
             Spacer()
             HStack {
                 metricsLabel(count: entries.count, units: "entries", systemImage: "figure.walk")
-                metricsLabel(count: Int(locations.map(\.distance).reduce(0.0, +)) / 1000, units: "km", systemImage: "road.lanes")
+                metricsLabel(count: Int(steps.map(\.distance).reduce(0.0, +)) / 1000, units: "km", systemImage: "road.lanes")
             }
         }
         .padding()

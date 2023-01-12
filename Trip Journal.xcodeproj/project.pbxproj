@@ -39,7 +39,7 @@
 		7886B8D42926CC3900E2EC22 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7886B8D22926CC3900E2EC22 /* Main.xcdatamodeld */; };
 		789B15C1295B11B900031CC9 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C0295B11B900031CC9 /* DebugView.swift */; };
 		789B15C3295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */; };
-		789B15C5295CE20400031CC9 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C4295CE20400031CC9 /* LocationsView.swift */; };
+		789B15C5295CE20400031CC9 /* StepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C4295CE20400031CC9 /* StepsView.swift */; };
 		789B15C7295CF0E600031CC9 /* Visit-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */; };
 		789B15C9295CF3AB00031CC9 /* VisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B15C8295CF3AB00031CC9 /* VisitsView.swift */; };
 		78AD9610295055290010F4A7 /* TripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD960F295055290010F4A7 /* TripCard.swift */; };
@@ -47,7 +47,7 @@
 		78AD96162951011A0010F4A7 /* TripCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD96152951011A0010F4A7 /* TripCardOverlay.swift */; };
 		78AD9618295103B90010F4A7 /* EntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9617295103B90010F4A7 /* EntryCard.swift */; };
 		78AD961A295103FD0010F4A7 /* EntryCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD9619295103FD0010F4A7 /* EntryCardOverlay.swift */; };
-		78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */; };
+		78AD961C2952FD820010F4A7 /* Step-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD961B2952FD820010F4A7 /* Step-CoreDataHelpers.swift */; };
 		78B85153296F4F040093E0B6 /* MapView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B85152296F4F040093E0B6 /* MapView2.swift */; };
 		78CE47B32938BF60008CEDD6 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B22938BF60008CEDD6 /* EntryView.swift */; };
 		78CE47B52938C420008CEDD6 /* Binding-OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */; };
@@ -127,7 +127,7 @@
 		7886B8D32926CC3900E2EC22 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 		789B15C0295B11B900031CC9 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventLog-CoreDataHelpers.swift"; sourceTree = "<group>"; };
-		789B15C4295CE20400031CC9 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
+		789B15C4295CE20400031CC9 /* StepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsView.swift; sourceTree = "<group>"; };
 		789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 		789B15C8295CF3AB00031CC9 /* VisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsView.swift; sourceTree = "<group>"; };
 		78AD960F295055290010F4A7 /* TripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCard.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 		78AD96152951011A0010F4A7 /* TripCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCardOverlay.swift; sourceTree = "<group>"; };
 		78AD9617295103B90010F4A7 /* EntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCard.swift; sourceTree = "<group>"; };
 		78AD9619295103FD0010F4A7 /* EntryCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCardOverlay.swift; sourceTree = "<group>"; };
-		78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location-CoreDataHelpers.swift"; sourceTree = "<group>"; };
+		78AD961B2952FD820010F4A7 /* Step-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Step-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 		78B85152296F4F040093E0B6 /* MapView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView2.swift; sourceTree = "<group>"; };
 		78CE47B22938BF60008CEDD6 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		78CE47B42938C420008CEDD6 /* Binding-OnChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding-OnChange.swift"; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 				785AA0CD2927D45700F598AE /* TripsView.swift */,
 				78AD960F295055290010F4A7 /* TripCard.swift */,
 				78AD96152951011A0010F4A7 /* TripCardOverlay.swift */,
-				789B15C4295CE20400031CC9 /* LocationsView.swift */,
+				789B15C4295CE20400031CC9 /* StepsView.swift */,
 				785AA0CF2927D9BC00F598AE /* AddTripView.swift */,
 				789B15C0295B11B900031CC9 /* DebugView.swift */,
 				789B15C8295CF3AB00031CC9 /* VisitsView.swift */,
@@ -320,7 +320,7 @@
 				781A3A04296422E900C0BB07 /* MKMapFeatureAnnotation-Identifiable.swift */,
 				78D89233292B97B30013E9FE /* CLPlacemark-Identifiable.swift */,
 				787855D429129E8100D1F199 /* Entry-CoreDataHelpers.swift */,
-				78AD961B2952FD820010F4A7 /* Location-CoreDataHelpers.swift */,
+				78AD961B2952FD820010F4A7 /* Step-CoreDataHelpers.swift */,
 				789B15C6295CF0E600031CC9 /* Visit-CoreDataHelpers.swift */,
 				789B15C2295CD5DA00031CC9 /* EventLog-CoreDataHelpers.swift */,
 				785AA0CB2927C8F900F598AE /* Trip-CoreDataHelper.swift */,
@@ -564,7 +564,7 @@
 				78CE47DA293A85F4008CEDD6 /* SearchQuery.swift in Sources */,
 				785AA0CE2927D45700F598AE /* TripsView.swift in Sources */,
 				789B15C1295B11B900031CC9 /* DebugView.swift in Sources */,
-				78AD961C2952FD820010F4A7 /* Location-CoreDataHelpers.swift in Sources */,
+				78AD961C2952FD820010F4A7 /* Step-CoreDataHelpers.swift in Sources */,
 				78AD961A295103FD0010F4A7 /* EntryCardOverlay.swift in Sources */,
 				78D89234292B97B30013E9FE /* CLPlacemark-Identifiable.swift in Sources */,
 				787855E9291449D700D1F199 /* MapView.swift in Sources */,
@@ -590,7 +590,7 @@
 				785AA0CC2927C8F900F598AE /* Trip-CoreDataHelper.swift in Sources */,
 				78E1D2CE293FE12700FD6AAF /* Photo.swift in Sources */,
 				787855C329129AC700D1F199 /* ContentView.swift in Sources */,
-				789B15C5295CE20400031CC9 /* LocationsView.swift in Sources */,
+				789B15C5295CE20400031CC9 /* StepsView.swift in Sources */,
 				785B8B7D294F528A00C505A0 /* View-CustomModifiers.swift in Sources */,
 				78373262295E37BD006BD23F /* TripTitleCard.swift in Sources */,
 				78CE47B32938BF60008CEDD6 /* EntryView.swift in Sources */,

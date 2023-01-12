@@ -29,7 +29,7 @@ struct AddEntryDetailView: View {
     
     // MARK: - Entry Properties
     let trip: Trip
-    @State var location: Location? = nil
+    @State var step: Step? = nil
     @State var clLocation: CLLocation? = nil
     @State var date: Date
     @State var name: String
@@ -37,11 +37,11 @@ struct AddEntryDetailView: View {
     
     // MARK: - Init
     
-    init(trip: Trip, location: Location, date: Date, name: String) {
+    init(trip: Trip, step: Step, date: Date, name: String) {
         self.trip = trip
-        _location = State(initialValue: location)
+        _step = State(initialValue: step)
         _date = State(initialValue: date)
-        let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        let region = MKCoordinateRegion(center: step.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         _region = State(initialValue: region)
         _name = State(initialValue: name)
     }
@@ -89,11 +89,11 @@ struct AddEntryDetailView: View {
                     }
                     Spacer()
                     Button("Add entry") {
-                        if let location = location {
-                            addEntry(for: location, name: name, trip: trip, date: date, localIdentifiers: selectedPhotosIdentifiers)
+                        if let step = step {
+                            addEntry(for: step, name: name, trip: trip, date: date, localIdentifiers: selectedPhotosIdentifiers)
                         }
                         if let clLocation = clLocation {
-                            // TODO: - Calculate distance and speed based on previous and next location
+                            // TODO: - Calculate distance and speed based on previous and next step
                        
                             addEntry(for: clLocation, name: name, trip: trip, date: date, localIdentifiers: selectedPhotosIdentifiers)
                         }
@@ -121,15 +121,15 @@ struct AddEntryDetailView: View {
         }
     }
     
-    func addEntry(for location: Location, name: String, trip: Trip, date: Date, localIdentifiers: [String]) {
+    func addEntry(for step: Step, name: String, trip: Trip, date: Date, localIdentifiers: [String]) {
         
-        let entry = Entry(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
+        let entry = Entry(context: dataController.container.viewContext, coordinate: step.coordinate, timestamp: date, name: name)
         
         let photoAssetIdentifiers = localIdentifiers.map { localIdentifier in
             PhotoAssetIdentifier(context: dataController.container.viewContext, assetIdentifier: localIdentifier)
         }
         
-        entry.location = location
+        entry.step = step
         entry.trip = trip
         entry.photoAssetIdentifiers = Set(photoAssetIdentifiers) as NSSet
         
@@ -137,15 +137,15 @@ struct AddEntryDetailView: View {
     }
     
     func addEntry(for clLocation: CLLocation, name: String, trip: Trip, date: Date, localIdentifiers: [String]) {
-        let location = Location(context: dataController.container.viewContext, cLlocation: clLocation, timestamp: date)
+        let step = Step(context: dataController.container.viewContext, cLlocation: clLocation, timestamp: date)
         
-        let entry = Entry(context: dataController.container.viewContext, coordinate: location.coordinate, timestamp: date, name: name)
+        let entry = Entry(context: dataController.container.viewContext, coordinate: step.coordinate, timestamp: date, name: name)
         
         let photoAssetIdentifiers = localIdentifiers.map { localIdentifier in
             PhotoAssetIdentifier(context: dataController.container.viewContext, assetIdentifier: localIdentifier)
         }
         
-        entry.location = location
+        entry.step = step
         entry.trip = trip
         entry.photoAssetIdentifiers = Set(photoAssetIdentifiers) as NSSet
         

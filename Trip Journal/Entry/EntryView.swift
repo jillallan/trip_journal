@@ -97,10 +97,10 @@ struct EntryView: View {
     }
     
     func updateEntry() {
-        // TODO: - create new entry location, delete old location if manually created
+        // TODO: - create new entry location, delete old step if manually created
         // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
         
-        entry.location?.objectWillChange.send()
+        entry.step?.objectWillChange.send()
         entry.name = name
         entry.timestamp = timestamp
     }
@@ -109,10 +109,10 @@ struct EntryView: View {
         // TODO: - create new entry location, delete old location if manually created
         // TODO: - manually created if distance and horizontal accuracy are 0 (and speed -1 ??)
         
-        entry.location?.objectWillChange.send()
+        entry.step?.objectWillChange.send()
         entry.timestamp = timestamp
-        if entry.location?.distance == 0 {
-            // delete location
+        if entry.step?.distance == 0 {
+            // delete step
         }
     }
     
@@ -127,8 +127,8 @@ struct EntryView: View {
     
     func delete(_ entry: Entry) {
         entry.trip?.objectWillChange.send()
-        entry.location?.objectWillChange.send()
-        // TODO: - Delete location if manually created
+        entry.step?.objectWillChange.send()
+        // TODO: - Delete step if manually created
         
         dataController.delete(entry)
         dataController.save()
