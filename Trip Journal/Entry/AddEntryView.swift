@@ -9,12 +9,12 @@ import MapKit
 import SwiftUI
 import PhotosUI
 
-extension MKMapFeatureAnnotation {
-     var mkAnnotation: MKAnnotation {
-         get { self as any MKAnnotation }
-         set { newValue as! MKMapFeatureAnnotation }
-     }
- }
+//extension MKMapFeatureAnnotation {
+//     var mkAnnotation: MKAnnotation {
+//         get { self as any MKAnnotation }
+//         set { newValue as! MKMapFeatureAnnotation }
+//     }
+// }
 
 
 struct AddEntryView: View {

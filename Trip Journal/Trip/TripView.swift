@@ -65,12 +65,12 @@ struct TripView: View {
                                 centre = getMapCentre(steps: steps, locationManager: locationManager)
                                 span = getMapSpan(steps: steps, locationManager: locationManager)
                             }
-                        
                         ForEach(entries) { entry in
                             ZStack {
                                 NavigationLink(value: entry) {
                                     EntryCard(entry: entry)
                                         .onAppear {
+                                            print("Entry appeared: \(entry)")
                                             centre = updateRegionCoordinates(with: entry)
                                         }
                                 }

@@ -19,10 +19,7 @@ struct MapView2: UIViewRepresentable {
     var annotationsDidChange: Bool
     let routeOverlay: [MKPolyline]?
     @Binding var selectedAnnotation: MKAnnotation?
-    var onRegionChange: ((MKCoordinateRegion) -> ())?
     
-    
-//    var onAnnotationSelection: ((MKAnnotation) -> ())?
     // TODO: - Add on location count change closure
     
     // MARK: - Protocol Methods
