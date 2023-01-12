@@ -63,11 +63,8 @@ struct MapView: UIViewRepresentable {
         mapView.showsUserLocation = true
 //        mapView.preferredConfiguration = mapViewConfiguration
         
-        print("Environment values \(context.environment)")
         
         if let annotationItems = annotationItems {
-            print("annotation items count: \(annotationItems.count)")
-            print("Annotation items changed \(annotationsDidChange)")
             if annotationsDidChange {
                 if !mapView.annotations.isEmpty {
                     mapView.removeAnnotations(mapView.annotations)

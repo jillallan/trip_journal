@@ -10,15 +10,21 @@ import SwiftUI
 
 struct SearchResultMapView: View {
     let result: MKMapItem
-    @State var region: MKCoordinateRegion
+    @State var centre: CLLocationCoordinate2D
+    @State var span: MKCoordinateSpan
+//    @State var region: MKCoordinateRegion
+    @State var annotation: MKAnnotation? = nil
 
 //    let annotationItems: [AnnotationItem]
     
     init(result: MKMapItem) {
         self.result = result
+//        let centre = result.placemark.coordinate
+        _centre = State(initialValue: result.placemark.coordinate)
         let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
-        let region = MKCoordinateRegion(center: result.placemark.coordinate, span: span)
-        _region = State(initialValue: region)
+        _span = State(initialValue: span)
+//        let region = MKCoordinateRegion(center: result.placemark.coordinate, span: span)
+//        _region = State(initialValue: region)
 //        let annotationItem = AnnotationItem(
 //            title: result.placemark.title ?? "No title", // Update to better placeholder
 //            latitude: result.placemark.coordinate.latitude,
@@ -30,12 +36,20 @@ struct SearchResultMapView: View {
     
     var body: some View {
         VStack {
-            MapView(
-                coordinateRegion: region,
-                annotationItems: nil,
+            MapView2(
+                centre: $centre,
+                span: $span,
                 annotationsDidChange: false,
-                routeOverlay: nil
+                routeOverlay: nil,
+                selectedAnnotation: $annotation
             )
+            
+//            MapView(
+//                coordinateRegion: region,
+//                annotationItems: nil,
+//                annotationsDidChange: false,
+//                routeOverlay: nil
+//            )
             // TODO: - Add better name coalesing
 //            Text("\(result.name ?? "No name")")
       

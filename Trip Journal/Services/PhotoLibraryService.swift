@@ -72,7 +72,6 @@ class PhotoLibraryService: ObservableObject {
             var assets = [PHAsset]()
             assetFetchRequest.enumerateObjects { asset, _, _ in
                 assets.append(asset)
-//                print("cachedImage: \(assets.count)")
             }
             
             imageCachingManager.startCachingImages(for: assets, targetSize: CGSize(width: 600, height: 600), contentMode: .aspectFill, options: nil)

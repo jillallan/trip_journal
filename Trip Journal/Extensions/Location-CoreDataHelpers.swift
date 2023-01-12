@@ -76,3 +76,4 @@ extension Location: MKAnnotation {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
+

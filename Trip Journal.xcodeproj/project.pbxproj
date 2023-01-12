@@ -214,7 +214,7 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		78373267295F28F2006BD23F /* Step */ = {
+		78373267295F28F2006BD23F /* Entry */ = {
 			isa = PBXGroup;
 			children = (
 				78AD9617295103B90010F4A7 /* EntryCard.swift */,
@@ -224,7 +224,7 @@
 				78CE47B22938BF60008CEDD6 /* EntryView.swift */,
 				781F74A62922D89500A0714A /* EntryAnnotationView.swift */,
 			);
-			path = Step;
+			path = Entry;
 			sourceTree = "<group>";
 		};
 		785A319F293569170083C075 /* SearchResult */ = {
@@ -293,7 +293,7 @@
 				78E1D2CC293FB03700FD6AAF /* Photos */,
 				785AA0D12927E1D900F598AE /* Trips */,
 				787855D729129E9E00D1F199 /* Trip */,
-				78373267295F28F2006BD23F /* Step */,
+				78373267295F28F2006BD23F /* Entry */,
 				785A319F293569170083C075 /* SearchResult */,
 				785A31A0293569380083C075 /* Annotations */,
 				78D89271293120E60013E9FE /* UIKitViews */,

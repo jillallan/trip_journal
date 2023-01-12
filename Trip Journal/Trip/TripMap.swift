@@ -25,19 +25,33 @@ struct TripMap: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ZStack {
-            let _ = print("fetchrequest count tripmap: \(locations.count)")
-            let _ = Self._printChanges()
-            MapView(
-                coordinateRegion: MKCoordinateRegion(
-                    center: coordinate,
-                    span: span
-                ),
-                annotationItems: locations.map { $0 }, annotationsDidChange: annotationsDidChange,
-                routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
-                    selectedAnnotation = annotation as? Location
-                    isLocationViewPresented = true
-                })
+        let annotationBinding = Binding(
+            get: { self.selectedAnnotation as (any MKAnnotation)? },
+            set: { self.selectedAnnotation = $0 as? Location }
+        )
+        
+        
+        return ZStack {
+            
+            MapView2(
+                centre: $coordinate,
+                span: $span,
+//                coordinateRegion: MKCoordinateRegion(center: coordinate, span: span),
+                annotationItems: locations.map { $0 },
+                annotationsDidChange: annotationsDidChange,
+                routeOverlay: createRoute(from: locations.map(\.coordinate)),
+                selectedAnnotation: annotationBinding)
+            
+//            MapView(
+//                coordinateRegion: MKCoordinateRegion(
+//                    center: coordinate,
+//                    span: span
+//                ),
+//                annotationItems: locations.map { $0 }, annotationsDidChange: annotationsDidChange,
+//                routeOverlay: createRoute(from: locations.map(\.coordinate)), onAnnotationSelection:  { annotation in
+//                    selectedAnnotation = annotation as? Location
+//                    isLocationViewPresented = true
+//                })
         }
         .frame(height: geo.size.height * 0.65)
         
@@ -76,6 +90,9 @@ struct TripMap: View {
             }
         }
         
+        .onChange(of: selectedAnnotation) { newValue in
+            isLocationViewPresented = true
+        }
 
     }
     

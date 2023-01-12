@@ -13,15 +13,15 @@ import SwiftUI
 struct MapView2: UIViewRepresentable {
     
     // MARK: - Properties
-    
-//    let managedObjectContext: NSMa
-    var coordinateRegion: MKCoordinateRegion
+    @Binding var centre: CLLocationCoordinate2D
+    @Binding var span: MKCoordinateSpan
     var annotationItems: [MKAnnotation]?
     var annotationsDidChange: Bool
     let routeOverlay: [MKPolyline]?
+    @Binding var selectedAnnotation: MKAnnotation?
     var onRegionChange: ((MKCoordinateRegion) -> ())?
     
-    @Binding var selectedAnnotation: MKAnnotation?
+    
 //    var onAnnotationSelection: ((MKAnnotation) -> ())?
     // TODO: - Add on location count change closure
     
@@ -32,7 +32,7 @@ struct MapView2: UIViewRepresentable {
         let mapConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)
         let pointOfInterestFilter = MKPointOfInterestFilter(excluding: [.university])
         
-        mapView.region = coordinateRegion
+        mapView.region = MKCoordinateRegion(center: centre, span: span)
         mapView.selectableMapFeatures = [.pointsOfInterest, .physicalFeatures, .territories]
         mapView.preferredConfiguration = mapConfiguration
         
@@ -61,15 +61,11 @@ struct MapView2: UIViewRepresentable {
     
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setRegion(MKCoordinateRegion(center: centre, span: span), animated: true)
         mapView.showsUserLocation = true
 //        mapView.preferredConfiguration = mapViewConfiguration
         
-        print("Environment values \(context.environment)")
-        
         if let annotationItems = annotationItems {
-            print("annotation items count: \(annotationItems.count)")
-            print("Annotation items changed \(annotationsDidChange)")
             if annotationsDidChange {
                 if !mapView.annotations.isEmpty {
                     mapView.removeAnnotations(mapView.annotations)
@@ -96,17 +92,22 @@ struct MapView2: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self, selectedAnnotation: $selectedAnnotation)
+        Coordinator(centre: $centre, span: $span, selectedAnnotation: $selectedAnnotation)
     }
     
     typealias UIViewType = MKMapView
 
     class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: MapView2
         @Binding var selectedAnnotation: MKAnnotation?
+        @Binding var centre: CLLocationCoordinate2D
+        @Binding var span: MKCoordinateSpan
         
-        init(parent: MapView2, selectedAnnotation: Binding<MKAnnotation?>) {
-            self.parent = parent
+        init(centre: Binding<CLLocationCoordinate2D>,
+             span: Binding<MKCoordinateSpan>,
+             selectedAnnotation: Binding<MKAnnotation?>
+        ) {
+            _centre = centre
+            _span = span
             _selectedAnnotation = selectedAnnotation
         }
         
@@ -206,9 +207,8 @@ struct MapView2: UIViewRepresentable {
         // MARK: - Region
         
         func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-            if let onRegionChange = parent.onRegionChange {
-                onRegionChange(mapView.region)
-            }
+            centre = mapView.region.center
+            span = mapView.region.span
         }
     }
 }
